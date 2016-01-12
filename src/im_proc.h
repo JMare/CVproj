@@ -1,17 +1,19 @@
 #ifndef IM_PROC_H
 #define IM_PROC_H
 
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <iostream>
 
 class im_proc
 {
     public:
-       im_proc();
-        
-        cv::Mat getfeed();
+        im_proc();
+            
+        cv::Mat getrawframe(const char* fname);
         
     private:
-        cv::VideoCapture capture;
+        cv::Mat loadframefile(const char* fname);
+
 };
 #endif
