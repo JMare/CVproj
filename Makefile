@@ -5,7 +5,7 @@ SRC = $(shell find . -name *.cpp)
 
 OBJ = $(SRC:%.cpp=%.o)
 
-BIN = bin/cvrun
+BIN = bin/cvrun.out
 
 # all is the target (you would run make all from the command line). 'all' is dependent
 # on $(BIN)
