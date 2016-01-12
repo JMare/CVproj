@@ -12,12 +12,20 @@
 using namespace cv;
 using namespace std;
 
+
+int H_MIN = 0;
+int H_MAX = 256;
+int S_MIN = 0;
+int S_MAX = 256;
+int V_MIN = 0;
+int V_MAX = 256;
+
 int main(int argc, char* argv[])
 {
     Mat testmat;
 
     im_proc imFrame;
-    testmat = imFrame.getrawframe("test.jpg");
+    testmat = imFrame.getthreshold_frame("test.jpg");
 
     gui_draw gui_obj;
 
