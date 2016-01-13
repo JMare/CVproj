@@ -18,10 +18,8 @@ using namespace cv;
 
 im_proc::im_proc()
 {//constructor
-    
+    //in future this will initialise a webcam    
 }
-
-
 
 Mat im_proc::getrawframe(const char* fname)
 {
@@ -38,7 +36,7 @@ Mat im_proc::getrawframe(const char* fname)
 
 }
 
-Mat im_proc::getthreshold_frame(const char* fname)
+Mat im_proc::getprocessed_frame(const char* fname)
 {
     Mat frame;
     frame = loadframefile(fname);
@@ -51,8 +49,11 @@ Mat im_proc::getthreshold_frame(const char* fname)
     Mat frame_filtered;
 
     frame_filtered = threshold_frame(frame);
+    Mat frame_morphed;
 
-    return frame_filtered;
+    frame_morphed = morph_frame(frame_filtered);
+
+    return frame_morphed;
 
 }
 
@@ -84,3 +85,17 @@ Mat im_proc::threshold_frame(Mat frame)
     return frame_Threshold;
 }
 
+Mat im_proc::morph_frame(Mat frame)
+{
+
+    Mat erodeElement = getStructuringElement( MORPH_RECT,Size(3,3));
+    Mat dilateElement = getStructuringElement( MORPH_RECT,Size(8,8));
+
+    erode(frame,frame,erodeElement);
+    erode(frame,frame,erodeElement);
+
+    dilate(frame,frame,dilateElement);
+    dilate(frame,frame,dilateElement);
+
+    return frame;
+}

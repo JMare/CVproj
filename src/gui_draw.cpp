@@ -29,7 +29,7 @@ void gui_draw::draw_interface()
     while(1){
         Mat frame;
         im_proc imFrame; //instantiate object
-        frame = imFrame.getthreshold_frame("test.jpg");
+        frame = imFrame.getprocessed_frame("test.jpg");
 
         display_image("Thresholded Frame", frame); 
 
