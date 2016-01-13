@@ -17,8 +17,6 @@ using namespace cv;
 
     double posX  = -1;
     double posY  = -1;
-    double lastX = -1;
-    double lastY = -1;
 
 im_proc::im_proc(int ID)
 {//constructor
@@ -61,11 +59,13 @@ Mat im_proc::getprocessed_frame()
     frame_morphed = morph_frame(frame_filtered);
     
     trackObject(frame_morphed);
-
+    cout << "PosX = " << posX << "PosY = " << posY << endl;
+    
+    if(posX >=0 && posY >=0){
     Mat frame_overlay;
 
     mainfeed = overlay_position(mainfeed);
-
+    }
     return frame_morphed;
 
 }
@@ -147,13 +147,11 @@ void im_proc::trackObject(Mat frame)
 Mat im_proc::overlay_position(Mat frame)
 {
    Mat object_overlay;
-   
-    if (lastX >= 0 && lastY >= 0 && posX >= 0 && posY >= 0)
-    {
-    //Draw a red line from the previous point to the current point
-    line(object_overlay, Point(posX, posY), Point(lastX, lastY), Scalar(0,0,255), 2);
-    }
+
+    circle(frame,Point(posX,posY),20,Scalar(0,0,255),2);
+
     Mat frame_overlay = frame + object_overlay;
+
     return frame_overlay;
 }
 

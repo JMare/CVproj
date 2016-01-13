@@ -17,15 +17,15 @@ using namespace cv;
 using namespace std;
 
 //global variables for thresholding editable with sliders
-int H_MIN = 0;
-int H_MAX = 256;
-int S_MIN = 0;
-int S_MAX = 256;
-int V_MIN = 0;
-int V_MAX = 256;
+int H_MIN = 41;
+int H_MAX = 57;
+int S_MIN = 62;
+int S_MAX = 196;
+int V_MIN = 107;
+int V_MAX = 238;
 
 int ERODE_PIX = 2;
-int DILATE_PIX = 5;
+int DILATE_PIX = 10;
 
 Mat mainfeed;
 
