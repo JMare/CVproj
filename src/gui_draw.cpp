@@ -54,6 +54,9 @@ void gui_draw::create_trackbars()
 	sprintf( TrackbarName, "S_MAX", S_MAX);
 	sprintf( TrackbarName, "V_MIN", V_MIN);
 	sprintf( TrackbarName, "V_MAX", V_MAX);
+	sprintf( TrackbarName, "Dilate Pixels", DILATE_PIX);
+	sprintf( TrackbarName, "Erode Pixels", ERODE_PIX);
+
 	//create trackbars and insert them into window
 	//3 parameters are: the address of the variable that is changing when the trackbar is moved(eg.H_LOW),
 	//the max value the trackbar can move (eg. H_HIGH), 
@@ -65,6 +68,8 @@ void gui_draw::create_trackbars()
     createTrackbar( "S_MAX", windowTrackbars, &S_MAX, S_MAX);
     createTrackbar( "V_MIN", windowTrackbars, &V_MIN, V_MAX);
     createTrackbar( "V_MAX", windowTrackbars, &V_MAX, V_MAX);
+    createTrackbar( "Dilate Pixels", windowTrackbars, &DILATE_PIX, 10);
+    createTrackbar( "Erode Pixels", windowTrackbars, &ERODE_PIX, 10);
 
 }
 

@@ -28,8 +28,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -40,12 +40,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 32 - ((31 * winheight(0) + 20) / 40)
+let s:l = 30 - ((29 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-32
-normal! 0
+30
+normal! 02|
 wincmd w
 argglobal
 edit cvproj.h
@@ -58,15 +58,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 5 - ((4 * winheight(0) + 20) / 40)
+let s:l = 1 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-5
+1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
 tabedit im_proc.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -77,8 +77,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -89,12 +89,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 41 - ((10 * winheight(0) + 20) / 40)
+let s:l = 69 - ((7 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-41
-normal! 014|
+69
+normal! 05|
 wincmd w
 argglobal
 edit im_proc.h
@@ -114,8 +114,8 @@ normal! zt
 20
 normal! 028|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
 tabedit gui_draw.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -126,8 +126,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -156,15 +156,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 33 - ((11 * winheight(0) + 20) / 40)
+let s:l = 52 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-33
-normal! 0
+52
+normal! 047|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
 tabnext 2
 set stal=1
 if exists('s:wipebuf')

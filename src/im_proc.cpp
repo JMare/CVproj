@@ -87,15 +87,17 @@ Mat im_proc::threshold_frame(Mat frame)
 
 Mat im_proc::morph_frame(Mat frame)
 {
+    if(ERODE_PIX != 0){
+        Mat erodeElement = getStructuringElement( MORPH_RECT,Size(ERODE_PIX,ERODE_PIX));
 
-    Mat erodeElement = getStructuringElement( MORPH_RECT,Size(3,3));
-    Mat dilateElement = getStructuringElement( MORPH_RECT,Size(8,8));
-
-    erode(frame,frame,erodeElement);
-    erode(frame,frame,erodeElement);
-
-    dilate(frame,frame,dilateElement);
-    dilate(frame,frame,dilateElement);
-
+        erode(frame,frame,erodeElement);
+        erode(frame,frame,erodeElement);
+    }
+    
+    if(DILATE_PIX != 0){
+        Mat dilateElement = getStructuringElement( MORPH_RECT,Size(DILATE_PIX,DILATE_PIX));
+        dilate(frame,frame,dilateElement);
+        dilate(frame,frame,dilateElement);
+    }
     return frame;
 }
