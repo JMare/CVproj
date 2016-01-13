@@ -21,8 +21,8 @@ class im_proc
         cv::Mat threshold_frame(cv::Mat frame);
         cv::Mat morph_frame(cv::Mat frame);
         cv::Mat loadframewebcam();
-        
+        void trackObject(cv::Mat frame); 
         cv::VideoCapture cap;
-        int webcam_init(int ID);
+        cv::Mat overlay_position(cv::Mat frame);
 };
 #endif
