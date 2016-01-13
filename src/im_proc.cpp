@@ -1,4 +1,10 @@
+// Written by James Mare
+// OpenCV program with goal of following a laser pointer
+// im_proc.cpp - defines class functions for loading
+// and manipulating images, and object detection
+
 #include "im_proc.h"
+#include "cvproj.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -8,12 +14,6 @@
 using namespace std;
 using namespace cv;
 
-extern int H_MIN;
-extern int H_MAX;
-extern int S_MIN;
-extern int S_MAX;
-extern int V_MIN;
-extern int V_MAX;
 
 
 im_proc::im_proc()

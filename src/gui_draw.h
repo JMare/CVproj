@@ -1,3 +1,7 @@
+// Written by James Mare
+// OpenCV program with goal of following a laser pointer
+// gui_draw.h - class definitions for gui drawing 
+
 #ifndef GUI_DRAW_H
 #define GUI_DRAW_H
 
