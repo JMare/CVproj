@@ -16,5 +16,6 @@ extern int V_MAX;
 extern int DILATE_PIX;
 extern int ERODE_PIX;
 
+extern cv::Mat mainfeed;
 
 #endif 

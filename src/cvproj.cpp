@@ -27,6 +27,8 @@ int V_MAX = 256;
 int ERODE_PIX = 2;
 int DILATE_PIX = 5;
 
+Mat mainfeed;
+
 int main(int argc, char* argv[])
 {
 

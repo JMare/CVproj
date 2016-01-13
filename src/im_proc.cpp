@@ -15,10 +15,15 @@ using namespace std;
 using namespace cv;
 
 
+    double posX  = -1;
+    double posY  = -1;
+    double lastX = -1;
+    double lastY = -1;
 
 im_proc::im_proc(int ID)
 {//constructor
     //initialise a webcam
+    
 
     cap = VideoCapture(ID); // open the default camera
     if(!cap.isOpened())  // check if we succeeded
@@ -46,19 +51,20 @@ Mat im_proc::getrawframe()
 Mat im_proc::getprocessed_frame()
 {
     Mat frame;
-    frame = loadframewebcam();
+    mainfeed = loadframewebcam();
     
-    if(! frame.data){
-        cout << "Did not get frame" << endl;
-        return -1;
-    }
-
     Mat frame_filtered;
 
-    frame_filtered = threshold_frame(frame);
+    frame_filtered = threshold_frame(mainfeed);
     Mat frame_morphed;
 
     frame_morphed = morph_frame(frame_filtered);
+    
+    trackObject(frame_morphed);
+
+    Mat frame_overlay;
+
+    mainfeed = overlay_position(mainfeed);
 
     return frame_morphed;
 
@@ -125,22 +131,29 @@ Mat im_proc::morph_frame(Mat frame)
     return frame;
 }
 
-int im_proc::webcam_init(int ID)
+void im_proc::trackObject(Mat frame)
 {
-    VideoCapture cap(ID); // open the default camera
-    if(!cap.isOpened())  // check if we succeeded
-    {
-        return -1;
-    }
+    Moments oMoments = moments(frame);
 
-    Mat frame;
-    cap >> frame;
+    double dM01 = oMoments.m01;
+    double dM10 = oMoments.m10;
+    double dArea = oMoments.m00;
 
-    if(! frame.data )                              // Check for invalid input
-    {
-        cout <<  "No data from webcam on load" << endl ;
-    }
-    
-    return 0;
-
+    //calculate the position of the  object
+    posX = dM10 / dArea;
+    posY = dM01 / dArea;        
 }
+
+Mat im_proc::overlay_position(Mat frame)
+{
+   Mat object_overlay;
+   
+    if (lastX >= 0 && lastY >= 0 && posX >= 0 && posY >= 0)
+    {
+    //Draw a red line from the previous point to the current point
+    line(object_overlay, Point(posX, posY), Point(lastX, lastY), Scalar(0,0,255), 2);
+    }
+    Mat frame_overlay = frame + object_overlay;
+    return frame_overlay;
+}
+

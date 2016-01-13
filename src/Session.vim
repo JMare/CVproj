@@ -9,7 +9,7 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 gui_draw.h
-badd +26 im_proc.h
+badd +27 im_proc.h
 badd +8 gui_draw.cpp
 badd +63 im_proc.cpp
 badd +1 cvproj.cpp
@@ -40,11 +40,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 34 - ((33 * winheight(0) + 20) / 40)
+let s:l = 19 - ((16 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-34
+19
 normal! 0
 wincmd w
 argglobal
@@ -63,22 +63,16 @@ if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
-normal! 0
+normal! 011|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
 exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
 tabedit im_proc.cpp
 set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -89,33 +83,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 23 - ((14 * winheight(0) + 20) / 40)
+let s:l = 67 - ((27 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-23
-normal! 025|
-wincmd w
-argglobal
-edit im_proc.h
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 19 - ((18 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-19
-normal! 012|
-wincmd w
-exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
+67
+normal! 0
 tabedit gui_draw.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -156,17 +129,16 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 27 - ((15 * winheight(0) + 20) / 40)
+let s:l = 37 - ((24 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-27
-normal! 012|
+37
+normal! 09|
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
 exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
-tabnext 3
+tabnext 2
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

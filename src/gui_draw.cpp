@@ -32,7 +32,8 @@ void gui_draw::draw_interface()
         frame = imFrame.getprocessed_frame();
 
         display_image("Thresholded Frame", frame); 
-
+        display_image("Main Feed", mainfeed);
+        
         int key;
 
         key = cvWaitKey(50);     //Capture Keyboard stroke
