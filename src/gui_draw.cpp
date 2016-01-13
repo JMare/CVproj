@@ -3,18 +3,22 @@
 // gui_draw.cpp - function definitions for drawing gui
 // includes processing loops for adjusting thresholding
 
+//----PROJECT HEADERS-----------
 #include "gui_draw.h"
 #include "cvproj.h"
 #include "im_proc.h"
 
+//----EXTERNAL HEADERS-----------
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <cstdio>
 
+//----NAMESPACES----------------
 using namespace std;
 using namespace cv;
 
+//-------PUBLIC FUNCTIONS-------------------
 gui_draw::gui_draw()
 {//constructor - not used
 
@@ -43,6 +47,8 @@ void gui_draw::draw_interface()
     }
 }
 
+
+//-------PRIVATE FUNCTRIONS----------------
 void gui_draw::create_trackbars()
 {
     const string windowTrackbars = "Trackbars";

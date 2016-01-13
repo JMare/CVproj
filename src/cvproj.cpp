@@ -3,16 +3,17 @@
 // cvproj.cpp - highest level code
 
 
+//----EXTERNAL HEADERS-----------
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
+//----PROJECT HEADERS-----------
 #include "im_proc.h"
-
 #include "gui_draw.h"
-
 #include "cvproj.h"
 
+//----NAMESPACES----------------
 using namespace cv;
 using namespace std;
 

@@ -3,14 +3,17 @@
 // im_proc.cpp - defines class functions for loading
 // and manipulating images, and object detection
 
+//----PROJECT HEADERS-----------
 #include "im_proc.h"
 #include "cvproj.h"
 
+//----EXTERNAL HEADERS-----------
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
+//----NAMESPACES----------------
 using namespace std;
 using namespace cv;
 
@@ -18,6 +21,7 @@ using namespace cv;
     double posX  = -1;
     double posY  = -1;
 
+//-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(int ID)
 {//constructor
     //initialise a webcam
@@ -59,7 +63,7 @@ Mat im_proc::getprocessed_frame()
     frame_morphed = morph_frame(frame_filtered);
     
     trackObject(frame_morphed);
-    cout << "PosX = " << posX << "PosY = " << posY << endl;
+    cout << "PosX = " << posX << " PosY = " << posY << endl;
     
     if(posX >=0 && posY >=0){
     Mat frame_overlay;
@@ -70,6 +74,7 @@ Mat im_proc::getprocessed_frame()
 
 }
 
+//-------PRIVATE FUNCTRIONS----------------
 Mat im_proc::loadframefile(const char* fname)
 {
     Mat frame;
