@@ -9,7 +9,7 @@ class gui_draw
 {
     public:
         gui_draw();
-        void draw_interface(cv::Mat frame);
+        void draw_interface();
 
     private:
         void create_trackbars();
