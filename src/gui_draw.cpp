@@ -24,18 +24,18 @@ void gui_draw::draw_interface()
 {
     create_trackbars();
     
+    im_proc imFrame (1); //instantiate object
     //this is the main proccessing loop for adjusting the image thresholding
     //in real time and viewing the results
     while(1){
         Mat frame;
-        im_proc imFrame; //instantiate object
-        frame = imFrame.getprocessed_frame("test.jpg");
+        frame = imFrame.getprocessed_frame();
 
         display_image("Thresholded Frame", frame); 
 
         int key;
 
-        key = cvWaitKey(10);     //Capture Keyboard stroke
+        key = cvWaitKey(50);     //Capture Keyboard stroke
         if (char(key) == 27){
             break;      //If you hit ESC key loop will break.
         }
