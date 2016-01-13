@@ -9,9 +9,9 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 gui_draw.h
-badd +4 im_proc.h
-badd +1 gui_draw.cpp
-badd +1 im_proc.cpp
+badd +26 im_proc.h
+badd +8 gui_draw.cpp
+badd +63 im_proc.cpp
 badd +1 cvproj.cpp
 badd +4 cvproj.h
 argglobal
@@ -40,12 +40,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 30 - ((29 * winheight(0) + 20) / 40)
+let s:l = 34 - ((33 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-30
-normal! 02|
+34
+normal! 0
 wincmd w
 argglobal
 edit cvproj.h
@@ -89,12 +89,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 69 - ((7 * winheight(0) + 20) / 40)
+let s:l = 23 - ((14 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-69
-normal! 05|
+23
+normal! 025|
 wincmd w
 argglobal
 edit im_proc.h
@@ -107,12 +107,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 20 - ((19 * winheight(0) + 20) / 40)
+let s:l = 19 - ((18 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-20
-normal! 028|
+19
+normal! 012|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 82 + 85) / 170)
 exe 'vert 2resize ' . ((&columns * 87 + 85) / 170)
@@ -138,11 +138,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 23 - ((22 * winheight(0) + 20) / 40)
+let s:l = 14 - ((13 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-23
+14
 normal! 0
 wincmd w
 argglobal
@@ -156,16 +156,17 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 52 - ((0 * winheight(0) + 20) / 40)
+let s:l = 27 - ((15 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 047|
+27
+normal! 012|
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
 exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
-tabnext 2
+tabnext 3
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

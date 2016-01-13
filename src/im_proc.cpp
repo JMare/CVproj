@@ -16,16 +16,23 @@ using namespace cv;
 
 
 
-im_proc::im_proc()
+im_proc::im_proc(int ID)
 {//constructor
-    //in future this will initialise a webcam    
+    //initialise a webcam
+
+    cap = VideoCapture(ID); // open the default camera
+    if(!cap.isOpened())  // check if we succeeded
+    {
+        cout << "webcam could not be opened" << endl;
+    }
+
 }
 
-Mat im_proc::getrawframe(const char* fname)
+Mat im_proc::getrawframe()
 {
 
     Mat frame;
-    frame = loadframefile(fname);
+    frame = loadframewebcam();
     
     if(! frame.data){
         cout << "Did not get frame" << endl;
@@ -36,10 +43,10 @@ Mat im_proc::getrawframe(const char* fname)
 
 }
 
-Mat im_proc::getprocessed_frame(const char* fname)
+Mat im_proc::getprocessed_frame()
 {
     Mat frame;
-    frame = loadframefile(fname);
+    frame = loadframewebcam();
     
     if(! frame.data){
         cout << "Did not get frame" << endl;
@@ -65,6 +72,20 @@ Mat im_proc::loadframefile(const char* fname)
     if(! frame.data )                              // Check for invalid input
     {
         cout <<  "Could not open or find the image" << std::endl ;
+        return -1;
+    }
+
+    return frame;
+}
+
+Mat im_proc::loadframewebcam()
+{
+    Mat frame;
+    cap >> frame;
+
+    if(! frame.data )                              // Check for invalid input
+    {
+        cout <<  "No frame from webcam" << endl ;
         return -1;
     }
 
@@ -102,4 +123,24 @@ Mat im_proc::morph_frame(Mat frame)
         dilate(frame,frame,dilateElement);
     }
     return frame;
+}
+
+int im_proc::webcam_init(int ID)
+{
+    VideoCapture cap(ID); // open the default camera
+    if(!cap.isOpened())  // check if we succeeded
+    {
+        return -1;
+    }
+
+    Mat frame;
+    cap >> frame;
+
+    if(! frame.data )                              // Check for invalid input
+    {
+        cout <<  "No data from webcam on load" << endl ;
+    }
+    
+    return 0;
+
 }

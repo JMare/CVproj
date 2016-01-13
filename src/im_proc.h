@@ -12,13 +12,17 @@
 class im_proc
 {
     public:
-        im_proc();
+        im_proc(int ID);
             
-        cv::Mat getrawframe(const char* fname);
-        cv::Mat getprocessed_frame(const char* fname); 
+        cv::Mat getrawframe();
+        cv::Mat getprocessed_frame(); 
     private:
         cv::Mat loadframefile(const char* fname);
         cv::Mat threshold_frame(cv::Mat frame);
         cv::Mat morph_frame(cv::Mat frame);
+        cv::Mat loadframewebcam();
+        
+        cv::VideoCapture cap;
+        int webcam_init(int ID);
 };
 #endif
