@@ -24,6 +24,8 @@ int S_MAX = 256;
 int V_MIN = 0;
 int V_MAX = 256;
 
+int ERODE_PIX = 2;
+int DILATE_PIX = 5;
 int main(int argc, char* argv[])
 {
 
