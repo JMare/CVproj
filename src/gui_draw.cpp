@@ -63,12 +63,12 @@ void gui_draw::create_trackbars()
 	//the max value the trackbar can move (eg. H_HIGH), 
 	//and the function that is called whenever the trackbar is moved(eg. on_trackbar)
 	//                                  ---->    ---->     ---->      
-    createTrackbar( "H_MIN", windowTrackbars, &H_MIN, H_MAX);
-    createTrackbar( "H_MAX", windowTrackbars, &H_MAX, H_MAX);
-    createTrackbar( "S_MIN", windowTrackbars, &S_MIN, S_MAX);
-    createTrackbar( "S_MAX", windowTrackbars, &S_MAX, S_MAX);
-    createTrackbar( "V_MIN", windowTrackbars, &V_MIN, V_MAX);
-    createTrackbar( "V_MAX", windowTrackbars, &V_MAX, V_MAX);
+    createTrackbar( "H_MIN", windowTrackbars, &H_MIN, 256);
+    createTrackbar( "H_MAX", windowTrackbars, &H_MAX, 256);
+    createTrackbar( "S_MIN", windowTrackbars, &S_MIN, 256);
+    createTrackbar( "S_MAX", windowTrackbars, &S_MAX, 256);
+    createTrackbar( "V_MIN", windowTrackbars, &V_MIN, 256);
+    createTrackbar( "V_MAX", windowTrackbars, &V_MAX, 256);
     createTrackbar( "Dilate Pixels", windowTrackbars, &DILATE_PIX, 10);
     createTrackbar( "Erode Pixels", windowTrackbars, &ERODE_PIX, 10);
 
