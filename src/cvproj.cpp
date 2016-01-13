@@ -9,6 +9,8 @@
 
 #include "gui_draw.h"
 
+#include "cvproj.h"
+
 using namespace cv;
 using namespace std;
 
@@ -22,14 +24,10 @@ int V_MAX = 256;
 
 int main(int argc, char* argv[])
 {
-    Mat testmat;
-
-    im_proc imFrame;
-    testmat = imFrame.getthreshold_frame("test.jpg");
 
     gui_draw gui_obj;
 
-    gui_obj.draw_interface(testmat);
+    gui_obj.draw_interface();
 
     cout << "Main run to completion - Aborting" << endl;
     return 0;
