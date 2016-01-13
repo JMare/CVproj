@@ -1,3 +1,7 @@
+// Written by James Mare
+// OpenCV program with goal of following a laser pointer
+// im_proc.h - header file for im_proc class
+
 #ifndef IM_PROC_H
 #define IM_PROC_H
 

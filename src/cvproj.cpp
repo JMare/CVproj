@@ -1,5 +1,7 @@
 // Written by James Mare
-// Goal is to manipulate the webcam stream
+// OpenCV program with goal of following a laser pointer
+// cvproj.cpp - highest level code
+
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -14,7 +16,7 @@
 using namespace cv;
 using namespace std;
 
-
+//global variables for thresholding editable with sliders
 int H_MIN = 0;
 int H_MAX = 256;
 int S_MIN = 0;
@@ -27,10 +29,9 @@ int main(int argc, char* argv[])
 
     gui_draw gui_obj;
 
-    gui_obj.draw_interface();
+    gui_obj.draw_interface(); //this opens the main proccessing loop
 
     cout << "Main run to completion - Aborting" << endl;
     return 0;
-
 }
 

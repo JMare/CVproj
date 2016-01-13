@@ -1,3 +1,8 @@
+// Written by James Mare
+// OpenCV program with goal of following a laser pointer
+// gui_draw.cpp - function definitions for drawing gui
+// includes processing loops for adjusting thresholding
+
 #include "gui_draw.h"
 #include "cvproj.h"
 #include "im_proc.h"
@@ -11,15 +16,19 @@ using namespace std;
 using namespace cv;
 
 gui_draw::gui_draw()
-{//constructor
+{//constructor - not used
+
 }
 
 void gui_draw::draw_interface()
 {
     create_trackbars();
+    
+    //this is the main proccessing loop for adjusting the image thresholding
+    //in real time and viewing the results
     while(1){
         Mat frame;
-        im_proc imFrame;
+        im_proc imFrame; //instantiate object
         frame = imFrame.getthreshold_frame("test.jpg");
 
         display_image("Thresholded Frame", frame); 
