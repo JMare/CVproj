@@ -87,6 +87,8 @@ Mat im_proc::threshold_frame(Mat frame)
 
 Mat im_proc::morph_frame(Mat frame)
 {
+    //OpenCV will crash if it tries to erode or dilate with
+    //a pixel size of zero, if statements stop this.
     if(ERODE_PIX != 0){
         Mat erodeElement = getStructuringElement( MORPH_RECT,Size(ERODE_PIX,ERODE_PIX));
 
