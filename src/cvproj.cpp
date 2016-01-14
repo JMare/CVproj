@@ -28,10 +28,45 @@ int V_MAX = 238;
 int ERODE_PIX = 2;
 int DILATE_PIX = 10;
 
+int camID = 0;
+
+bool TRACKBAR_ENABLE = false;
+bool STREAM_POSITION = false;
+
 Mat mainfeed;
+
+
 
 int main(int argc, char* argv[])
 {
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " -v ID -t" << std::endl;
+        return 1;
+    }
+
+    for (int i = 1; i < argc; ++i) {
+        if (string(argv[i]) == "-v") {
+            if (i + 1 < argc) { // Make sure we aren't at the end of argv!
+                i++; //increment so we dont get the number next round
+                camID = atoi(argv[i]); 
+            } else { // Uh-oh, there was no argument to the destination option.
+                  std::cerr << "-v option requires one argument." << std::endl;
+                return 1;
+            }  
+        }
+        else if(string(argv[i]) == "-t") {
+           TRACKBAR_ENABLE = true; 
+        }
+        else if(string(argv[i]) == "--stream-position") {
+           STREAM_POSITION = true; 
+            }
+    }
+    
+    cout << "Program starting with camera ID " << camID << endl;
+
+    if(TRACKBAR_ENABLE) {
+        cout << "Trackbars Enabled" << endl;
+    }
 
     gui_draw gui_obj;
 

@@ -16,6 +16,10 @@ extern int V_MAX;
 extern int DILATE_PIX;
 extern int ERODE_PIX;
 
+extern int camID;
+extern bool TRACKBAR_ENABLE;
+extern bool STREAM_POSITION;
+
 extern cv::Mat mainfeed;
 
 #endif 

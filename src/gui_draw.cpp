@@ -26,9 +26,11 @@ gui_draw::gui_draw()
 
 void gui_draw::draw_interface()
 {
-    create_trackbars();
+    if(TRACKBAR_ENABLE){
+        create_trackbars();
+    }
     
-    im_proc imFrame (1); //instantiate object
+    im_proc imFrame (camID); //instantiate object
     //this is the main proccessing loop for adjusting the image thresholding
     //in real time and viewing the results
     while(1){
