@@ -44,101 +44,60 @@ im_proc::im_proc(int ID)
 
 }
 
-Mat im_proc::getrawframe()
-{
-
-    Mat frame;
-    frame = loadframe();
-    
-    if(! frame.data){
-        cout << "Did not get frame" << endl;
-        return -1;
-    }
-
-    return frame;
-
-}
-
 Mat im_proc::getprocessed_frame()
 {
-    Mat frame;
-    mainfeed = loadframe();
+    loadframe(&mainfeed);
     
-    Mat frame_filtered;
-
-    frame_filtered = threshold_frame(mainfeed);
-    Mat frame_morphed;
-
-    frame_morphed = morph_frame(frame_filtered);
+    Mat frame_proc1 = mainfeed.clone();
     
-    trackObject(frame_morphed);
+    threshold_frame(&frame_proc1);
+
+    morph_frame(&frame_proc1);
+    
+    trackObject(&frame_proc1);
+
     if(STREAM_POSITION){
     cout << "PosX = " << posX << " PosY = " << posY << endl;
     } 
 
     if(posX >=0 && posY >=0){
-    Mat frame_overlay;
-
-    mainfeed = overlay_position(mainfeed);
+        overlay_position(&mainfeed);
     }
-    return frame_morphed;
 
+    return frame_proc1;
 }
 
 //-------PRIVATE FUNCTRIONS----------------
-Mat im_proc::loadframefile(const char* fname)
+void im_proc::loadframe(Mat *frame)
 {
-    Mat frame;
-    frame = imread(fname, CV_LOAD_IMAGE_COLOR);
-
-    if(! frame.data )                              // Check for invalid input
-    {
-        cout <<  "Could not open or find the image" << std::endl ;
-        return -1;
-    }
-
-    return frame;
-}
-
-Mat im_proc::loadframe()
-{
-    Mat frame;
-    
     switch(FRAME_SOURCE){
         case 0:
-            cap >> frame;
+            cap >> *frame;
             break;
         case 1:
-            cap >> frame;
+            cap >> *frame;
             break;
         case 2:
-            frame = imread(FILENAME, CV_LOAD_IMAGE_COLOR);
+            *frame = imread(FILENAME, CV_LOAD_IMAGE_COLOR);
     }
 
-    if(! frame.data )                              // Check for invalid input
+    if(! frame->data )                              // Check for invalid input
     {
         cout <<  "No frame returned" << endl ;
-        return -1;
     }
-
-    return frame;
 }
 
-Mat im_proc::threshold_frame(Mat frame)
+void im_proc::threshold_frame(Mat *frame)
 {
-    Mat frame_HSV;
-    Mat frame_Threshold;
-    
     //convert color to hsv
-    cvtColor(frame, frame_HSV, COLOR_BGR2HSV);
+    cvtColor(*frame, *frame, COLOR_BGR2HSV);
 
     //apply thresholding
-    inRange(frame_HSV,Scalar(H_MIN,S_MIN,V_MIN),
-        Scalar(H_MAX,S_MAX,V_MAX),frame_Threshold);
-    return frame_Threshold;
+    inRange(*frame,Scalar(H_MIN,S_MIN,V_MIN),
+        Scalar(H_MAX,S_MAX,V_MAX),*frame);
 }
 
-Mat im_proc::morph_frame(Mat frame)
+void im_proc::morph_frame(Mat *frame)
 {
     //OpenCV will crash if it tries to erode or dilate with
     //a pixel size of zero, if statements stop this.
@@ -146,8 +105,7 @@ Mat im_proc::morph_frame(Mat frame)
         Mat erodeElement = getStructuringElement( MORPH_RECT,Size(ERODE_PIX,ERODE_PIX));
         
         for(int i=ERODE_ITERATIONS; i>0; i--){
-            erode(frame,frame,erodeElement);
-            erode(frame,frame,erodeElement);
+            erode(*frame,*frame,erodeElement);
         }
     }
     
@@ -155,16 +113,14 @@ Mat im_proc::morph_frame(Mat frame)
         Mat dilateElement = getStructuringElement( MORPH_RECT,Size(DILATE_PIX,DILATE_PIX));
 
         for(int i=DILATE_ITERATIONS; i>0; i--){
-            dilate(frame,frame,dilateElement);
-            dilate(frame,frame,dilateElement);
+            dilate(*frame,*frame,dilateElement);
         }
     }
-    return frame;
 }
 
-void im_proc::trackObject(Mat frame)
+void im_proc::trackObject(Mat *frame)
 {
-    Moments oMoments = moments(frame);
+    Moments oMoments = moments(*frame);
 
     double dM01 = oMoments.m01;
     double dM10 = oMoments.m10;
@@ -175,14 +131,8 @@ void im_proc::trackObject(Mat frame)
     posY = dM01 / dArea;        
 }
 
-Mat im_proc::overlay_position(Mat frame)
+void im_proc::overlay_position(Mat *frame)
 {
-   Mat object_overlay;
-
-    circle(frame,Point(posX,posY),20,Scalar(0,0,255),2);
-
-    Mat frame_overlay = frame + object_overlay;
-
-    return frame_overlay;
+    circle(*frame,Point(posX,posY),20,Scalar(0,0,255),2);
 }
 

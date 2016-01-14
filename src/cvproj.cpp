@@ -40,6 +40,7 @@ char* FILENAME;
 bool TRACKBAR_ENABLE = false;
 bool STREAM_POSITION = false;
 
+//This is the only global mat
 Mat mainfeed;
 
 int main(int argc, char* argv[])

@@ -32,6 +32,7 @@ void gui_draw::draw_interface()
     }
     
     im_proc imFrame (camID); //instantiate object
+
     //this is the main proccessing loop for adjusting the image thresholding
     //in real time and viewing the results
     while(1){
@@ -43,7 +44,7 @@ void gui_draw::draw_interface()
         
         int key;
 
-        key = cvWaitKey(50);     //Capture Keyboard stroke
+        key = cvWaitKey(10);     //Capture Keyboard stroke
         if (char(key) == 27){
             break;      //If you hit ESC key loop will break.
         }
