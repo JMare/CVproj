@@ -13,9 +13,9 @@ all: $(BIN)
 
 #$(BIN) is dependent on objects
 $(BIN): $(OBJ)
-	g++ $(CFLAGS) $(OBJ) -o $(BIN) $(LDFLAGS) 
+	g++ -ggdb $(CFLAGS) $(OBJ) -o $(BIN) $(LDFLAGS) 
 
 #each object file is dependent on its source file, and whenever make needs to create
 # an object file, to follow this rule:
 %.o: %.cpp
-	g++ -c $(CFLAGS) $< -o $@ $(LDFLAGS)
+	g++ -c -ggdb $(CFLAGS) $< -o $@ $(LDFLAGS)

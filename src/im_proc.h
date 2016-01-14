@@ -14,18 +14,16 @@ class im_proc
     public:
         im_proc(int ID);
             
-        cv::Mat getrawframe();
         cv::Mat getprocessed_frame(); 
 
     private:
-        cv::Mat loadframefile(const char* fname);
-        cv::Mat threshold_frame(cv::Mat frame);
-        cv::Mat morph_frame(cv::Mat frame);
-        cv::Mat loadframe();
+        void threshold_frame(cv::Mat *frame);
+        void morph_frame(cv::Mat *frame);
+        void loadframe(cv::Mat *frame);
 
-        void trackObject(cv::Mat frame); 
+        void trackObject(cv::Mat *frame); 
 
         cv::VideoCapture cap;
-        cv::Mat overlay_position(cv::Mat frame);
+        void overlay_position(cv::Mat *frame);
 };
 #endif
