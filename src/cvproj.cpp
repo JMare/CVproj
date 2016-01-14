@@ -7,6 +7,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+#include <string>
 
 //----PROJECT HEADERS-----------
 #include "im_proc.h"
@@ -65,7 +66,7 @@ int main(int argc, char* argv[])
                 i++; //increment so we dont get the number next round
                 FILENAME = argv[i];
             } else { // Uh-oh, there was no argument to the destination option.
-                  std::cerr << "--file option requires one argument." << std::endl;
+                  std::cerr << "--vfile option requires one argument." << std::endl;
                 return 1;
             }  
         }
@@ -75,7 +76,7 @@ int main(int argc, char* argv[])
                 i++; //increment so we dont get the number next round
                 FILENAME = argv[i]; 
             } else { // Uh-oh, there was no argument to the destination option.
-                  std::cerr << "--file option requires one argument." << std::endl;
+                  std::cerr << "--ifile option requires one argument." << std::endl;
                 return 1;
             }  
         }
@@ -87,7 +88,17 @@ int main(int argc, char* argv[])
             }
     }
     
-    cout << "Program starting with camera ID " << camID << endl;
+    switch(FRAME_SOURCE){
+        case 0:
+            cout << "Cvproj started using wecam ID: " << camID << endl;
+            break;
+        case 1:
+            cout << "Cvproj started using video file: " << FILENAME << endl;
+            break;
+        case 2:
+            cout << "Cvproj started using image file: " << FILENAME << endl;
+            break;
+    }
 
     if(TRACKBAR_ENABLE) {
         cout << "Trackbars Enabled" << endl;

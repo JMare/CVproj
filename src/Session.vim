@@ -41,12 +41,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 80 - ((26 * winheight(0) + 20) / 40)
+let s:l = 37 - ((22 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-80
-normal! 015|
+37
+normal! 05|
 wincmd w
 argglobal
 edit cvproj.h
@@ -59,14 +59,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 21 - ((20 * winheight(0) + 20) / 40)
+let s:l = 24 - ((23 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
-normal! 022|
+24
+normal! 011|
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 100 + 85) / 170)
 exe 'vert 2resize ' . ((&columns * 69 + 85) / 170)
 tabedit im_proc.h
@@ -109,13 +108,14 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 114 - ((7 * winheight(0) + 20) / 40)
+let s:l = 15 - ((10 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-114
-normal! 020|
+15
+normal! 0
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
 exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
 tabedit gui_draw.cpp
@@ -134,13 +134,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 92 - ((19 * winheight(0) + 20) / 40)
+let s:l = 1 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-92
+1
 normal! 0
-tabnext 1
+tabnext 2
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
