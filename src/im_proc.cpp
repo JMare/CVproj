@@ -109,11 +109,11 @@ Mat im_proc::threshold_frame(Mat frame)
 {
     Mat frame_HSV;
     Mat frame_Threshold;
-
-   
+    
+    //convert color to hsv
     cvtColor(frame, frame_HSV, COLOR_BGR2HSV);
 
-
+    //apply thresholding
     inRange(frame_HSV,Scalar(H_MIN,S_MIN,V_MIN),
         Scalar(H_MAX,S_MAX,V_MAX),frame_Threshold);
     return frame_Threshold;
@@ -125,15 +125,20 @@ Mat im_proc::morph_frame(Mat frame)
     //a pixel size of zero, if statements stop this.
     if(ERODE_PIX != 0){
         Mat erodeElement = getStructuringElement( MORPH_RECT,Size(ERODE_PIX,ERODE_PIX));
-
-        erode(frame,frame,erodeElement);
-        erode(frame,frame,erodeElement);
+        
+        for(int i=ERODE_ITERATIONS; i>0; i--){
+            erode(frame,frame,erodeElement);
+            erode(frame,frame,erodeElement);
+        }
     }
     
     if(DILATE_PIX != 0){
         Mat dilateElement = getStructuringElement( MORPH_RECT,Size(DILATE_PIX,DILATE_PIX));
-        dilate(frame,frame,dilateElement);
-        dilate(frame,frame,dilateElement);
+
+        for(int i=DILATE_ITERATIONS; i>0; i--){
+            dilate(frame,frame,dilateElement);
+            dilate(frame,frame,dilateElement);
+        }
     }
     return frame;
 }
