@@ -32,7 +32,9 @@ int ERODE_ITERATIONS  = 2;
 int DILATE_ITERATIONS = 2;
 
 //command line arguments
+int FRAME_SOURCE = 0; //0: webcam 1: video 2: image
 int camID = 0;
+char* FILENAME;
 
 bool TRACKBAR_ENABLE = false;
 bool STREAM_POSITION = false;
@@ -42,17 +44,38 @@ Mat mainfeed;
 int main(int argc, char* argv[])
 {
     if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " -v ID -t" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " --webcam ID -t" << std::endl;
         return 1;
     }
 
     for (int i = 1; i < argc; ++i) {
-        if (string(argv[i]) == "-v") {
+        if (string(argv[i]) == "--webcam") {
             if (i + 1 < argc) { // Make sure we aren't at the end of argv!
+                FRAME_SOURCE = 0;
                 i++; //increment so we dont get the number next round
                 camID = atoi(argv[i]); 
             } else { // Uh-oh, there was no argument to the destination option.
-                  std::cerr << "-v option requires one argument." << std::endl;
+                  std::cerr << "--webcam option requires one argument." << std::endl;
+                return 1;
+            }  
+        }
+        else if (string(argv[i]) == "--vfile") {
+            if (i + 1 < argc) { // Make sure we aren't at the end of argv!
+                FRAME_SOURCE = 1;
+                i++; //increment so we dont get the number next round
+                FILENAME = argv[i];
+            } else { // Uh-oh, there was no argument to the destination option.
+                  std::cerr << "--file option requires one argument." << std::endl;
+                return 1;
+            }  
+        }
+        else if (string(argv[i]) == "--ifile") {
+            if (i + 1 < argc) { // Make sure we aren't at the end of argv!
+                FRAME_SOURCE = 2;
+                i++; //increment so we dont get the number next round
+                FILENAME = argv[i]; 
+            } else { // Uh-oh, there was no argument to the destination option.
+                  std::cerr << "--file option requires one argument." << std::endl;
                 return 1;
             }  
         }

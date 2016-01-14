@@ -18,6 +18,8 @@ extern int ERODE_PIX;
 extern int DILATE_ITERATIONS;
 extern int ERODE_ITERATIONS;
 
+extern int FRAME_SOURCE;
+extern char* FILENAME;
 extern int camID;
 extern bool TRACKBAR_ENABLE;
 extern bool STREAM_POSITION;

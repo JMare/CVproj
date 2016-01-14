@@ -21,7 +21,7 @@ class im_proc
         cv::Mat loadframefile(const char* fname);
         cv::Mat threshold_frame(cv::Mat frame);
         cv::Mat morph_frame(cv::Mat frame);
-        cv::Mat loadframewebcam();
+        cv::Mat loadframe();
 
         void trackObject(cv::Mat frame); 
 
