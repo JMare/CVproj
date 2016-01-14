@@ -12,6 +12,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
+#include <string>
 
 //----NAMESPACES----------------
 using namespace std;
@@ -33,7 +34,7 @@ im_proc::im_proc(int ID)
             cout << "webcam could not be opened" << endl;
         }
     }
-    else if(FRAME_SOURCE == 0){
+    else if(FRAME_SOURCE == 1){
         cap = VideoCapture(FILENAME); // Open a video file
         if(!cap.isOpened())  // check if we succeeded
         {

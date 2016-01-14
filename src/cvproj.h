@@ -6,6 +6,8 @@
 #ifndef CVPROJ_H
 #define CVPROJ_H
 
+#include <string>
+
 extern int H_MIN;
 extern int H_MAX;
 extern int S_MIN;

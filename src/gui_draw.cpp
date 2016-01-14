@@ -13,6 +13,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <cstdio>
+#include <string>
 
 //----NAMESPACES----------------
 using namespace std;
