@@ -1,0 +1,48 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+0	Session.vim	/^normal! 0$/;"	m
+023|	Session.vim	/^normal! 023|$/;"	m
+028|	Session.vim	/^normal! 028|$/;"	m
+047|	Session.vim	/^normal! 047|$/;"	m
+CVPROJ_H	cvproj.h	7;"	d
+DILATE_PIX	cvproj.cpp	/^int DILATE_PIX = 5;$/;"	v
+ERODE_PIX	cvproj.cpp	/^int ERODE_PIX = 2;$/;"	v
+GUI_DRAW_H	gui_draw.h	6;"	d
+H_MAX	cvproj.cpp	/^int H_MAX = 256;$/;"	v
+H_MIN	cvproj.cpp	/^int H_MIN = 0;$/;"	v
+IM_PROC_H	im_proc.h	6;"	d
+S_MAX	cvproj.cpp	/^int S_MAX = 256;$/;"	v
+S_MIN	cvproj.cpp	/^int S_MIN = 0;$/;"	v
+SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
+V_MAX	cvproj.cpp	/^int V_MAX = 256;$/;"	v
+V_MIN	cvproj.cpp	/^int V_MIN = 0;$/;"	v
+create_trackbars	gui_draw.cpp	/^void gui_draw::create_trackbars()$/;"	f	class:gui_draw
+display_image	gui_draw.cpp	/^void gui_draw::display_image(const char* wtitle, Mat frame)$/;"	f	class:gui_draw
+draw_interface	gui_draw.cpp	/^void gui_draw::draw_interface()$/;"	f	class:gui_draw
+g:this_obsession	Session.vim	/^let g:this_obsession = v:this_session$/;"	v
+g:this_obsession_status	Session.vim	/^let g:this_obsession_status = 2$/;"	v
+g:this_session	Session.vim	/^let g:this_session = v:this_session$/;"	v
+getprocessed_frame	im_proc.cpp	/^Mat im_proc::getprocessed_frame(const char* fname)$/;"	f	class:im_proc
+getrawframe	im_proc.cpp	/^Mat im_proc::getrawframe(const char* fname)$/;"	f	class:im_proc
+gui_draw	gui_draw.cpp	/^gui_draw::gui_draw()$/;"	f	class:gui_draw
+gui_draw	gui_draw.h	/^class gui_draw$/;"	c
+im_proc	im_proc.cpp	/^im_proc::im_proc()$/;"	f	class:im_proc
+im_proc	im_proc.h	/^class im_proc$/;"	c
+loadframefile	im_proc.cpp	/^Mat im_proc::loadframefile(const char* fname)$/;"	f	class:im_proc
+main	cvproj.cpp	/^int main(int argc, char* argv[])$/;"	f
+morph_frame	im_proc.cpp	/^Mat im_proc::morph_frame(Mat frame)$/;"	f	class:im_proc
+s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 20) \/ 40)$/;"	v
+s:l	Session.vim	/^let s:l = 20 - ((19 * winheight(0) + 20) \/ 40)$/;"	v
+s:l	Session.vim	/^let s:l = 34 - ((33 * winheight(0) + 20) \/ 40)$/;"	v
+s:l	Session.vim	/^let s:l = 52 - ((0 * winheight(0) + 20) \/ 40)$/;"	v
+s:l	Session.vim	/^let s:l = 9 - ((8 * winheight(0) + 20) \/ 40)$/;"	v
+s:l	Session.vim	/^let s:l = 92 - ((26 * winheight(0) + 20) \/ 40)$/;"	v
+s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
+s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
+s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
+threshold_frame	im_proc.cpp	/^Mat im_proc::threshold_frame(Mat frame)$/;"	f	class:im_proc
+zt	Session.vim	/^normal! zt$/;"	m
