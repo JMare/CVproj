@@ -45,7 +45,7 @@ Mat mainfeed;
 int main(int argc, char* argv[])
 {
     if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " --webcam ID -t" << std::endl;
+        cerr << "Usage: " << argv[0] << " --webcam ID -t" << endl;
         return 1;
     }
 
@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
                 i++; //increment so we dont get the number next round
                 camID = atoi(argv[i]); 
             } else { // Uh-oh, there was no argument to the destination option.
-                  std::cerr << "--webcam option requires one argument." << std::endl;
+                  cerr << "--webcam option requires one argument." << endl;
                 return 1;
             }  
         }
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
                 i++; //increment so we dont get the number next round
                 FILENAME = argv[i];
             } else { // Uh-oh, there was no argument to the destination option.
-                  std::cerr << "--vfile option requires one argument." << std::endl;
+                  cerr << "--vfile option requires one argument." << endl;
                 return 1;
             }  
         }
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
                 i++; //increment so we dont get the number next round
                 FILENAME = argv[i]; 
             } else { // Uh-oh, there was no argument to the destination option.
-                  std::cerr << "--ifile option requires one argument." << std::endl;
+                  cerr << "--ifile option requires one argument." << endl;
                 return 1;
             }  
         }
