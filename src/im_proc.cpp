@@ -18,8 +18,8 @@ using namespace std;
 using namespace cv;
 
 
-    double posX  = -1;
-    double posY  = -1;
+double posX  = -1;
+double posY  = -1;
 
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(int ID)
@@ -63,8 +63,10 @@ Mat im_proc::getprocessed_frame()
     frame_morphed = morph_frame(frame_filtered);
     
     trackObject(frame_morphed);
+    if(STREAM_POSITION){
     cout << "PosX = " << posX << " PosY = " << posY << endl;
-    
+    } 
+
     if(posX >=0 && posY >=0){
     Mat frame_overlay;
 
