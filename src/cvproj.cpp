@@ -71,7 +71,21 @@ int main(int argc, char* argv[])
     gui_draw gui_obj;
 
     gui_obj.draw_interface(); //this opens the main proccessing loop
+    
+    if(TRACKBAR_ENABLE){ //Print the final values in case we want to save them
+        cout << "Final values: " << endl;
 
+        cout << "H_MIN: " << H_MIN << endl;
+        cout << "H_MAX: " << H_MAX << endl;
+        cout << "S_MIN: " << S_MIN << endl;
+        cout << "S_MAX: " << S_MAX << endl;
+        cout << "V_MIN: " << V_MIN << endl;
+        cout << "V_MAX: " << V_MAX << endl;
+
+        cout << "ERODE_PIX: " << ERODE_PIX << endl;
+        cout << "DILATE_PIX: " << DILATE_PIX << endl;
+
+    }
     cout << "Main run to completion - Aborting" << endl;
     return 0;
 }
