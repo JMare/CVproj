@@ -15,6 +15,8 @@ extern int V_MAX;
 
 extern int DILATE_PIX;
 extern int ERODE_PIX;
+extern int DILATE_ITERATIONS;
+extern int ERODE_ITERATIONS;
 
 extern int camID;
 extern bool TRACKBAR_ENABLE;

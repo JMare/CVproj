@@ -25,17 +25,19 @@ int S_MAX = 196;
 int V_MIN = 107;
 int V_MAX = 238;
 
-int ERODE_PIX = 2;
+int ERODE_PIX  = 2;
 int DILATE_PIX = 10;
 
+int ERODE_ITERATIONS  = 2;
+int DILATE_ITERATIONS = 2;
+
+//command line arguments
 int camID = 0;
 
 bool TRACKBAR_ENABLE = false;
 bool STREAM_POSITION = false;
 
 Mat mainfeed;
-
-
 
 int main(int argc, char* argv[])
 {
@@ -84,6 +86,9 @@ int main(int argc, char* argv[])
 
         cout << "ERODE_PIX: " << ERODE_PIX << endl;
         cout << "DILATE_PIX: " << DILATE_PIX << endl;
+
+        cout << "ERODE_ITERATIONS: " << ERODE_ITERATIONS << endl;
+        cout << "DILATE_ITERATIONS: " << DILATE_ITERATIONS << endl;
 
     }
     cout << "Main run to completion - Aborting" << endl;
