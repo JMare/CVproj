@@ -37,7 +37,7 @@ void gui_draw::draw_interface()
     //in real time and viewing the results
     while(1){
         Mat frame;
-        frame = imFrame.getprocessed_frame();
+        frame = imFrame.process_frame();
 
         display_image("Thresholded Frame", frame); 
         display_image("Main Feed", mainfeed);

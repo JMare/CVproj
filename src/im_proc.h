@@ -8,20 +8,21 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+#include <vector>
 
 class im_proc
 {
     public:
         im_proc(int ID);
             
-        cv::Mat getprocessed_frame(); 
+        cv::Mat process_frame(); 
 
     private:
         void threshold_frame(cv::Mat *frame);
         void morph_frame(cv::Mat *frame);
         void loadframe(cv::Mat *frame);
 
-        void trackObject(cv::Mat *frame); 
+        std::vector<double> trackObject(cv::Mat *frame); 
 
         cv::VideoCapture cap;
         void overlay_position(cv::Mat *frame);

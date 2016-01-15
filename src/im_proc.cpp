@@ -13,14 +13,12 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 #include <string>
+#include <vector>
 
 //----NAMESPACES----------------
 using namespace std;
 using namespace cv;
 
-
-double posX  = -1;
-double posY  = -1;
 
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(int ID)
@@ -44,26 +42,21 @@ im_proc::im_proc(int ID)
 
 }
 
-Mat im_proc::getprocessed_frame()
+Mat im_proc::process_frame()
 {
     loadframe(&mainfeed);
     
     Mat frame_proc1 = mainfeed.clone();
+    Mat frame_proc2 = mainfeed.clone();
     
     threshold_frame(&frame_proc1);
-
     morph_frame(&frame_proc1);
+    vector<double> Pos1 = trackObject(&frame_proc1);
+
+    threshold_frame(&frame_proc2);
+    morph_frame(&frame_proc2);
+    vector<double> Pos2 = trackObject(&frame_proc2);
     
-    trackObject(&frame_proc1);
-
-    if(STREAM_POSITION){
-    cout << "PosX = " << posX << " PosY = " << posY << endl;
-    } 
-
-    if(posX >=0 && posY >=0){
-        overlay_position(&mainfeed);
-    }
-
     return frame_proc1;
 }
 
@@ -118,9 +111,12 @@ void im_proc::morph_frame(Mat *frame)
     }
 }
 
-void im_proc::trackObject(Mat *frame)
+vector<double> im_proc::trackObject(Mat *frame)
 {
     Moments oMoments = moments(*frame);
+
+    double posX;
+    double posY;
 
     double dM01 = oMoments.m01;
     double dM10 = oMoments.m10;
@@ -129,10 +125,13 @@ void im_proc::trackObject(Mat *frame)
     //calculate the position of the  object
     posX = dM10 / dArea;
     posY = dM01 / dArea;        
+    
+    vector<double> position = {posX, posY};
+    return position;
 }
 
 void im_proc::overlay_position(Mat *frame)
 {
-    circle(*frame,Point(posX,posY),20,Scalar(0,0,255),2);
+    //circle(*frame,Point(posX,posY),20,Scalar(0,0,255),2);
 }
 
