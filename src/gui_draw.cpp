@@ -36,11 +36,19 @@ void gui_draw::draw_interface()
     //this is the main proccessing loop for adjusting the image thresholding
     //in real time and viewing the results
     while(1){
-        Mat frame;
-        frame = imFrame.process_frame();
+        Mat frame_overlay, frame_thresholded1, frame_thresholded2;
 
-        display_image("Thresholded Frame", frame); 
-        display_image("Main Feed", mainfeed);
+        imFrame.process_frame();
+
+        frame_overlay = imFrame.get_frame_overlay();
+
+        frame_thresholded1 = imFrame.get_frame_thresholded(1);
+        frame_thresholded2 = imFrame.get_frame_thresholded(2);
+        
+
+        display_image("Thresholded Frame 1", frame_thresholded1); 
+        display_image("Thresholded Frame 2", frame_thresholded2); 
+        display_image("Main Feed", frame_overlay);
         
         int key;
 
