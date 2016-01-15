@@ -10,10 +10,10 @@ endif
 set shortmess=aoO
 badd +21 gui_draw.h
 badd +1 im_proc.h
-badd +36 gui_draw.cpp
+badd +1 gui_draw.cpp
 badd +75 im_proc.cpp
 badd +31 cvproj.cpp
-badd +29 cvproj.h
+badd +14 cvproj.h
 badd +1 optionparser.h
 argglobal
 silent! argdel *
@@ -35,12 +35,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 87 - ((37 * winheight(0) + 20) / 40)
+let s:l = 113 - ((37 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-87
-normal! 015|
+113
+normal! 0
 tabedit im_proc.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -51,8 +51,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 50 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 119 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 60 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 109 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -63,12 +63,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 22 - ((21 * winheight(0) + 20) / 40)
+let s:l = 31 - ((30 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-22
-normal! 046|
+31
+normal! 026|
 wincmd w
 argglobal
 edit im_proc.cpp
@@ -81,15 +81,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 53 - ((10 * winheight(0) + 20) / 40)
+let s:l = 70 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-53
-normal! 019|
+70
+normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 50 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 119 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 60 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 109 + 85) / 170)
 tabedit gui_draw.cpp
 set splitbelow splitright
 set nosplitbelow
@@ -106,12 +106,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 26 - ((25 * winheight(0) + 20) / 40)
+let s:l = 46 - ((21 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-26
-normal! 0
+46
+normal! 061|
 tabnext 3
 set stal=1
 if exists('s:wipebuf')

@@ -15,7 +15,10 @@ class im_proc
     public:
         im_proc(int ID);
             
-        cv::Mat process_frame(); 
+        void process_frame(); 
+        cv::Mat get_frame_overlay();
+        cv::Mat get_frame_thresholded(int feedID);
+        
 
     private:
         void threshold_frame(cv::Mat *frame, std::vector<int> *params);
@@ -23,6 +26,9 @@ class im_proc
         void loadframe(cv::Mat *frame);
 
         std::vector<double> trackObject(cv::Mat *frame); 
+        cv::Mat mainfeed;
+        cv::Mat frame_proc1;
+        cv::Mat frame_proc2;
 
         cv::VideoCapture cap;
         void overlay_position(cv::Mat *frame);

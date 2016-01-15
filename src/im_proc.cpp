@@ -19,7 +19,6 @@
 using namespace std;
 using namespace cv;
 
-
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(int ID)
 {//constructor
@@ -39,10 +38,9 @@ im_proc::im_proc(int ID)
             cout << "error when opening " << FILENAME << endl;
         }
     }
-
 }
 
-Mat im_proc::process_frame()
+void im_proc::process_frame()
 {
     loadframe(&mainfeed);
     
@@ -57,9 +55,29 @@ Mat im_proc::process_frame()
     morph_frame(&frame_proc2, &imParams2);
     vector<double> Pos2 = trackObject(&frame_proc2);
     
-    return frame_proc1;
+    if(STREAM_POSITION){
+        cout << "Pos1: posX: " << Pos1.at(0) << endl;
+        cout << "Pos1: posY: " << Pos1.at(1) << endl;
+    }
 }
 
+Mat im_proc::get_frame_overlay()
+{
+    return mainfeed;
+}
+
+Mat im_proc::get_frame_thresholded(int feedID)
+{
+    switch(feedID){
+        case 0: break; 
+        case 1:
+            return frame_proc1;
+            break;
+        case 2:
+            return frame_proc2;
+            break;
+    }
+}
 //-------PRIVATE FUNCTRIONS----------------
 void im_proc::loadframe(Mat *frame)
 {
