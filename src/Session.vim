@@ -35,12 +35,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 43 - ((36 * winheight(0) + 20) / 40)
+let s:l = 110 - ((19 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-43
-normal! 029|
+110
+normal! 05|
 tabedit im_proc.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -63,12 +63,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 27 - ((26 * winheight(0) + 20) / 40)
+let s:l = 11 - ((10 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-27
-normal! 014|
+11
+normal! 017|
 wincmd w
 argglobal
 edit im_proc.cpp
@@ -81,12 +81,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 5 - ((4 * winheight(0) + 20) / 40)
+let s:l = 95 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-5
-normal! 0
+95
+normal! 015|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 50 + 85) / 170)
@@ -107,12 +107,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 64 - ((8 * winheight(0) + 20) / 40)
+let s:l = 38 - ((21 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-64
-normal! 0
+38
+normal! 013|
 tabnext 2
 set stal=1
 if exists('s:wipebuf')
