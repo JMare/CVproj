@@ -7,6 +7,10 @@
 #define CVPROJ_H
 
 #include <string>
+#include <vector>
+
+extern std::vector<int> imParams1;
+extern std::vector<int> imParams2;
 
 extern int H_MIN;
 extern int H_MAX;
@@ -21,6 +25,7 @@ extern int DILATE_ITERATIONS;
 extern int ERODE_ITERATIONS;
 
 extern int FRAME_SOURCE;
+extern int TRACKBAR_PARAMS;
 extern char* FILENAME;
 extern int camID;
 extern bool TRACKBAR_ENABLE;

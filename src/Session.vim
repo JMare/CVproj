@@ -8,12 +8,12 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +14 gui_draw.h
+badd +21 gui_draw.h
 badd +1 im_proc.h
-badd +40 gui_draw.cpp
+badd +36 gui_draw.cpp
 badd +75 im_proc.cpp
-badd +38 cvproj.cpp
-badd +26 cvproj.h
+badd +31 cvproj.cpp
+badd +29 cvproj.h
 badd +1 optionparser.h
 argglobal
 silent! argdel *
@@ -35,12 +35,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 110 - ((19 * winheight(0) + 20) / 40)
+let s:l = 87 - ((37 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-110
-normal! 05|
+87
+normal! 015|
 tabedit im_proc.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -63,12 +63,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 11 - ((10 * winheight(0) + 20) / 40)
+let s:l = 22 - ((21 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-11
-normal! 017|
+22
+normal! 046|
 wincmd w
 argglobal
 edit im_proc.cpp
@@ -81,14 +81,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 60 - ((26 * winheight(0) + 20) / 40)
+let s:l = 53 - ((10 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-60
-normal! 023|
+53
+normal! 019|
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 50 + 85) / 170)
 exe 'vert 2resize ' . ((&columns * 119 + 85) / 170)
 tabedit gui_draw.cpp
@@ -107,13 +106,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 38 - ((21 * winheight(0) + 20) / 40)
+let s:l = 26 - ((25 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-38
-normal! 013|
-tabnext 2
+26
+normal! 0
+tabnext 3
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
