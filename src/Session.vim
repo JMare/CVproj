@@ -81,12 +81,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 95 - ((0 * winheight(0) + 20) / 40)
+let s:l = 60 - ((26 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-95
-normal! 015|
+60
+normal! 023|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 50 + 85) / 170)
