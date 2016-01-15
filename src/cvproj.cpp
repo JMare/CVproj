@@ -8,6 +8,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <string>
+#include <vector>
 
 //----PROJECT HEADERS-----------
 #include "im_proc.h"
@@ -19,21 +20,15 @@ using namespace cv;
 using namespace std;
 
 //global variables for thresholding editable with sliders
-int H_MIN = 41;
-int H_MAX = 57;
-int S_MIN = 62;
-int S_MAX = 196;
-int V_MIN = 107;
-int V_MAX = 238;
 
-int ERODE_PIX  = 2;
-int DILATE_PIX = 10;
-
-int ERODE_ITERATIONS  = 2;
-int DILATE_ITERATIONS = 2;
+//{0    , 1    , 2    , 3    , 4    , 5    , 6        , 7         , 8                , 9}
+//{H_MIN, H_MAX, S_MIN, S_MAX, V_MIN, V_MAX, ERODE_PIX, DILATE_PIX, DILATE_ITERATIONS, ERODE_ITERATIONS};
+vector<int> imParams1 = {41, 57, 62, 196, 107, 238, 2, 10, 2, 2};
+vector<int> imParams2 = {41, 57, 62, 196, 107, 238, 2, 10, 2, 2};
 
 //command line arguments
 int FRAME_SOURCE = 0; //0: webcam 1: video 2: image
+int TRACKBAR_PARAMS;
 int camID = 0;
 char* FILENAME;
 
@@ -81,8 +76,15 @@ int main(int argc, char* argv[])
                 return 1;
             }  
         }
-        else if(string(argv[i]) == "-t") {
-           TRACKBAR_ENABLE = true; 
+        if (string(argv[i]) == "--trackbar") {
+            if (i + 1 < argc) { // Make sure we aren't at the end of argv!
+                TRACKBAR_ENABLE = true;
+                i++; //increment so we dont get the number next round
+                TRACKBAR_PARAMS = atoi(argv[i]); 
+            } else { // Uh-oh, there was no argument to the destination option.
+                  cerr << "--trackbar option requires one argument." << endl;
+                return 1;
+            }  
         }
         else if(string(argv[i]) == "--stream-position") {
            STREAM_POSITION = true; 
@@ -109,23 +111,6 @@ int main(int argc, char* argv[])
 
     gui_obj.draw_interface(); //this opens the main proccessing loop
     
-    if(TRACKBAR_ENABLE){ //Print the final values in case we want to save them
-        cout << "Final values: " << endl;
-
-        cout << "H_MIN: " << H_MIN << endl;
-        cout << "H_MAX: " << H_MAX << endl;
-        cout << "S_MIN: " << S_MIN << endl;
-        cout << "S_MAX: " << S_MAX << endl;
-        cout << "V_MIN: " << V_MIN << endl;
-        cout << "V_MAX: " << V_MAX << endl;
-
-        cout << "ERODE_PIX: " << ERODE_PIX << endl;
-        cout << "DILATE_PIX: " << DILATE_PIX << endl;
-
-        cout << "ERODE_ITERATIONS: " << ERODE_ITERATIONS << endl;
-        cout << "DILATE_ITERATIONS: " << DILATE_ITERATIONS << endl;
-
-    }
     cout << "Main run to completion - Aborting" << endl;
     return 0;
 }

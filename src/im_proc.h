@@ -18,8 +18,8 @@ class im_proc
         cv::Mat process_frame(); 
 
     private:
-        void threshold_frame(cv::Mat *frame);
-        void morph_frame(cv::Mat *frame);
+        void threshold_frame(cv::Mat *frame, std::vector<int> *params);
+        void morph_frame(cv::Mat *frame, std::vector<int> *params);
         void loadframe(cv::Mat *frame);
 
         std::vector<double> trackObject(cv::Mat *frame); 

@@ -49,12 +49,12 @@ Mat im_proc::process_frame()
     Mat frame_proc1 = mainfeed.clone();
     Mat frame_proc2 = mainfeed.clone();
     
-    threshold_frame(&frame_proc1);
-    morph_frame(&frame_proc1);
+    threshold_frame(&frame_proc1, &imParams1);
+    morph_frame(&frame_proc1, &imParams1);
     vector<double> Pos1 = trackObject(&frame_proc1);
 
-    threshold_frame(&frame_proc2);
-    morph_frame(&frame_proc2);
+    threshold_frame(&frame_proc2, &imParams2);
+    morph_frame(&frame_proc2, &imParams2);
     vector<double> Pos2 = trackObject(&frame_proc2);
     
     return frame_proc1;
@@ -80,32 +80,41 @@ void im_proc::loadframe(Mat *frame)
     }
 }
 
-void im_proc::threshold_frame(Mat *frame)
+void im_proc::threshold_frame(Mat *frame, vector<int> *params)
 {
     //convert color to hsv
     cvtColor(*frame, *frame, COLOR_BGR2HSV);
 
     //apply thresholding
-    inRange(*frame,Scalar(H_MIN,S_MIN,V_MIN),
-        Scalar(H_MAX,S_MAX,V_MAX),*frame);
+    inRange(*frame,Scalar(
+                params->at(0),   //H_MIN
+                params->at(2),   //S_MIN
+                params->at(4)),  //V_MIN
+
+        Scalar(
+                params->at(1),  //H_MAX
+                params->at(3),  //S_MAX
+                params->at(5)), //V_MAX
+        *frame);
 }
 
-void im_proc::morph_frame(Mat *frame)
+void im_proc::morph_frame(Mat *frame, vector<int> *params)
 {
     //OpenCV will crash if it tries to erode or dilate with
     //a pixel size of zero, if statements stop this.
-    if(ERODE_PIX != 0){
-        Mat erodeElement = getStructuringElement( MORPH_RECT,Size(ERODE_PIX,ERODE_PIX));
+    
+    if(params->at(6) != 0){
+        Mat erodeElement = getStructuringElement( MORPH_RECT,Size(params->at(6),params->at(6)));
         
-        for(int i=ERODE_ITERATIONS; i>0; i--){
+        for(int i=params->at(9); i>0; i--){
             erode(*frame,*frame,erodeElement);
         }
     }
     
-    if(DILATE_PIX != 0){
-        Mat dilateElement = getStructuringElement( MORPH_RECT,Size(DILATE_PIX,DILATE_PIX));
+    if(params->at(7) != 0){
+        Mat dilateElement = getStructuringElement( MORPH_RECT,Size(params->at(7),params->at(7)));
 
-        for(int i=DILATE_ITERATIONS; i>0; i--){
+        for(int i=params->at(8); i>0; i--){
             dilate(*frame,*frame,dilateElement);
         }
     }
