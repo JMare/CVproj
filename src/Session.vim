@@ -35,7 +35,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 113 - ((37 * winheight(0) + 20) / 40)
+let s:l = 113 - ((27 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -51,8 +51,7 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 60 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 109 + 85) / 170)
+wincmd =
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -81,15 +80,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 70 - ((0 * winheight(0) + 20) / 40)
+let s:l = 70 - ((0 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 70
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 60 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 109 + 85) / 170)
+2wincmd w
+wincmd =
 tabedit gui_draw.cpp
 set splitbelow splitright
 set nosplitbelow
@@ -106,13 +105,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 46 - ((21 * winheight(0) + 20) / 40)
+let s:l = 26 - ((25 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-46
-normal! 061|
-tabnext 3
+26
+normal! 0
+tabnext 2
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
