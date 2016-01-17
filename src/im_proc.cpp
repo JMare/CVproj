@@ -44,8 +44,8 @@ void im_proc::process_frame()
 {
     loadframe(&mainfeed);
     
-    Mat frame_proc1 = mainfeed.clone();
-    Mat frame_proc2 = mainfeed.clone();
+    frame_proc1 = mainfeed.clone();
+    frame_proc2 = mainfeed.clone();
     
     threshold_frame(&frame_proc1, &imParams1);
     morph_frame(&frame_proc1, &imParams1);
