@@ -34,5 +34,9 @@ class im_proc
         cv::Mat feed_conbri;
         cv::VideoCapture cap;
         void overlay_position(cv::Mat *frame);
+
+        std::vector<double> Pos1;
+        std::vector<double> Pos2;
+
 };
 #endif

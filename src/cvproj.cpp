@@ -23,8 +23,8 @@ using namespace std;
 
 //{0    , 1    , 2    , 3    , 4    , 5    , 6        , 7         , 8                , 9}
 //{H_MIN, H_MAX, S_MIN, S_MAX, V_MIN, V_MAX, ERODE_PIX, DILATE_PIX, DILATE_ITERATIONS, ERODE_ITERATIONS};
-vector<int> imParams1 = {41, 57, 62, 196, 107, 238, 2, 10, 2, 2};
-vector<int> imParams2 = {41, 57, 62, 196, 107, 238, 2, 10, 2, 2};
+vector<int> imParams1 = {56, 125, 42, 125, 146, 256, 2, 5, 2, 1}; //work ok with laser inside.
+vector<int> imParams2 = {0, 256, 0, 256, 205, 256, 2, 6, 1, 1}; //does the white center
 
 //command line arguments
 int FRAME_SOURCE = 0; //0: webcam 1: video 2: image
@@ -103,6 +103,7 @@ int main(int argc, char* argv[])
 
     if(TRACKBAR_ENABLE) {
         cout << "Trackbars Enabled" << endl;
+        cout << "Processing thread 1" << endl;
     }
 
     gui_draw gui_obj;
@@ -112,4 +113,5 @@ int main(int argc, char* argv[])
     cout << "Main run to completion - Aborting" << endl;
     return 0;
 }
+
 
