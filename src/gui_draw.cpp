@@ -28,27 +28,45 @@ gui_draw::gui_draw()
 void gui_draw::draw_interface()
 {
     if(TRACKBAR_ENABLE){
-        create_trackbars(&imParams1);
+        switch(TRACKBAR_PARAMS){ 
+            case 1: create_trackbars(&imParams1);
+            case 2: create_trackbars(&imParams2);
+        }
     }
-    
-    im_proc imFrame (camID); //instantiate object
 
+    im_proc imFrame; //instantiate object
+
+    try{
+        imFrame.init_feed(camID); //try to open webcam/video
+    } catch (int x){ //check if feed actually opened
+        cout << "Frame source could not be opened" << endl;
+        cout << "ERROR CODE: " << x << endl;
+        return;
+    }
+
+Mat frame_overlay, frame_thresholded; //create Mats for storing images to display
+    
     //this is the main proccessing loop for adjusting the image thresholding
     //in real time and viewing the results
     while(1){
-        Mat frame_overlay, frame_thresholded1, frame_thresholded2;
-
-        imFrame.process_frame();
+        
+        try{
+            imFrame.process_frame();
+        } catch(int x){
+            cout << "Feed closed unexpectadly" << endl;
+            cout << "ERROR CODE: " << x << endl;
+            break;
+        }
 
         frame_overlay = imFrame.get_frame_overlay();
-
-        frame_thresholded1 = imFrame.get_frame_thresholded(1);
-        frame_thresholded2 = imFrame.get_frame_thresholded(2);
+        
+        if(TRACKBAR_ENABLE){
+            frame_thresholded = imFrame.get_frame_thresholded(TRACKBAR_PARAMS);
+            display_image("Thresholded Frame", frame_thresholded); 
+        }
         
 
-        display_image("Thresholded Frame 1", frame_thresholded1); 
-        display_image("Thresholded Frame 2", frame_thresholded2); 
-        display_image("Main Feed", frame_overlay);
+        display_image("Camera Feed with overlay", frame_overlay);
         
         int key;
 

@@ -13,8 +13,9 @@
 class im_proc
 {
     public:
-        im_proc(int ID);
-            
+        im_proc();
+           
+        void init_feed(int ID);
         void process_frame(); 
         cv::Mat get_frame_overlay();
         cv::Mat get_frame_thresholded(int feedID);

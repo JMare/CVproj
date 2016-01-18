@@ -20,30 +20,37 @@ using namespace std;
 using namespace cv;
 
 //-------PUBLIC FUNCTIONS-------------------
-im_proc::im_proc(int ID)
-{//constructor
-    //initialise a webcam
-    
+im_proc::im_proc(){
+    //constructor
+}
+
+void im_proc::init_feed(int ID){
     if(FRAME_SOURCE == 0){
         cap = VideoCapture(ID); // open the default camera
-        if(!cap.isOpened())  // check if we succeeded
-        {
-            cout << "webcam could not be opened" << endl;
-        }
     }
     else if(FRAME_SOURCE == 1){
         cap = VideoCapture(FILENAME); // Open a video file
-        if(!cap.isOpened())  // check if we succeeded
-        {
-            cout << "error when opening " << FILENAME << endl;
-        }
+    }
+    if(!cap.isOpened())  // check if we succeeded
+    {
+        throw 1;
     }
 }
 
 void im_proc::process_frame()
 {
+    try{
+        if(!cap.isOpened())
+        {
+            throw 3; 
+        }
+    } catch(int x){
+       throw 8;
+       return;
+    }
+
     loadframe(&mainfeed);
-    
+
     frame_proc1 = mainfeed.clone();
     frame_proc2 = mainfeed.clone();
     
@@ -69,12 +76,14 @@ Mat im_proc::get_frame_overlay()
 Mat im_proc::get_frame_thresholded(int feedID)
 {
     switch(feedID){
-        case 0: break; 
         case 1:
             return frame_proc1;
             break;
         case 2:
             return frame_proc2;
+            break;
+        default: 
+            throw 2;
             break;
     }
 }
@@ -94,7 +103,7 @@ void im_proc::loadframe(Mat *frame)
 
     if(! frame->data )                              // Check for invalid input
     {
-        cout <<  "No frame returned" << endl ;
+        throw 4; 
     }
 }
 
