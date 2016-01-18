@@ -165,8 +165,15 @@ vector<double> im_proc::trackObject(Mat *frame)
 
 void im_proc::overlay_position(Mat *frame)
 {
-    circle(*frame,Point(Pos1.at(0),Pos1.at(1)),20,Scalar(0,0,255),2);
-    circle(*frame,Point(Pos2.at(0),Pos2.at(1)),25,Scalar(0,225,0),2);
+    //if statements mean it will only display if it has found a position
+    
+    if(Pos1.at(0) >=0 || Pos1.at(1) >= 0){
+        circle(*frame,Point(Pos1.at(0),Pos1.at(1)),20,Scalar(0,0,255),2);
+    }
+
+    if(Pos2.at(0) >=0 || Pos2.at(1) >= 0){
+        circle(*frame,Point(Pos2.at(0),Pos2.at(1)),25,Scalar(0,225,0),2);
+    }
 
 }
 
