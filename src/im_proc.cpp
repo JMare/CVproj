@@ -27,29 +27,36 @@ im_proc::im_proc(){
 void im_proc::init_feed(int ID){
     if(FRAME_SOURCE == 0){
         cap = VideoCapture(ID); // open the default camera
+        if(!cap.isOpened())  // check if we succeeded
+        {
+            throw 1;
+        }
     }
     else if(FRAME_SOURCE == 1){
         cap = VideoCapture(FILENAME); // Open a video file
+        if(!cap.isOpened())  // check if we succeeded
+        {
+            throw 1;
+        }
     }
-    if(!cap.isOpened())  // check if we succeeded
-    {
-        throw 1;
-    }
+
 }
 
 void im_proc::process_frame()
 {
-    try{
-        if(!cap.isOpened())
-        {
-            throw 3; 
-        }
-    } catch(int x){
-       throw 8;
-       return;
-    }
-
     loadframe(&mainfeed);
+    //feed_conbri = Mat::zeros( mainfeed.size(), mainfeed.type() );
+    double alpha = 1;
+    double beta = 0;
+    /*for( int y = 0; y < mainfeedcopy.rows; y++ )
+    { for( int x = 0; x < mainfeedcopy.cols; x++ )
+         { for( int c = 0; c < 3; c++ )
+              {
+      feed_conbri.at<Vec3b>(y,x)[c] =
+         saturate_cast<uchar>( alpha*( mainfeedcopy.at<Vec3b>(y,x)[c] ) + beta );
+             }
+    }
+    } */
 
     frame_proc1 = mainfeed.clone();
     frame_proc2 = mainfeed.clone();
@@ -61,7 +68,7 @@ void im_proc::process_frame()
     threshold_frame(&frame_proc2, &imParams2);
     morph_frame(&frame_proc2, &imParams2);
     vector<double> Pos2 = trackObject(&frame_proc2);
-    
+     
     if(STREAM_POSITION){
         cout << "Pos1: posX: " << Pos1.at(0) << endl;
         cout << "Pos1: posY: " << Pos1.at(1) << endl;
@@ -70,6 +77,7 @@ void im_proc::process_frame()
 
 Mat im_proc::get_frame_overlay()
 {
+//    Mat frame_overlay = overlay_position(&mainfeed);
     return mainfeed;
 }
 
@@ -99,6 +107,7 @@ void im_proc::loadframe(Mat *frame)
             break;
         case 2:
             *frame = imread(FILENAME, CV_LOAD_IMAGE_COLOR);
+            break;
     }
 
     if(! frame->data )                              // Check for invalid input
@@ -168,6 +177,6 @@ vector<double> im_proc::trackObject(Mat *frame)
 
 void im_proc::overlay_position(Mat *frame)
 {
-    //circle(*frame,Point(posX,posY),20,Scalar(0,0,255),2);
+//    circle(*frame,Point(posX,posY),20,Scalar(0,0,255),2);
 }
 
