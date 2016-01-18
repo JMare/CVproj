@@ -25,13 +25,18 @@ class im_proc
         void threshold_frame(cv::Mat *frame, std::vector<int> *params);
         void morph_frame(cv::Mat *frame, std::vector<int> *params);
         void loadframe(cv::Mat *frame);
+        void writeframe(cv::Mat *frame);
 
         std::vector<double> trackObject(cv::Mat *frame); 
         cv::Mat mainfeed;
         cv::Mat frame_proc1;
         cv::Mat frame_proc2;
-
+        cv::Mat feed_conbri;
         cv::VideoCapture cap;
         void overlay_position(cv::Mat *frame);
+
+        std::vector<double> Pos1;
+        std::vector<double> Pos2;
+
 };
 #endif

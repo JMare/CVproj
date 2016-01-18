@@ -9,22 +9,28 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +21 gui_draw.h
-badd +1 im_proc.h
-badd +62 gui_draw.cpp
-badd +75 im_proc.cpp
-badd +31 cvproj.cpp
+badd +29 im_proc.h
+badd +1 gui_draw.cpp
+badd +50 im_proc.cpp
+badd +110 cvproj.cpp
 badd +14 cvproj.h
 badd +1 optionparser.h
 argglobal
 silent! argdel *
 argadd gui_draw.h
 set stal=2
-edit cvproj.cpp
+edit gui_draw.cpp
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -35,12 +41,34 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 115 - ((39 * winheight(0) + 20) / 40)
+let s:l = 149 - ((27 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-115
+149
 normal! 0
+wincmd w
+argglobal
+edit cvproj.cpp
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 106 - ((29 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+106
+normal! 046|
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
 tabedit im_proc.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -51,8 +79,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 61 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 108 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -63,12 +91,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 16 - ((15 * winheight(0) + 20) / 40)
+let s:l = 37 - ((36 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-16
-normal! 017|
+37
+normal! 0
 wincmd w
 argglobal
 edit im_proc.cpp
@@ -81,66 +109,16 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 45 - ((8 * winheight(0) + 20) / 40)
+let s:l = 168 - ((2 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-45
-normal! 09|
+168
+normal! 015|
 wincmd w
-2wincmd w
-exe 'vert 1resize ' . ((&columns * 61 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 108 + 85) / 170)
-tabedit gui_draw.h
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-set nosplitbelow
-set nosplitright
-wincmd t
-set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 20 - ((19 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-20
-normal! 0
-wincmd w
-argglobal
-edit gui_draw.cpp
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 66 - ((19 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-66
-normal! 0
-wincmd w
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
-tabnext 2
+exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
+tabnext 1
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
