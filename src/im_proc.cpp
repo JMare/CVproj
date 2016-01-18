@@ -45,29 +45,17 @@ void im_proc::init_feed(int ID){
 void im_proc::process_frame()
 {
     loadframe(&mainfeed);
-    //feed_conbri = Mat::zeros( mainfeed.size(), mainfeed.type() );
-    double alpha = 1;
-    double beta = 0;
-    /*for( int y = 0; y < mainfeedcopy.rows; y++ )
-    { for( int x = 0; x < mainfeedcopy.cols; x++ )
-         { for( int c = 0; c < 3; c++ )
-              {
-      feed_conbri.at<Vec3b>(y,x)[c] =
-         saturate_cast<uchar>( alpha*( mainfeedcopy.at<Vec3b>(y,x)[c] ) + beta );
-             }
-    }
-    } */
 
     frame_proc1 = mainfeed.clone();
     frame_proc2 = mainfeed.clone();
     
     threshold_frame(&frame_proc1, &imParams1);
     morph_frame(&frame_proc1, &imParams1);
-    vector<double> Pos1 = trackObject(&frame_proc1);
+    Pos1 = trackObject(&frame_proc1);
 
     threshold_frame(&frame_proc2, &imParams2);
     morph_frame(&frame_proc2, &imParams2);
-    vector<double> Pos2 = trackObject(&frame_proc2);
+    Pos2 = trackObject(&frame_proc2);
      
     if(STREAM_POSITION){
         cout << "Pos1: posX: " << Pos1.at(0) << endl;
@@ -77,7 +65,7 @@ void im_proc::process_frame()
 
 Mat im_proc::get_frame_overlay()
 {
-//    Mat frame_overlay = overlay_position(&mainfeed);
+    overlay_position(&mainfeed);
     return mainfeed;
 }
 
@@ -177,6 +165,8 @@ vector<double> im_proc::trackObject(Mat *frame)
 
 void im_proc::overlay_position(Mat *frame)
 {
-//    circle(*frame,Point(posX,posY),20,Scalar(0,0,255),2);
+    circle(*frame,Point(Pos1.at(0),Pos1.at(1)),20,Scalar(0,0,255),2);
+    circle(*frame,Point(Pos2.at(0),Pos2.at(1)),25,Scalar(0,225,0),2);
+
 }
 
