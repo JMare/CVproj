@@ -3,11 +3,11 @@ OpenCV codebase with goal of tracking laser pointer
 
 ##Usage
 
-> ./cvrun.out --webcam <webcam id> --trackbar <proccessing stream>
+> ./cvrun.out --webcam {webcam id} --trackbar {proccessing stream}
 
-> ./cvrun.out --vfile <file name>
+> ./cvrun.out --vfile {file name}
 
-> ./cvrun.out --ifile <file name>
+> ./cvrun.out --ifile {file name}
 
 ## Notes 
 
