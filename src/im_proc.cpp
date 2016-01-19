@@ -48,7 +48,7 @@ void im_proc::process_frame()
 {
     loadframe(&mainfeed);
     
-    mainfeed = darken_frame(&mainfeed);
+   //  mainfeed = darken_frame(&mainfeed);
 
     //clone is nessasary, assignment does not copy
     frame_proc1 = mainfeed.clone();
@@ -134,14 +134,14 @@ Mat im_proc::darken_frame(Mat *frame)
     Mat source = *frame;
     Mat RGBsmall, HSVsmall;
     int huesmall; 
-    int greencount;
+    double greencount;
     Mat dark_out = Mat::zeros( frame->size(), frame->type() );
-    int brightness = 50;
+    int brightness = 7;
     int contrast = 1;
-    int DARKEN_RADIUS = 3;
+    int DARKEN_RADIUS = 2;
     int GREEN_PIXEL_MIN = 1;
-    int DARKEN_HUE_MIN = 0;
-    int DARKEN_HUE_MAX = 255;
+    int DARKEN_HUE_MIN = 50;
+    int DARKEN_HUE_MAX = 100;
     int yscanmin;
     int yscanmax;
     int xscanmin;
@@ -151,7 +151,7 @@ Mat im_proc::darken_frame(Mat *frame)
     { 
         for( int x = 0; x < frame->cols; x++ )
         {
-            greencount = 1;
+            greencount = 0;
             yscanmin = y - DARKEN_RADIUS;
             if(yscanmin < 0) yscanmin = 0;
             xscanmin = x - DARKEN_RADIUS;
@@ -160,7 +160,7 @@ Mat im_proc::darken_frame(Mat *frame)
             if(xscanmax > frame->cols) xscanmax = frame->cols;
             yscanmax = y + DARKEN_RADIUS;
             if(yscanmax > frame->rows) yscanmax = frame->rows;
-
+            
             for( int yscan = yscanmin; yscan < yscanmax; yscan++)
             {
                 for( int xscan = xscanmin; xscan < xscanmax; xscan++)
@@ -180,8 +180,15 @@ Mat im_proc::darken_frame(Mat *frame)
             {
                 for(int c = 0; c < 3; c++)
                 {
-   //                 dark_out.at<Vec3b>(y,x)[c] =
-    //                 saturate_cast<uchar>( contrast*( frame->at<Vec3b>(y,x)[c] ) - brightness );
+                    dark_out.at<Vec3b>(y,x)[c] =
+                     saturate_cast<uchar>( contrast*( frame->at<Vec3b>(y,x)[c] ) - brightness );
+                }
+            } else
+            {
+                for(int c = 0; c < 3; c++)
+                {
+                    dark_out.at<Vec3b>(y,x)[c] =
+                     saturate_cast<uchar>( contrast*( frame->at<Vec3b>(y,x)[c] ));
                 }
             }
         }
