@@ -30,6 +30,7 @@ class im_proc
         void loadframe(cv::Mat *frame);
         void writeframe(cv::Mat *frame);
         void overlay_position(cv::Mat *frame);
+        cv::Mat darken_frame(cv::Mat *frame);
 
         std::tuple<bool, double, double> trackObject(cv::Mat *frame); 
         std::tuple<bool, double, double> filterpositions(std::tuple<bool, double, double> pos1, std::tuple<bool, double, double> pos2); 
