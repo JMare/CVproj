@@ -148,6 +148,7 @@ void gui_draw::print_params(vector<int> *params)
         cout << "}" << endl;
     }
 }
+
 void gui_draw::display_image(const char* wtitle, Mat frame)
 {
     imshow(wtitle, frame);

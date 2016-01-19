@@ -22,9 +22,12 @@ using namespace cv;
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(){
     //constructor
+    //not used for now
 }
 
 void im_proc::init_feed(int ID){
+    //first function to be run, this opens the capture object
+    //only needed for video and webcam sources
     if(FRAME_SOURCE == 0){
         cap = VideoCapture(ID); // open the default camera
         if(!cap.isOpened())  // check if we succeeded
@@ -39,20 +42,22 @@ void im_proc::init_feed(int ID){
             throw 1;
         }
     }
-
 }
 
 void im_proc::process_frame()
 {
     loadframe(&mainfeed);
 
+    //clone is nessasary, assignment does not copy
     frame_proc1 = mainfeed.clone();
     frame_proc2 = mainfeed.clone();
     
+    //proccessing 1
     threshold_frame(&frame_proc1, &imParams1);
     morph_frame(&frame_proc1, &imParams1);
     Pos1 = trackObject(&frame_proc1);
 
+    //processing 2
     threshold_frame(&frame_proc2, &imParams2);
     morph_frame(&frame_proc2, &imParams2);
     Pos2 = trackObject(&frame_proc2);
@@ -130,6 +135,7 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
     if(params->at(6) != 0){
         Mat erodeElement = getStructuringElement( MORPH_RECT,Size(params->at(6),params->at(6)));
         
+        //for iterations erode
         for(int i=params->at(9); i>0; i--){
             erode(*frame,*frame,erodeElement);
         }
@@ -137,7 +143,8 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
     
     if(params->at(7) != 0){
         Mat dilateElement = getStructuringElement( MORPH_RECT,Size(params->at(7),params->at(7)));
-
+        
+        //for iterations dilate
         for(int i=params->at(8); i>0; i--){
             dilate(*frame,*frame,dilateElement);
         }
@@ -146,6 +153,7 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
 
 tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 {
+
     Moments oMoments = moments(*frame);
 
     double posX;
@@ -165,21 +173,31 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 
 tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double> pos1, tuple<bool, double, double> pos2)
 {
+    //this function takes in the reported positions from
+    //each proccessing stream and decides whether they are
+    //close enough to be a match
+    
+
     bool pos_valid = false;
-    int MAX_DIST_ALLOWED = 500;
+    int MAX_DIST_ALLOWED = 50;
+
+    //Calculate dist between reported positions
     double diffx = abs(get<1>(pos1) - get<1>(pos2));
     double diffy = abs(get<2>(pos1) - get<2>(pos2));
 
+    //calculate hypotenuse
     double diffxy = sqrt( (diffx * diffx) + (diffy * diffy));
 
     if (diffxy < MAX_DIST_ALLOWED) pos_valid = true; 
     
+    //take average of x and y positions
     double posX = (get<1>(pos1) + get<1>(pos2)) / 2;
     double posY = (get<2>(pos1) + get<2>(pos2)) / 2;
 
+    //return is valid and positions
     return make_tuple(pos_valid, posX, posY); 
-
 }
+
 /*tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 {
     Mat temp = frame->clone();
@@ -224,8 +242,7 @@ tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double>
 void im_proc::overlay_position(Mat *frame)
 {
     //if statements mean it will only display if it has found a position
-    
-    
+    //if statements use the first param of tuple    
     
     if(get<0>(Pos1)){
         circle(*frame,Point(get<1>(Pos1),get<2>(Pos1)),20,Scalar(0,0,255),2);

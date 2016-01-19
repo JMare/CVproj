@@ -9,17 +9,17 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +21 gui_draw.h
-badd +31 im_proc.h
-badd +145 gui_draw.cpp
-badd +62 im_proc.cpp
-badd +110 cvproj.cpp
+badd +43 im_proc.h
+badd +151 gui_draw.cpp
+badd +258 im_proc.cpp
+badd +1 cvproj.cpp
 badd +14 cvproj.h
 badd +1 optionparser.h
 argglobal
 silent! argdel *
 argadd gui_draw.h
 set stal=2
-edit cvproj.cpp
+edit cvproj.h
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -35,63 +35,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 87 - ((39 * winheight(0) + 20) / 40)
+let s:l = 12 - ((11 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-87
-normal! 057|
-tabedit im_proc.h
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-set nosplitbelow
-set nosplitright
-wincmd t
-set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 33 - ((29 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-33
-normal! 0101|
-wincmd w
-argglobal
-edit im_proc.cpp
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 166 - ((19 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-166
-normal! 054|
-wincmd w
-2wincmd w
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 84 + 85) / 170)
-tabedit gui_draw.cpp
+12
+normal! 018|
+tabedit gui_draw.h
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -107,12 +57,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 24 - ((0 * winheight(0) + 20) / 40)
+let s:l = 1 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-24
-normal! 05|
+1
+normal! 0
 tabnext 2
 set stal=1
 if exists('s:wipebuf')
