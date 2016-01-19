@@ -35,11 +35,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 27 - ((26 * winheight(0) + 20) / 40)
+let s:l = 26 - ((18 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-27
+26
 normal! 0
 tabedit im_proc.cpp
 set splitbelow splitright
@@ -57,12 +57,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 287 - ((22 * winheight(0) + 20) / 40)
+let s:l = 36 - ((1 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-287
-normal! 015|
+36
+normal! 08|
 tabedit im_proc.h
 set splitbelow splitright
 set nosplitbelow
