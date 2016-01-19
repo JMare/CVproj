@@ -56,7 +56,11 @@ void im_proc::process_frame()
     threshold_frame(&frame_proc2, &imParams2);
     morph_frame(&frame_proc2, &imParams2);
     Pos2 = trackObject(&frame_proc2);
-     
+    
+    PosTemp = filterpositions(Pos1, Pos2); 
+    
+    if(get<0>(PosTemp)) PosMaster = PosTemp;
+
 }
 
 Mat im_proc::get_frame_overlay()
@@ -158,6 +162,24 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
     return make_tuple((posX >= 0 || posY >= 0), posX, posY);
 }
 
+
+tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double> pos1, tuple<bool, double, double> pos2)
+{
+    bool pos_valid = false;
+    int MAX_DIST_ALLOWED = 500;
+    double diffx = abs(get<1>(pos1) - get<1>(pos2));
+    double diffy = abs(get<2>(pos1) - get<2>(pos2));
+
+    double diffxy = sqrt( (diffx * diffx) + (diffy * diffy));
+
+    if (diffxy < MAX_DIST_ALLOWED) pos_valid = true; 
+    
+    double posX = (get<1>(pos1) + get<1>(pos2)) / 2;
+    double posY = (get<2>(pos1) + get<2>(pos2)) / 2;
+
+    return make_tuple(pos_valid, posX, posY); 
+
+}
 /*tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 {
     Mat temp = frame->clone();
@@ -213,5 +235,8 @@ void im_proc::overlay_position(Mat *frame)
         circle(*frame,Point(get<1>(Pos2),get<2>(Pos2)),20,Scalar(0,255,0),2);
     }
 
+    if(get<0>(PosMaster)){
+        circle(*frame,Point(get<1>(PosMaster),get<2>(PosMaster)),30,Scalar(255,0,0),4);
+    }
 }
 
