@@ -47,6 +47,8 @@ void im_proc::init_feed(int ID){
 void im_proc::process_frame()
 {
     loadframe(&mainfeed);
+    
+    mainfeed = darken_frame(&mainfeed);
 
     //clone is nessasary, assignment does not copy
     frame_proc1 = mainfeed.clone();
@@ -126,6 +128,68 @@ void im_proc::threshold_frame(Mat *frame, vector<int> *params)
                 params->at(5)), //V_MAX
         *frame);
 }
+
+Mat im_proc::darken_frame(Mat *frame)
+{
+    Mat source = *frame;
+    Mat RGBsmall, HSVsmall;
+    int huesmall; 
+    int greencount;
+    Mat dark_out = Mat::zeros( frame->size(), frame->type() );
+    int brightness = 50;
+    int contrast = 1;
+    int DARKEN_RADIUS = 3;
+    int GREEN_PIXEL_MIN = 1;
+    int DARKEN_HUE_MIN = 0;
+    int DARKEN_HUE_MAX = 255;
+    int yscanmin;
+    int yscanmax;
+    int xscanmin;
+    int xscanmax;
+    
+    for( int y = 0; y < frame->rows; y++ )
+    { 
+        for( int x = 0; x < frame->cols; x++ )
+        {
+            greencount = 1;
+            yscanmin = y - DARKEN_RADIUS;
+            if(yscanmin < 0) yscanmin = 0;
+            xscanmin = x - DARKEN_RADIUS;
+            if(xscanmin < 0) xscanmin = 0;
+            xscanmax = x + DARKEN_RADIUS;
+            if(xscanmax > frame->cols) xscanmax = frame->cols;
+            yscanmax = y + DARKEN_RADIUS;
+            if(yscanmax > frame->rows) yscanmax = frame->rows;
+
+            for( int yscan = yscanmin; yscan < yscanmax; yscan++)
+            {
+                for( int xscan = xscanmin; xscan < xscanmax; xscan++)
+                {
+                    RGBsmall = source(Rect(xscan,yscan,1,1));
+                    cvtColor(RGBsmall, HSVsmall, CV_BGR2HSV);
+                    Vec3b hsv = HSVsmall.at<Vec3b>(0,0);
+                    huesmall = hsv.val[0]; 
+                    if(DARKEN_HUE_MIN < huesmall < DARKEN_HUE_MAX)
+                    {
+                        greencount = greencount + 1;
+                    }
+                }
+           }
+
+            if(greencount < GREEN_PIXEL_MIN)
+            {
+                for(int c = 0; c < 3; c++)
+                {
+   //                 dark_out.at<Vec3b>(y,x)[c] =
+    //                 saturate_cast<uchar>( contrast*( frame->at<Vec3b>(y,x)[c] ) - brightness );
+                }
+            }
+        }
+    }
+    
+    return dark_out;
+}
+
 
 void im_proc::morph_frame(Mat *frame, vector<int> *params)
 {
