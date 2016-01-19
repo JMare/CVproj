@@ -57,10 +57,6 @@ void im_proc::process_frame()
     morph_frame(&frame_proc2, &imParams2);
     Pos2 = trackObject(&frame_proc2);
      
-    if(STREAM_POSITION){
-        cout << "Pos1: posX: " << Pos1.at(0) << endl;
-        cout << "Pos1: posY: " << Pos1.at(1) << endl;
-    }
 }
 
 Mat im_proc::get_frame_overlay()
@@ -144,7 +140,7 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
     }
 }
 
-vector<double> im_proc::trackObject(Mat *frame)
+tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 {
     Moments oMoments = moments(*frame);
 
@@ -158,21 +154,63 @@ vector<double> im_proc::trackObject(Mat *frame)
     //calculate the position of the  object
     posX = dM10 / dArea;
     posY = dM01 / dArea;        
-    
-    vector<double> position = {posX, posY};
-    return position;
+     
+    return make_tuple((posX >= 0 || posY >= 0), posX, posY);
 }
+
+/*tuple<bool, double, double> im_proc::trackObject(Mat *frame)
+{
+    Mat temp = frame->clone();
+    vector< vector<Point> > contours;
+    vector<Vec4i> hierarchy;
+    //find contours of filtered image using openCV findContours function
+    findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
+    //use moments method to find our filtered object
+    double refArea = 0;
+    bool objectFound = false;
+    int MAX_NUM_OBJECTS = 10;
+    int MIN_OBJECT_AREA = 0;
+    int MAX_OBJECT_AREA = 300;
+
+    double x, y;
+
+    if (hierarchy.size() > 0) {
+            int numObjects = hierarchy.size();
+    //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
+    if(numObjects<MAX_NUM_OBJECTS){
+                    for (int index = 0; index >= 0; index = hierarchy[index][0]) {
+
+                            Moments moment = moments((cv::Mat)contours[index]);
+                            double area = moment.m00;
+                            
+            if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA && area>refArea){
+                                    x = moment.m10/area;
+                                    y = moment.m01/area;
+                                    objectFound = true;
+                                    refArea = area;
+                            } else objectFound = false;
+
+
+                    }
+	}   
+
+}
+                        return make_tuple(objectFound, x, y);
+}
+*/
 
 void im_proc::overlay_position(Mat *frame)
 {
     //if statements mean it will only display if it has found a position
     
-    if(Pos1.at(0) >=0 || Pos1.at(1) >= 0){
-        circle(*frame,Point(Pos1.at(0),Pos1.at(1)),20,Scalar(0,0,255),2);
+    
+    
+    if(get<0>(Pos1)){
+        circle(*frame,Point(get<1>(Pos1),get<2>(Pos1)),20,Scalar(0,0,255),2);
     }
 
-    if(Pos2.at(0) >=0 || Pos2.at(1) >= 0){
-        circle(*frame,Point(Pos2.at(0),Pos2.at(1)),25,Scalar(0,225,0),2);
+    if(get<0>(Pos2)){
+        circle(*frame,Point(get<1>(Pos2),get<2>(Pos2)),20,Scalar(0,255,0),2);
     }
 
 }
