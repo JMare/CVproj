@@ -28,7 +28,9 @@ class im_proc
         void loadframe(cv::Mat *frame);
         void writeframe(cv::Mat *frame);
 
+
         std::tuple<bool, double, double> trackObject(cv::Mat *frame); 
+        std::tuple<bool, double, double> filterpositions(std::tuple<bool, double, double> pos1, std::tuple<bool, double, double> pos2); 
         cv::Mat mainfeed;
         cv::Mat frame_proc1;
         cv::Mat frame_proc2;
@@ -38,6 +40,8 @@ class im_proc
 
         std::tuple<bool, double, double> Pos1;
         std::tuple<bool, double, double> Pos2;
+        std::tuple<bool, double, double> PosTemp;
+        std::tuple<bool, double, double> PosMaster;
 
 };
 #endif
