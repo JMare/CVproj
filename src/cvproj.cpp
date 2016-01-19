@@ -23,7 +23,7 @@ using namespace std;
 
 //{0    , 1    , 2    , 3    , 4    , 5    , 6        , 7         , 8                , 9}
 //{H_MIN, H_MAX, S_MIN, S_MAX, V_MIN, V_MAX, ERODE_PIX, DILATE_PIX, DILATE_ITERATIONS, ERODE_ITERATIONS};
-vector<int> imParams1 = {56, 125, 42, 125, 146, 256, 2, 5, 2, 1}; //work ok with laser inside.
+vector<int> imParams1 ={44, 97, 29, 223, 166, 256, 2, 5, 5, 2}; //work ok with laser inside.
 vector<int> imParams2 = {0, 256, 0, 256, 205, 256, 2, 6, 1, 1}; //does the white center
 
 //command line arguments

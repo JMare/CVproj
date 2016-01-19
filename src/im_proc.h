@@ -9,6 +9,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <vector>
+#include <tuple>
 
 class im_proc
 {
@@ -27,7 +28,7 @@ class im_proc
         void loadframe(cv::Mat *frame);
         void writeframe(cv::Mat *frame);
 
-        std::vector<double> trackObject(cv::Mat *frame); 
+        std::tuple<bool, double, double> trackObject(cv::Mat *frame); 
         cv::Mat mainfeed;
         cv::Mat frame_proc1;
         cv::Mat frame_proc2;
@@ -35,8 +36,8 @@ class im_proc
         cv::VideoCapture cap;
         void overlay_position(cv::Mat *frame);
 
-        std::vector<double> Pos1;
-        std::vector<double> Pos2;
+        std::tuple<bool, double, double> Pos1;
+        std::tuple<bool, double, double> Pos2;
 
 };
 #endif

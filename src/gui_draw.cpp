@@ -55,7 +55,7 @@ void gui_draw::draw_interface()
         return;
     }
 
-Mat frame_overlay, frame_thresholded; //create Mats for storing images to display
+    Mat frame_overlay, frame_thresholded; //create Mats for storing images to display
     
     //this is the main proccessing loop for adjusting the image thresholding
     //in real time and viewing the results
