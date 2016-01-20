@@ -57,12 +57,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 36 - ((1 * winheight(0) + 20) / 40)
+let s:l = 69 - ((30 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
-normal! 08|
+69
+normal! 04|
 tabedit im_proc.h
 set splitbelow splitright
 set nosplitbelow
@@ -79,12 +79,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 20 - ((3 * winheight(0) + 20) / 40)
+let s:l = 21 - ((4 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-20
-normal! 030|
+21
+normal! 0
 tabnext 2
 set stal=1
 if exists('s:wipebuf')
