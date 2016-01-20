@@ -51,8 +51,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 74 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 95 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -63,7 +63,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 43 - ((25 * winheight(0) + 20) / 40)
+let s:l = 43 - ((22 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -81,16 +81,16 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 78 - ((32 * winheight(0) + 20) / 40)
+let s:l = 287 - ((27 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-78
-normal! 05|
+287
+normal! 019|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 74 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 95 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
 tabnext 2
 set stal=1
 if exists('s:wipebuf')
