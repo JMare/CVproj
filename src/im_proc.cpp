@@ -66,8 +66,9 @@ void im_proc::process_frame()
     
 
     PosTemp = filterpositions(Pos1, Pos2); 
-      
-        if(get<0>(PosTemp)) PosMaster = PosTemp;
+    bool isvalid = get<0>(PosTemp); 
+
+    if(isvalid) PosMaster = PosTemp;
 
 }
 
@@ -223,7 +224,7 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
     }
 }
 
-tuple<bool, double, double> im_proc::trackObject(Mat *frame)
+/*tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 {
 
     Moments oMoments = moments(*frame);
@@ -254,7 +255,7 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 
     return make_tuple(tracksuccess, posX, posY);
 }
-
+*/
 
 tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double> pos1, tuple<bool, double, double> pos2)
 {
@@ -273,8 +274,7 @@ tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double>
     //calculate hypotenuse
     double diffxy = sqrt( (diffx * diffx) + (diffy * diffy));
 
-    if (diffxy < MAX_DIST_ALLOWED || get<0>(pos1) == true || get<0>(pos2) == true) pos_valid = true; 
-    
+    if (diffxy <= MAX_DIST_ALLOWED && get<0>(pos1) && get<0>(pos2)) pos_valid = true; 
     
     //take average of x and y positions
     double posX = (get<1>(pos1) + get<1>(pos2)) / 2;
@@ -284,46 +284,46 @@ tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double>
     return make_tuple(pos_valid, posX, posY); 
 }
 
-/*tuple<bool, double, double> im_proc::trackObject(Mat *frame)
+tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 {
+
     Mat temp = frame->clone();
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
     //find contours of filtered image using openCV findContours function
     findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
     //use moments method to find our filtered object
+    
     double refArea = 0;
     bool objectFound = false;
-    int MAX_NUM_OBJECTS = 10;
-    int MIN_OBJECT_AREA = 0;
-    int MAX_OBJECT_AREA = 300;
+    int MAX_NUM_OBJECTS = 2;
+    int MIN_OBJECT_AREA = 50;
+    int MAX_OBJECT_AREA = 500;
 
     double x, y;
 
     if (hierarchy.size() > 0) {
-            int numObjects = hierarchy.size();
-    //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
-    if(numObjects<MAX_NUM_OBJECTS){
-                    for (int index = 0; index >= 0; index = hierarchy[index][0]) {
+        int numObjects = hierarchy.size();
+        //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
+        if(numObjects<MAX_NUM_OBJECTS){
+            for (int index = 0; index >= 0; index = hierarchy[index][0]) {
 
-                            Moments moment = moments((cv::Mat)contours[index]);
-                            double area = moment.m00;
-                            
-            if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA && area>refArea){
-                                    x = moment.m10/area;
-                                    y = moment.m01/area;
-                                    objectFound = true;
-                                    refArea = area;
-                            } else objectFound = false;
+                Moments moment = moments((cv::Mat)contours[index]);
+                double area = moment.m00;
 
+                if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA && area>refArea){
+                    x = moment.m10/area;
+                    y = moment.m01/area;
+                    objectFound = true;
+                    refArea = area;
+                } else objectFound = false;
+            }
+        }   
 
-                    }
-	}   
-
+    }
+    return make_tuple(objectFound, x, y);
 }
-                        return make_tuple(objectFound, x, y);
-}
-*/
+
 
 void im_proc::overlay_position(Mat *frame)
 {
