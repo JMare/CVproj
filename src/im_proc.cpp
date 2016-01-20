@@ -230,6 +230,11 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 
     double posX;
     double posY;
+    
+    double dAreaMin = 20000;
+    double dAreaMax = 50000;
+
+    bool tracksuccess = false;
 
     double dM01 = oMoments.m01;
     double dM10 = oMoments.m10;
@@ -238,8 +243,16 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
     //calculate the position of the  object
     posX = dM10 / dArea;
     posY = dM01 / dArea;        
-     
-    return make_tuple((posX >= 0 || posY >= 0), posX, posY);
+    
+    if(dArea >= dAreaMin || dArea <= dAreaMax)
+    {
+        if( posX >= 0 || posY >= 0)
+        {
+            tracksuccess = true;
+        }
+    }
+
+    return make_tuple(tracksuccess, posX, posY);
 }
 
 
@@ -251,7 +264,7 @@ tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double>
     
 
     bool pos_valid = false;
-    int MAX_DIST_ALLOWED = 25;
+    int MAX_DIST_ALLOWED = 10;
 
     //Calculate dist between reported positions
     double diffx = abs(get<1>(pos1) - get<1>(pos2));
@@ -260,7 +273,8 @@ tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double>
     //calculate hypotenuse
     double diffxy = sqrt( (diffx * diffx) + (diffy * diffy));
 
-    if (diffxy < MAX_DIST_ALLOWED) pos_valid = true; 
+    if (diffxy < MAX_DIST_ALLOWED || get<0>(pos1) == true || get<0>(pos2) == true) pos_valid = true; 
+    
     
     //take average of x and y positions
     double posX = (get<1>(pos1) + get<1>(pos2)) / 2;

@@ -35,7 +35,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 27 - ((24 * winheight(0) + 20) / 40)
+let s:l = 27 - ((26 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -51,8 +51,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 40 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 129 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -81,15 +81,16 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 256 - ((2 * winheight(0) + 20) / 40)
+let s:l = 268 - ((31 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-256
-normal! 029|
+268
+normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 54 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 115 + 85) / 170)
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 40 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 129 + 85) / 170)
 tabedit im_proc.h
 set splitbelow splitright
 set nosplitbelow
@@ -112,7 +113,7 @@ exe s:l
 normal! zt
 21
 normal! 0
-tabnext 1
+tabnext 2
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
