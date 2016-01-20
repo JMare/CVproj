@@ -224,38 +224,6 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
     }
 }
 
-/*tuple<bool, double, double> im_proc::trackObject(Mat *frame)
-{
-
-    Moments oMoments = moments(*frame);
-
-    double posX;
-    double posY;
-    
-    double dAreaMin = 20000;
-    double dAreaMax = 50000;
-
-    bool tracksuccess = false;
-
-    double dM01 = oMoments.m01;
-    double dM10 = oMoments.m10;
-    double dArea = oMoments.m00;
-
-    //calculate the position of the  object
-    posX = dM10 / dArea;
-    posY = dM01 / dArea;        
-    
-    if(dArea >= dAreaMin || dArea <= dAreaMax)
-    {
-        if( posX >= 0 || posY >= 0)
-        {
-            tracksuccess = true;
-        }
-    }
-
-    return make_tuple(tracksuccess, posX, posY);
-}
-*/
 
 tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double> pos1, tuple<bool, double, double> pos2)
 {
