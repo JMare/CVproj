@@ -316,7 +316,7 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
                     y = moment.m01/area;
                     objectFound = true;
                     refArea = area;
-                } else objectFound = false;
+                } //else objectFound = false;
             }
         }   
 
