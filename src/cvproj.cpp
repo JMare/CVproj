@@ -22,8 +22,8 @@ using namespace std;
 //global variables for thresholding editable with sliders
 //{0    , 1    , 2    , 3    , 4    , 5    , 6        , 7         , 8                , 9}
 //{H_MIN, H_MAX, S_MIN, S_MAX, V_MIN, V_MAX, ERODE_PIX, DILATE_PIX, DILATE_ITERATIONS, ERODE_ITERATIONS};
-vector<int> imParams1 ={44, 97, 29, 223, 166, 256, 2, 5, 5, 2}; //work ok with laser inside.
-vector<int> imParams2 = {0, 256, 0, 256, 205, 256, 2, 6, 1, 1}; //does the white center
+vector<int> imParams1 ={15, 102, 0, 57, 191, 256, 2, 5, 2, 1}; //from test on green wall.
+vector<int> imParams2 = {0, 256, 0, 60, 196, 256, 2, 6, 3, 1}; //does the white center
 
 
 //command line arguments
