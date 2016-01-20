@@ -64,19 +64,10 @@ void im_proc::process_frame()
     morph_frame(&frame_proc2, &imParams2);
     Pos2 = trackObject(&frame_proc2);
     
-    time_t now, last_fix;
 
     PosTemp = filterpositions(Pos1, Pos2); 
-    if( get<0>(PosTemp) = true) time(&last_fix);
       
-    time(&now);
-    int sec = difftime(now,last_fix);
-    if(sec <= 500)
-    {
         if(get<0>(PosTemp)) PosMaster = PosTemp;
-    } else { 
-        PosMaster = make_tuple(false, -1, -1);
-    }
 
 }
 
@@ -260,7 +251,7 @@ tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double>
     
 
     bool pos_valid = false;
-    int MAX_DIST_ALLOWED = 50;
+    int MAX_DIST_ALLOWED = 25;
 
     //Calculate dist between reported positions
     double diffx = abs(get<1>(pos1) - get<1>(pos2));
