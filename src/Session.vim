@@ -11,7 +11,7 @@ set shortmess=aoO
 badd +7 gui_draw.h
 badd +43 im_proc.h
 badd +151 gui_draw.cpp
-badd +258 im_proc.cpp
+badd +3 im_proc.cpp
 badd +1 cvproj.cpp
 badd +12 cvproj.h
 badd +1 optionparser.h
@@ -41,7 +41,7 @@ exe s:l
 normal! zt
 27
 normal! 0
-tabedit im_proc.cpp
+tabedit im_proc.h
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -51,8 +51,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 40 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 129 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 74 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 95 + 85) / 170)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -63,12 +63,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 73 - ((9 * winheight(0) + 20) / 40)
+let s:l = 43 - ((25 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-73
-normal! 0
+43
+normal! 02|
 wincmd w
 argglobal
 edit im_proc.cpp
@@ -81,38 +81,16 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 268 - ((31 * winheight(0) + 20) / 40)
+let s:l = 78 - ((32 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-268
-normal! 0
+78
+normal! 05|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 40 + 85) / 170)
-exe 'vert 2resize ' . ((&columns * 129 + 85) / 170)
-tabedit im_proc.h
-set splitbelow splitright
-set nosplitbelow
-set nosplitright
-wincmd t
-set winheight=1 winwidth=1
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 21 - ((4 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-21
-normal! 0
+exe 'vert 1resize ' . ((&columns * 74 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 95 + 85) / 170)
 tabnext 2
 set stal=1
 if exists('s:wipebuf')
