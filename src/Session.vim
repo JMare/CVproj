@@ -9,11 +9,11 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +7 gui_draw.h
-badd +29 im_proc.h
+badd +50 im_proc.h
 badd +5 gui_draw.cpp
 badd +59 im_proc.cpp
 badd +1 cvproj.cpp
-badd +12 cvproj.h
+badd +10 cvproj.h
 badd +1 optionparser.h
 argglobal
 silent! argdel *
@@ -35,12 +35,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 102 - ((23 * winheight(0) + 20) / 40)
+let s:l = 25 - ((24 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-102
-normal! 0
+25
+normal! 045|
 tabedit im_proc.cpp
 set splitbelow splitright
 set nosplitbelow
@@ -57,12 +57,34 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 312 - ((19 * winheight(0) + 20) / 40)
+let s:l = 129 - ((26 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-312
+129
 normal! 0
+tabedit gui_draw.cpp
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 82 - ((31 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+82
+normal! 013|
 tabedit im_proc.h
 set splitbelow splitright
 set nosplitbelow
@@ -79,13 +101,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 52 - ((37 * winheight(0) + 20) / 40)
+let s:l = 27 - ((11 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 073|
-tabnext 2
+27
+normal! 09|
+tabnext 3
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

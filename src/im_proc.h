@@ -26,7 +26,6 @@ class im_proc
     private:
         //FUNCTIONS
         void threshold_frame(cv::Mat *frame, std::vector<int> *params);
-        void adaptivethreshold_frame(cv::Mat *frame);
         void morph_frame(cv::Mat *frame, std::vector<int> *params);
         void loadframe(cv::Mat *frame);
         void writeframe(cv::Mat *frame);
@@ -51,4 +50,5 @@ class im_proc
         std::tuple<bool, double, double> PosMaster;
         std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
 };
+
 #endif

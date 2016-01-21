@@ -52,11 +52,10 @@ void im_proc::process_frame()
 
     //clone is nessasary, assignment does not copy
     frame_proc1 = mainfeed.clone();
-    frame_proc2 = mainfeed.clone();
     
     //proccessing 1
-    adaptivethreshold_frame(&frame_proc1);
-  //  morph_frame(&frame_proc1, &imParams1);
+    threshold_frame(&frame_proc1, &imParams);
+    morph_frame(&frame_proc1, &imParams);
     Pos1 = trackObject(&frame_proc1);
 
     frame_info = inspect_frame(&frame_proc1);
@@ -69,12 +68,6 @@ void im_proc::process_frame()
     
     int numcandidates = get<0>(frame_info).size();
     cout << "number of candidates found is:" << numcandidates << endl;
-    
-    //processing 2
-    threshold_frame(&frame_proc2, &imParams2);
-    morph_frame(&frame_proc2, &imParams2);
-    Pos2 = trackObject(&frame_proc2);
-    
 
     PosTemp = filterpositions(Pos1, Pos2); 
     bool isvalid = get<0>(PosTemp); 
@@ -124,102 +117,15 @@ void im_proc::loadframe(Mat *frame)
     }
 }
 
+
 void im_proc::threshold_frame(Mat *frame, vector<int> *params)
 {
-    //convert color to hsv
-    cvtColor(*frame, *frame, COLOR_BGR2HSV);
+    vector<int> paramslocal = *params;
 
-    //apply thresholding
-    inRange(*frame,Scalar(
-                params->at(0),   //H_MIN
-                params->at(2),   //S_MIN
-                params->at(4)),  //V_MIN
-
-        Scalar(
-                params->at(1),  //H_MAX
-                params->at(3),  //S_MAX
-                params->at(5)), //V_MAX
-        *frame);
-}
-
-void im_proc::adaptivethreshold_frame(Mat *frame)
-{
     cvtColor(*frame, *frame, CV_RGB2GRAY);
-    threshold(*frame, *frame, 180, 255, THRESH_BINARY);
-    adaptiveThreshold( *frame, *frame, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 11, 10);
+    threshold(*frame, *frame, paramslocal.at(0), paramslocal.at(1), THRESH_BINARY);
+ //   adaptiveThreshold( *frame, *frame, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 11, 10);
 
-    //morph_frame(frame, &imParams1);
-    
-
-}
-
-
-Mat im_proc::darken_frame(Mat *frame)
-{
-    Mat source = *frame;
-    Mat RGBsmall, HSVsmall;
-    int huesmall; 
-    double greencount;
-    Mat dark_out = Mat::zeros( frame->size(), frame->type() );
-    int brightness = 7;
-    int contrast = 1;
-    int DARKEN_RADIUS = 2;
-    int GREEN_PIXEL_MIN = 1;
-    int DARKEN_HUE_MIN = 50;
-    int DARKEN_HUE_MAX = 100;
-    int yscanmin;
-    int yscanmax;
-    int xscanmin;
-    int xscanmax;
-    
-    for( int y = 0; y < frame->rows; y++ )
-    { 
-        for( int x = 0; x < frame->cols; x++ )
-        {
-            greencount = 0;
-            yscanmin = y - DARKEN_RADIUS;
-            if(yscanmin < 0) yscanmin = 0;
-            xscanmin = x - DARKEN_RADIUS;
-            if(xscanmin < 0) xscanmin = 0;
-            xscanmax = x + DARKEN_RADIUS;
-            if(xscanmax > frame->cols) xscanmax = frame->cols;
-            yscanmax = y + DARKEN_RADIUS;
-            if(yscanmax > frame->rows) yscanmax = frame->rows;
-            
-            for( int yscan = yscanmin; yscan < yscanmax; yscan++)
-            {
-                for( int xscan = xscanmin; xscan < xscanmax; xscan++)
-                {
-                    RGBsmall = source(Rect(xscan,yscan,1,1));
-                    cvtColor(RGBsmall, HSVsmall, CV_BGR2HSV);
-                    Vec3b hsv = HSVsmall.at<Vec3b>(0,0);
-                    huesmall = hsv.val[0]; 
-                    if(DARKEN_HUE_MIN < huesmall < DARKEN_HUE_MAX)
-                    {
-                        greencount = greencount + 1;
-                    }
-                }
-           }
-
-            if(greencount < GREEN_PIXEL_MIN)
-            {
-                for(int c = 0; c < 3; c++)
-                {
-                    dark_out.at<Vec3b>(y,x)[c] =
-                     saturate_cast<uchar>( contrast*( frame->at<Vec3b>(y,x)[c] ) - brightness );
-                }
-            } else
-            {
-                for(int c = 0; c < 3; c++)
-                {
-                    dark_out.at<Vec3b>(y,x)[c] =
-                     saturate_cast<uchar>( contrast*( frame->at<Vec3b>(y,x)[c] ));
-                }
-            }
-        }
-    }
-    
-    return dark_out;
 }
 
 
@@ -228,20 +134,20 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
     //OpenCV will crash if it tries to erode or dilate with
     //a pixel size of zero, if statements stop this.
     
-    if(params->at(6) != 0){
-        Mat erodeElement = getStructuringElement( MORPH_RECT,Size(params->at(6),params->at(6)));
+    if(params->at(2) != 0){
+        Mat erodeElement = getStructuringElement( MORPH_RECT,Size(params->at(2),params->at(2)));
         
         //for iterations erode
-        for(int i=params->at(9); i>0; i--){
+        for(int i=params->at(4); i>0; i--){
             erode(*frame,*frame,erodeElement);
         }
     }
     
-    if(params->at(7) != 0){
-        Mat dilateElement = getStructuringElement( MORPH_RECT,Size(params->at(7),params->at(7)));
+    if(params->at(3) != 0){
+        Mat dilateElement = getStructuringElement( MORPH_RECT,Size(params->at(3),params->at(3)));
         
         //for iterations dilate
-        for(int i=params->at(8); i>0; i--){
+        for(int i=params->at(5); i>0; i--){
             dilate(*frame,*frame,dilateElement);
         }
     }
@@ -316,6 +222,8 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
     return make_tuple(objectFound, x, y);
 }
 
+
+
 tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
 {
 
@@ -333,7 +241,7 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
     int numObjects = hierarchy.size();
 
     double x, y;
-    double totalArea = 0;
+    double totalArea = countNonZero(*frame);
     
     vector<vector<double>> candidates;
 
@@ -344,7 +252,6 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
 
             Moments moment = moments((cv::Mat)contours[index]);
             double area = moment.m00;
-            totalArea = totalArea + area; //add to total area
             
             if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA)
             {

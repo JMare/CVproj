@@ -10,8 +10,7 @@
 #include <vector>
 
 //paramater arrays
-extern std::vector<int> imParams1;
-extern std::vector<int> imParams2;
+extern std::vector<int> imParams;
 
 //Command line variables
 extern int FRAME_SOURCE;
