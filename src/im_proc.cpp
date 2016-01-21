@@ -44,7 +44,6 @@ void im_proc::init_feed(int ID)
         }
     }
 }
-
 void im_proc::process_frame()
 {
     loadframe(&mainfeed);
@@ -60,6 +59,17 @@ void im_proc::process_frame()
   //  morph_frame(&frame_proc1, &imParams1);
     Pos1 = trackObject(&frame_proc1);
 
+    frame_info = inspect_frame(&frame_proc1);
+
+    int numfound = get<1>(frame_info);
+    cout << "frame inspected, found: " << numfound << " objects" << endl;
+    
+    double areafound = get<2>(frame_info);
+    cout << "total area is: " << areafound;
+    
+    int numcandidates = get<0>(frame_info).size();
+    cout << "number of candidates found is:" << numcandidates << endl;
+    
     //processing 2
     threshold_frame(&frame_proc2, &imParams2);
     morph_frame(&frame_proc2, &imParams2);
@@ -138,7 +148,7 @@ void im_proc::adaptivethreshold_frame(Mat *frame)
     threshold(*frame, *frame, 180, 255, THRESH_BINARY);
     adaptiveThreshold( *frame, *frame, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 11, 10);
 
-    morph_frame(frame, &imParams1);
+    //morph_frame(frame, &imParams1);
     
 
 }
@@ -263,6 +273,7 @@ tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double>
 
     //return is valid and positions
     return make_tuple(pos_valid, posX, posY); 
+
 }
 
 tuple<bool, double, double> im_proc::trackObject(Mat *frame)
@@ -304,6 +315,51 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
     }
     return make_tuple(objectFound, x, y);
 }
+
+tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
+{
+
+    Mat temp = frame->clone();
+
+    vector< vector<Point> > contours;
+    vector<Vec4i> hierarchy;
+
+    findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
+    
+    int MAX_NUM_OBJECTS = 20;
+    int MIN_OBJECT_AREA = 50;
+    int MAX_OBJECT_AREA = 500;
+
+    int numObjects = hierarchy.size();
+
+    double x, y;
+    double totalArea = 0;
+    
+    vector<vector<double>> candidates;
+
+    if (numObjects > 0 && numObjects < MAX_NUM_OBJECTS)
+    {
+        for (int index = 0; index >= 0; index = hierarchy[index][0]) 
+        {
+
+            Moments moment = moments((cv::Mat)contours[index]);
+            double area = moment.m00;
+            totalArea = totalArea + area; //add to total area
+            
+            if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA)
+            {
+                x = moment.m10/area;
+                y = moment.m01/area;
+                vector<double> rowtoadd { area, x, y };
+                candidates.push_back(rowtoadd);
+
+            } 
+        } 
+    }
+    
+    return make_tuple(candidates, numObjects, totalArea);
+}
+            
 
 
 void im_proc::overlay_position(Mat *frame)
