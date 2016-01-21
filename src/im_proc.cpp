@@ -74,6 +74,11 @@ void im_proc::init_feed(int ID)
         imParams.at(0) = imParams.at(0) + 10;
 
     }
+
+    cout << "Background calibration complete" << endl;
+    cout << "Please turn on the laser and ensure it is in the frame" << endl;
+    cout << "Press enter to continue" << endl;
+    system("read");
     
 }
 

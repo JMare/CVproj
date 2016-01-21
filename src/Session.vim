@@ -35,11 +35,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 25 - ((17 * winheight(0) + 14) / 29)
+let s:l = 79 - ((39 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-25
+79
 normal! 045|
 tabedit im_proc.cpp
 set splitbelow splitright
@@ -57,12 +57,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 108 - ((39 * winheight(0) + 20) / 40)
+let s:l = 65 - ((37 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-108
-normal! 036|
+65
+normal! 042|
 tabedit gui_draw.cpp
 set splitbelow splitright
 set nosplitbelow
@@ -79,12 +79,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 15 - ((0 * winheight(0) + 20) / 40)
+let s:l = 50 - ((18 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-15
-normal! 017|
+50
+normal! 05|
 tabedit im_proc.h
 set splitbelow splitright
 set nosplitbelow
@@ -107,7 +107,7 @@ exe s:l
 normal! zt
 1
 normal! 09|
-tabnext 3
+tabnext 2
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
