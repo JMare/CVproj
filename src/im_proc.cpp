@@ -25,7 +25,8 @@ im_proc::im_proc(){
     //not used for now
 }
 
-void im_proc::init_feed(int ID){
+void im_proc::init_feed(int ID)
+{
     //first function to be run, this opens the capture object
     //only needed for video and webcam sources
     if(FRAME_SOURCE == 0){
@@ -55,8 +56,8 @@ void im_proc::process_frame()
     frame_proc2 = mainfeed.clone();
     
     //proccessing 1
-    threshold_frame(&frame_proc1, &imParams1);
-    morph_frame(&frame_proc1, &imParams1);
+    adaptivethreshold_frame(&frame_proc1);
+  //  morph_frame(&frame_proc1, &imParams1);
     Pos1 = trackObject(&frame_proc1);
 
     //processing 2
@@ -130,6 +131,36 @@ void im_proc::threshold_frame(Mat *frame, vector<int> *params)
                 params->at(5)), //V_MAX
         *frame);
 }
+
+void im_proc::adaptivethreshold_frame(Mat *frame)
+{
+    cvtColor(*frame, *frame, CV_RGB2GRAY);
+    //threshold(*frame, *frame, 100, 255, THRESH_BINARY);
+    adaptiveThreshold( *frame, *frame, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 11, 10);
+
+    morph_frame(frame, &imParams1);
+    Mat src_gray = frame->clone();
+    
+
+    GaussianBlur( src_gray, src_gray, Size(5, 5), 1, 1 );
+
+  vector<Vec3f> circles;
+
+  /// Apply the Hough Transform to find the circles
+  HoughCircles( src_gray, circles, CV_HOUGH_GRADIENT, 1, src_gray.rows/8, 200, 50, 1, 0 );
+
+  /// Draw the circles detected
+  for( size_t i = 0; i < circles.size(); i++ )
+  {
+      Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+      int radius = cvRound(circles[i][2]);
+      // circle center
+      circle( mainfeed, center, 3, Scalar(0,255,0), -1, 8, 0 );
+      // circle outline
+      circle( mainfeed, center, radius, Scalar(0,0,255), 3, 8, 0 );
+   }
+}
+
 
 Mat im_proc::darken_frame(Mat *frame)
 {
@@ -264,7 +295,7 @@ tuple<bool, double, double> im_proc::trackObject(Mat *frame)
     
     double refArea = 0;
     bool objectFound = false;
-    int MAX_NUM_OBJECTS = 2;
+    int MAX_NUM_OBJECTS = 20;
     int MIN_OBJECT_AREA = 50;
     int MAX_OBJECT_AREA = 500;
 
