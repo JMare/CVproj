@@ -28,14 +28,7 @@ gui_draw::gui_draw()
 void gui_draw::draw_interface()
 {
     if(TRACKBAR_ENABLE){
-        switch(TRACKBAR_PARAMS){ 
-            case 1: 
-                create_trackbars(&imParams1);
-                break;
-            case 2: 
-                create_trackbars(&imParams2);
-                break;
-        }
+                create_trackbars(&imParams);
     }
 
     im_proc imFrame; //instantiate object
@@ -84,16 +77,8 @@ void gui_draw::draw_interface()
         key = cvWaitKey(10);     //Capture Keyboard stroke
         if (char(key) == 27){
             if(TRACKBAR_ENABLE){
-                switch(TRACKBAR_PARAMS){
-                    case 1:
-                        cout << "Printing imParams1" << endl;
-                        print_params(&imParams1);
-                        break;
-                    case 2:
-                        cout << "Printing imParams2" << endl;
-                        print_params(&imParams2);
-                        break;
-                } 
+                        cout << "Printing imParams" << endl;
+                        print_params(&imParams);
             }
             break;      //If you hit ESC key loop will break.
         }
@@ -108,32 +93,24 @@ void gui_draw::create_trackbars(vector<int> *params)
     namedWindow(windowTrackbars, 1);
     //create memory to store trackbar name on window
     char TrackbarName[50];
-    sprintf( TrackbarName, "H_MIN", params->at(0));
-    sprintf( TrackbarName, "H_MAX", params->at(1));
-    sprintf( TrackbarName, "S_MIN", params->at(2));
-    sprintf( TrackbarName, "S_MAX", params->at(3));
-    sprintf( TrackbarName, "V_MIN", params->at(4));
-    sprintf( TrackbarName, "V_MAX", params->at(5));
-    sprintf( TrackbarName, "Erode Pixels",     params->at(6));
-    sprintf( TrackbarName, "Dilate Pixels",      params->at(7));
-    sprintf( TrackbarName, "Dilate Iterations", params->at(8));
-    sprintf( TrackbarName, "Erode Iterations",  params->at(9));
+    sprintf( TrackbarName, "MIN", params->at(0));
+    sprintf( TrackbarName, "MAX", params->at(1));
+    sprintf( TrackbarName, "Erode Pixels",     params->at(2));
+    sprintf( TrackbarName, "Dilate Pixels",      params->at(3));
+    sprintf( TrackbarName, "Dilate Iterations", params->at(4));
+    sprintf( TrackbarName, "Erode Iterations",  params->at(5));
 
     //create trackbars and insert them into window
     //3 parameters are: the address of the variable that is changing when the trackbar is moved(eg.H_LOW),
     //the max value the trackbar can move (eg. H_HIGH), 
     //and the function that is called whenever the trackbar is moved(eg. on_trackbar)
     //                                  ---->    ---->     ---->      
-    createTrackbar( "H_MIN", windowTrackbars, &params->at(0), 256);
-    createTrackbar( "H_MAX", windowTrackbars, &params->at(1), 256);
-    createTrackbar( "S_MIN", windowTrackbars, &params->at(2), 256);
-    createTrackbar( "S_MAX", windowTrackbars, &params->at(3), 256);
-    createTrackbar( "V_MIN", windowTrackbars, &params->at(4), 256);
-    createTrackbar( "V_MAX", windowTrackbars, &params->at(5), 256);
-    createTrackbar( "Erode Pixels", windowTrackbars,     &params->at(6)     , 10);
-    createTrackbar( "Dilate Pixels", windowTrackbars,      &params->at(7)     , 10);
-    createTrackbar( "Dilate Iterations", windowTrackbars, &params->at(8)     , 10);
-    createTrackbar( "Erode Iterations", windowTrackbars,  &params->at(9)     , 10);
+    createTrackbar( "MIN", windowTrackbars, &params->at(0), 256);
+    createTrackbar( "MAX", windowTrackbars, &params->at(1), 256);
+    createTrackbar( "Erode Pixels", windowTrackbars,     &params->at(2)     , 10);
+    createTrackbar( "Dilate Pixels", windowTrackbars,      &params->at(3)     , 10);
+    createTrackbar( "Dilate Iterations", windowTrackbars, &params->at(4)     , 10);
+    createTrackbar( "Erode Iterations", windowTrackbars,  &params->at(5)     , 10);
 
 }
 void gui_draw::print_params(vector<int> *params)
@@ -142,7 +119,7 @@ void gui_draw::print_params(vector<int> *params)
         cout << "Final values: " << endl;
 
         cout << "{"  << params->at(0);
-        for(int i=1; i<10; i++){
+        for(int i=1; i<6; i++){
             cout << ", " << params->at(i);
         }
         cout << "}" << endl;

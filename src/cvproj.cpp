@@ -20,10 +20,9 @@ using namespace cv;
 using namespace std;
 
 //global variables for thresholding editable with sliders
-//{0    , 1    , 2    , 3    , 4    , 5    , 6        , 7         , 8                , 9}
-//{H_MIN, H_MAX, S_MIN, S_MAX, V_MIN, V_MAX, ERODE_PIX, DILATE_PIX, DILATE_ITERATIONS, ERODE_ITERATIONS};
-vector<int> imParams1 ={15, 102, 0, 29, 184, 256, 2, 5, 1, 0}; //from test on green wall.
-vector<int> imParams2 = {0, 256, 0, 256, 224, 256, 2, 6, 2, 1}; //does the white center
+//{0    , 1    , 2    , 3    , 4    , 5} 
+//{Threshmin, thresmax, erodesize , dilatesize, erodeiter,dilateiter}
+vector<int> imParams = {0, 256, 0, 0, 0, 0}; 
 
 
 //command line arguments
