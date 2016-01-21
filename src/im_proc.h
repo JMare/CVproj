@@ -26,6 +26,7 @@ class im_proc
     private:
         //FUNCTIONS
         void threshold_frame(cv::Mat *frame, std::vector<int> *params);
+        void adaptivethreshold_frame(cv::Mat *frame);
         void morph_frame(cv::Mat *frame, std::vector<int> *params);
         void loadframe(cv::Mat *frame);
         void writeframe(cv::Mat *frame);
