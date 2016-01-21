@@ -27,9 +27,6 @@ gui_draw::gui_draw()
 
 void gui_draw::draw_interface()
 {
-    if(TRACKBAR_ENABLE){
-                create_trackbars(&imParams);
-    }
 
     im_proc imFrame; //instantiate object
 
@@ -50,6 +47,10 @@ void gui_draw::draw_interface()
 
     Mat frame_overlay, frame_thresholded; //create Mats for storing images to display
     
+    if(TRACKBAR_ENABLE){
+                create_trackbars(&imParams);
+    }
+
     //this is the main proccessing loop for adjusting the image thresholding
     //in real time and viewing the results
     while(1){

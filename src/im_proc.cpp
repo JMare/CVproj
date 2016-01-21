@@ -43,7 +43,40 @@ void im_proc::init_feed(int ID)
             throw 1;
         }
     }
+
+    cout << "Welcome to CVproj. " << endl;
+    cout << "Please ensure the laser is not in the frame." << endl;
+    cout << "Press enter to continue." << endl;
+    system("read");
+
+    //discard first 60 frames to ensure webcam exposure has settled
+    for( int i = 0; i <= 30; i++)
+    {
+        loadframe(&mainfeed);
+    }
+
+    bool emptyframe = false;
+
+    while (!emptyframe)
+    {
+        loadframe(&mainfeed);
+        Mat frame_proc = mainfeed.clone();
+
+        threshold_frame(&frame_proc, &imParams);
+        morph_frame(&frame_proc, &imParams);
+        
+        frame_info = inspect_frame(&frame_proc);
+
+        double areafound = get<2>(frame_info);
+        
+        if(areafound == 0) emptyframe = true;
+
+        imParams.at(0) = imParams.at(0) + 10;
+
+    }
+    
 }
+
 void im_proc::process_frame()
 {
     loadframe(&mainfeed);
@@ -97,25 +130,6 @@ Mat im_proc::get_frame_thresholded(int feedID)
     }
 }
 //-------PRIVATE FUNCTRIONS----------------
-void im_proc::loadframe(Mat *frame)
-{
-    switch(FRAME_SOURCE){
-        case 0:
-            cap >> *frame;
-            break;
-        case 1:
-            cap >> *frame;
-            break;
-        case 2:
-            *frame = imread(FILENAME, CV_LOAD_IMAGE_COLOR);
-            break;
-    }
-
-    if(! frame->data )                              // Check for invalid input
-    {
-        throw 4; 
-    }
-}
 
 
 void im_proc::threshold_frame(Mat *frame, vector<int> *params)
@@ -154,33 +168,6 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
 }
 
 
-tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double> pos1, tuple<bool, double, double> pos2)
-{
-    //this function takes in the reported positions from
-    //each proccessing stream and decides whether they are
-    //close enough to be a match
-    
-
-    bool pos_valid = false;
-    int MAX_DIST_ALLOWED = 10;
-
-    //Calculate dist between reported positions
-    double diffx = abs(get<1>(pos1) - get<1>(pos2));
-    double diffy = abs(get<2>(pos1) - get<2>(pos2));
-
-    //calculate hypotenuse
-    double diffxy = sqrt( (diffx * diffx) + (diffy * diffy));
-
-    if (diffxy <= MAX_DIST_ALLOWED && get<0>(pos1) && get<0>(pos2)) pos_valid = true; 
-    
-    //take average of x and y positions
-    double posX = (get<1>(pos1) + get<1>(pos2)) / 2;
-    double posY = (get<2>(pos1) + get<2>(pos2)) / 2;
-
-    //return is valid and positions
-    return make_tuple(pos_valid, posX, posY); 
-
-}
 
 tuple<bool, double, double> im_proc::trackObject(Mat *frame)
 {
@@ -287,3 +274,49 @@ void im_proc::overlay_position(Mat *frame)
     }
 }
 
+tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double> pos1, tuple<bool, double, double> pos2)
+{
+    //this function takes in the reported positions from
+    //each proccessing stream and decides whether they are
+    //close enough to be a match
+    
+
+    bool pos_valid = false;
+    int MAX_DIST_ALLOWED = 10;
+
+    //Calculate dist between reported positions
+    double diffx = abs(get<1>(pos1) - get<1>(pos2));
+    double diffy = abs(get<2>(pos1) - get<2>(pos2));
+
+    //calculate hypotenuse
+    double diffxy = sqrt( (diffx * diffx) + (diffy * diffy));
+
+    if (diffxy <= MAX_DIST_ALLOWED && get<0>(pos1) && get<0>(pos2)) pos_valid = true; 
+    
+    //take average of x and y positions
+    double posX = (get<1>(pos1) + get<1>(pos2)) / 2;
+    double posY = (get<2>(pos1) + get<2>(pos2)) / 2;
+
+    //return is valid and positions
+    return make_tuple(pos_valid, posX, posY); 
+
+}
+void im_proc::loadframe(Mat *frame)
+{
+    switch(FRAME_SOURCE){
+        case 0:
+            cap >> *frame;
+            break;
+        case 1:
+            cap >> *frame;
+            break;
+        case 2:
+            *frame = imread(FILENAME, CV_LOAD_IMAGE_COLOR);
+            break;
+    }
+
+    if(! frame->data )                              // Check for invalid input
+    {
+        throw 4; 
+    }
+}
