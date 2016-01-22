@@ -28,16 +28,11 @@ class im_proc
         void threshold_frame(cv::Mat *frame, std::vector<int> *params);
         void morph_frame(cv::Mat *frame, std::vector<int> *params);
         void loadframe(cv::Mat *frame);
-        void writeframe(cv::Mat *frame);
         void overlay_position(cv::Mat *frame);
-        cv::Mat darken_frame(cv::Mat *frame);
-
-        std::tuple<bool, double, double> trackObject(cv::Mat *frame); 
-        std::tuple<bool, double, double> filterpositions(std::tuple<bool, double, double> pos1, std::tuple<bool, double, double> pos2); 
         
+        int check_candidates(std::vector<std::vector<double>>);
         std::tuple< std::vector<std::vector<double>>, int, double> inspect_frame(cv::Mat *frame);       
 
-        int check_candidates(std::vector<std::vector<double>>);
         
         //VARIABLES AND OBJECTS
         cv::Mat mainfeed;
