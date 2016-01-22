@@ -135,6 +135,24 @@ void im_proc::process_frame()
     {
         Pos = make_tuple(false, -1, -1);
     }
+
+   /* if(get<0>(Pos))
+    {
+        const double filteramount = 0.5;
+        double xLast = get<1>(PosMaster);
+        double yLast = get<2>(PosMaster);
+        double xNow = get<1>(Pos);
+        double yNow = get<2>(Pos);
+        double xChange = xLast - xNow;
+        double yChange = yLast - yNow;
+        double xSmooth;
+        double ySmooth;
+
+        xSmooth = xLast + (filteramount * xChange);
+        ySmooth = yLast + (filteramount * yChange);
+
+        PosMaster = make_tuple(true, xSmooth, ySmooth);
+    } */
 }
 
 Mat im_proc::get_frame_overlay()
