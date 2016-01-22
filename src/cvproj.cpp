@@ -34,6 +34,7 @@ bool TRACKBAR_ENABLE = false;
 bool STREAM_POSITION = false;
 
 
+std::tuple<bool, double, double> Posmaster = make_tuple(true, 0, 0); 
 
 int main(int argc, char* argv[])
 {

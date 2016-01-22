@@ -30,3 +30,4 @@
 # swap files
 *.swp
 *.swo
+*.vim
