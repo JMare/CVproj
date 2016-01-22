@@ -109,10 +109,12 @@ void im_proc::init_feed(int ID)
         int matchID = check_candidates(get<0>(frame_info));
         
         if(matchID >= 0) laserfound = true;
-        else imParams.at(0) = imParams.at(0) - 3;
+        else imParams.at(0) = imParams.at(0) - 2;
 
         cout << "lowered threshold" << endl;
     } 
+        //then after everything go down a bit more to make sure
+        imParams.at(0) = imParams.at(0) - 5;
 }
 
 void im_proc::process_frame()
@@ -299,7 +301,7 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     int H_MAX = 75;
     int S_MIN = 20;
     int S_MAX = 255; 
-    double MIN_GREEN_REQUIRED = 100;
+    double MIN_GREEN_REQUIRED = 30;
     int matchID = 0;
     int numMatch = 0;
 
