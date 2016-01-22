@@ -42,11 +42,7 @@ class im_proc
         cv::VideoCapture cap;
 
         std::tuple<bool, double, double> Pos;
-<<<<<<< HEAD
-        std::tuple<bool, double, double> PosMaster;
-=======
-        
->>>>>>> noseg
+
         std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
 };
 
