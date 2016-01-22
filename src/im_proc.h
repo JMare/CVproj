@@ -41,15 +41,11 @@ class im_proc
         
         //VARIABLES AND OBJECTS
         cv::Mat mainfeed;
-        cv::Mat frame_proc1;
-        cv::Mat frame_proc2;
+        cv::Mat frame_proc;
         
         cv::VideoCapture cap;
 
-        std::tuple<bool, double, double> Pos1;
-        std::tuple<bool, double, double> Pos2;
-        std::tuple<bool, double, double> PosTemp;
-        std::tuple<bool, double, double> PosMaster;
+        std::tuple<bool, double, double> Pos;
         std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
 };
 
