@@ -89,7 +89,7 @@ void im_proc::init_feed(int ID)
     }
     
     bool laserfound = false;
-    while(!laserfound)
+    while(!laserfound && imParams.at(0) > 0)
     {
         loadframe(&mainfeed);
         Mat frame_proc = mainfeed.clone();
@@ -100,9 +100,11 @@ void im_proc::init_feed(int ID)
         int matchID = check_candidates(get<0>(frame_info));
         
         if(matchID >= 0) laserfound = true;
-        else imParams.at(0) = imParams.at(0) - 2;
-
-        cout << "lowered threshold" << endl;
+        else 
+        {
+            imParams.at(0) = imParams.at(0) - 2;
+            cout << "lowered threshold" << endl;
+        }
     }
 
     //then after everything go down a bit more to make sure

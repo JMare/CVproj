@@ -10,7 +10,7 @@ endif
 set shortmess=aoO
 badd +7 gui_draw.h
 badd +50 im_proc.h
-badd +5 gui_draw.cpp
+badd +1 gui_draw.cpp
 badd +59 im_proc.cpp
 badd +1 cvproj.cpp
 badd +10 cvproj.h
@@ -35,34 +35,18 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 20) / 40)
+let s:l = 103 - ((26 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
-tabedit gui_draw.cpp
+103
+normal! 043|
+tabnew
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 111 - ((29 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-111
-normal! 027|
 tabedit im_proc.h
 set splitbelow splitright
 set nosplitbelow
@@ -79,12 +63,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 37 - ((20 * winheight(0) + 20) / 40)
+let s:l = 1 - ((0 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-37
-normal! 09|
+1
+normal! 0
 tabnext 1
 set stal=1
 if exists('s:wipebuf')
