@@ -22,7 +22,7 @@ using namespace std;
 //global variables for thresholding editable with sliders
 //{0    , 1    , 2    , 3    , 4    , 5} 
 //{Threshmin, thresmax, erodesize , dilatesize, erodeiter,dilateiter}
-vector<int> imParams = {0, 256, 0, 0, 0, 0}; 
+vector<int> imParams = {0, 256, 2, 4, 1, 2}; 
 
 
 //command line arguments
