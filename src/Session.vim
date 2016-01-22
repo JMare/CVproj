@@ -10,7 +10,7 @@ endif
 set shortmess=aoO
 badd +7 gui_draw.h
 badd +50 im_proc.h
-badd +1 gui_draw.cpp
+badd +5 gui_draw.cpp
 badd +59 im_proc.cpp
 badd +1 cvproj.cpp
 badd +10 cvproj.h
@@ -19,7 +19,7 @@ argglobal
 silent! argdel *
 argadd gui_draw.h
 set stal=2
-edit im_proc.cpp
+edit cvproj.cpp
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -35,18 +35,56 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 124 - ((23 * winheight(0) + 20) / 40)
+let s:l = 79 - ((39 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-124
-normal! 018|
-tabnew
+79
+normal! 045|
+tabedit im_proc.cpp
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 81 - ((32 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+81
+normal! 019|
+tabedit gui_draw.cpp
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 50 - ((18 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+50
+normal! 05|
 tabedit im_proc.h
 set splitbelow splitright
 set nosplitbelow
@@ -63,13 +101,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 6 - ((1 * winheight(0) + 20) / 40)
+let s:l = 1 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-6
-normal! 08|
-tabnext 1
+1
+normal! 09|
+tabnext 2
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

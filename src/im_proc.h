@@ -31,6 +31,7 @@ class im_proc
         void overlay_position(cv::Mat *frame);
         
         int check_candidates(std::vector<std::vector<double>>);
+        
         std::tuple< std::vector<std::vector<double>>, int, double> inspect_frame(cv::Mat *frame);       
 
         
