@@ -136,6 +136,7 @@ void im_proc::process_frame()
         Pos = make_tuple(false, -1, -1);
     }
 
+<<<<<<< HEAD
    /* if(get<0>(Pos))
     {
         const double filteramount = 0.5;
@@ -153,6 +154,23 @@ void im_proc::process_frame()
 
         PosMaster = make_tuple(true, xSmooth, ySmooth);
     } */
+=======
+    if(get<0>(Pos))
+    {
+        const double filteramount = 0.1;
+        double xLast = get<1>(Posmaster);
+        double yLast = get<2>(Posmaster);
+        double xNow = get<1>(Pos);
+        double yNow = get<2>(Pos);
+        double xChange = xNow -xLast;
+        double yChange = yNow - yLast;
+        double xSmooth;
+        double ySmooth;
+        xSmooth = xLast + (filteramount * xChange);
+        ySmooth = yLast + (filteramount * yChange);
+        Posmaster = make_tuple(true, xSmooth, ySmooth);
+    } 
+>>>>>>> noseg
 }
 
 Mat im_proc::get_frame_overlay()
@@ -214,7 +232,7 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
     
     const int MAX_NUM_OBJECTS = 20;
     const int MIN_OBJECT_AREA = 50;
-    const int MAX_OBJECT_AREA = 500;
+    const int MAX_OBJECT_AREA = 700;
 
     int numObjects = hierarchy.size();
 
@@ -311,7 +329,6 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 }
 
 
-
 void im_proc::overlay_position(Mat *frame)
 {
     //if statements mean it will only display if it has found a position
@@ -319,6 +336,10 @@ void im_proc::overlay_position(Mat *frame)
     
     if(get<0>(Pos)){
         circle(*frame,Point(get<1>(Pos),get<2>(Pos)),20,Scalar(0,0,255),2);
+    }
+
+    if(get<0>(Posmaster)){
+        circle(*frame,Point(get<1>(Posmaster),get<2>(Posmaster)),20,Scalar(0,255,0),2);
     }
 }
 
