@@ -19,5 +19,5 @@ extern char* FILENAME;
 extern int camID;
 extern bool TRACKBAR_ENABLE;
 extern bool STREAM_POSITION;
-
+extern std::tuple<bool, double, double> Posmaster;
 #endif 
