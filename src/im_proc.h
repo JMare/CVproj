@@ -36,6 +36,8 @@ class im_proc
         std::tuple<bool, double, double> filterpositions(std::tuple<bool, double, double> pos1, std::tuple<bool, double, double> pos2); 
         
         std::tuple< std::vector<std::vector<double>>, int, double> inspect_frame(cv::Mat *frame);       
+
+        int check_candidates(std::vector<std::vector<double>>);
         
         //VARIABLES AND OBJECTS
         cv::Mat mainfeed;

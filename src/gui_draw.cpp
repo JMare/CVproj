@@ -98,8 +98,8 @@ void gui_draw::create_trackbars(vector<int> *params)
     sprintf( TrackbarName, "MAX", params->at(1));
     sprintf( TrackbarName, "Erode Pixels",     params->at(2));
     sprintf( TrackbarName, "Dilate Pixels",      params->at(3));
-    sprintf( TrackbarName, "Dilate Iterations", params->at(4));
-    sprintf( TrackbarName, "Erode Iterations",  params->at(5));
+    sprintf( TrackbarName, "Erode Iterations", params->at(4));
+    sprintf( TrackbarName, "Dilate Iterations",  params->at(5));
 
     //create trackbars and insert them into window
     //3 parameters are: the address of the variable that is changing when the trackbar is moved(eg.H_LOW),
@@ -110,8 +110,8 @@ void gui_draw::create_trackbars(vector<int> *params)
     createTrackbar( "MAX", windowTrackbars, &params->at(1), 256);
     createTrackbar( "Erode Pixels", windowTrackbars,     &params->at(2)     , 10);
     createTrackbar( "Dilate Pixels", windowTrackbars,      &params->at(3)     , 10);
-    createTrackbar( "Dilate Iterations", windowTrackbars, &params->at(4)     , 10);
-    createTrackbar( "Erode Iterations", windowTrackbars,  &params->at(5)     , 10);
+    createTrackbar( "Erode Iterations", windowTrackbars, &params->at(4)     , 10);
+    createTrackbar( "Dilate Iterations", windowTrackbars,  &params->at(5)     , 10);
 
 }
 void gui_draw::print_params(vector<int> *params)

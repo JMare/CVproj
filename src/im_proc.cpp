@@ -71,7 +71,7 @@ void im_proc::init_feed(int ID)
         
         if(areafound == 0) emptyframe = true;
 
-        imParams.at(0) = imParams.at(0) + 10;
+        imParams.at(0) = imParams.at(0) + 7;
 
     }
 
@@ -79,7 +79,40 @@ void im_proc::init_feed(int ID)
     cout << "Please turn on the laser and ensure it is in the frame" << endl;
     cout << "Press enter to continue" << endl;
     system("read");
+
+    //now we need to check if we find the laser
     
+    //discard 30 frames
+    for( int i = 0; i <= 30; i++)
+    {
+        loadframe(&mainfeed);
+    }
+    
+    bool laserfound = false;
+    while(!laserfound)
+    {
+        loadframe(&mainfeed);
+        Mat frame_proc = mainfeed.clone();
+        threshold_frame(&frame_proc, &imParams);
+        morph_frame(&frame_proc, &imParams);
+        frame_info = inspect_frame(&frame_proc);
+
+        int numfound = get<1>(frame_info);
+        cout << "frame inspected, found: " << numfound << " objects" << endl;
+        
+        double areafound = get<2>(frame_info);
+        cout << "total area is: " << areafound;
+        
+        int numcandidates = get<0>(frame_info).size();
+        cout << "number of candidates found is:" << numcandidates << endl;
+        
+        int matchID = check_candidates(get<0>(frame_info));
+        
+        if(matchID >= 0) laserfound = true;
+        else imParams.at(0) = imParams.at(0) - 3;
+
+        cout << "lowered threshold" << endl;
+    } 
 }
 
 void im_proc::process_frame()
@@ -98,7 +131,7 @@ void im_proc::process_frame()
 
     frame_info = inspect_frame(&frame_proc1);
 
-    int numfound = get<1>(frame_info);
+   /* int numfound = get<1>(frame_info);
     cout << "frame inspected, found: " << numfound << " objects" << endl;
     
     double areafound = get<2>(frame_info);
@@ -106,7 +139,7 @@ void im_proc::process_frame()
     
     int numcandidates = get<0>(frame_info).size();
     cout << "number of candidates found is:" << numcandidates << endl;
-
+*/
     PosTemp = filterpositions(Pos1, Pos2); 
     bool isvalid = get<0>(PosTemp); 
 
@@ -259,6 +292,49 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
     return make_tuple(candidates, numObjects, totalArea);
 }
             
+int im_proc::check_candidates(vector<vector<double>> candidates)
+{
+    int CHECK_SQUARE_SIZE = 10; //pixel length of half side
+    int H_MIN = 40 ;
+    int H_MAX = 75;
+    int S_MIN = 20;
+    int S_MAX = 255; 
+    double MIN_GREEN_REQUIRED = 100;
+    int matchID = 0;
+    int numMatch = 0;
+
+    for(int i = candidates.size() - 1; i >= 0; i--)
+    {
+        vector<double> testcandidate = candidates.at(i);
+        double x = testcandidate.at(1);
+        double y = testcandidate.at(2);
+        
+        Rect greenrect(x - CHECK_SQUARE_SIZE,
+                       y - CHECK_SQUARE_SIZE,
+                       2 * CHECK_SQUARE_SIZE,
+                       2 * CHECK_SQUARE_SIZE);
+
+        Mat greenroi = mainfeed(greenrect).clone();
+
+        cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
+        inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
+
+        double totalgreen = countNonZero(greenroi);
+
+        if(totalgreen > MIN_GREEN_REQUIRED)
+        {
+            matchID = i;
+            numMatch++;
+        }
+    }
+    cout << "found " << numMatch << " green objects" << endl;
+
+    if(numMatch > 1) matchID = -1;
+    if(numMatch == 0) matchID = -1;
+
+    return matchID;
+}
+
 
 
 void im_proc::overlay_position(Mat *frame)
