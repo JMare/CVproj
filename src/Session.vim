@@ -19,7 +19,7 @@ argglobal
 silent! argdel *
 argadd gui_draw.h
 set stal=2
-edit cvproj.cpp
+edit im_proc.cpp
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -35,34 +35,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 64 - ((39 * winheight(0) + 20) / 40)
+let s:l = 346 - ((19 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-64
-normal! 042|
-tabedit im_proc.cpp
-set splitbelow splitright
-set nosplitbelow
-set nosplitright
-wincmd t
-set winheight=1 winwidth=1
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 104 - ((28 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-104
-normal! 053|
+346
+normal! 050|
 tabedit gui_draw.cpp
 set splitbelow splitright
 set nosplitbelow
@@ -79,11 +57,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 112 - ((31 * winheight(0) + 20) / 40)
+let s:l = 111 - ((29 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-112
+111
 normal! 027|
 tabedit im_proc.h
 set splitbelow splitright
@@ -101,13 +79,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 48 - ((31 * winheight(0) + 20) / 40)
+let s:l = 41 - ((24 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-48
-normal! 0
-tabnext 2
+41
+normal! 08|
+tabnext 1
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

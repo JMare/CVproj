@@ -121,32 +121,26 @@ void im_proc::process_frame()
 {
     loadframe(&mainfeed);
     
-   //  mainfeed = darken_frame(&mainfeed);
-
     //clone is nessasary, assignment does not copy
-    frame_proc1 = mainfeed.clone();
+    frame_proc = mainfeed.clone();
     
-    //proccessing 1
-    threshold_frame(&frame_proc1, &imParams);
-    morph_frame(&frame_proc1, &imParams);
-    Pos1 = trackObject(&frame_proc1);
+    threshold_frame(&frame_proc, &imParams);
+    morph_frame(&frame_proc, &imParams);
 
-    frame_info = inspect_frame(&frame_proc1);
-
-   /* int numfound = get<1>(frame_info);
-    cout << "frame inspected, found: " << numfound << " objects" << endl;
+    frame_info = inspect_frame(&frame_proc);
     
-    double areafound = get<2>(frame_info);
-    cout << "total area is: " << areafound;
-    
-    int numcandidates = get<0>(frame_info).size();
-    cout << "number of candidates found is:" << numcandidates << endl;
-*/
-    PosTemp = filterpositions(Pos1, Pos2); 
-    bool isvalid = get<0>(PosTemp); 
+    vector<vector<double>> candidatearray = get<0>(frame_info); 
 
-    if(isvalid) PosMaster = PosTemp;
-
+    int matchID = check_candidates(candidatearray);
+ 
+    if(matchID >= 0)
+    {
+        vector<double> matcharray = candidatearray.at(matchID);
+        Pos = make_tuple(true, matcharray.at(1), matcharray.at(2));
+    } else
+    {
+        Pos = make_tuple(false, -1, -1);
+    }
 }
 
 Mat im_proc::get_frame_overlay()
@@ -157,17 +151,7 @@ Mat im_proc::get_frame_overlay()
 
 Mat im_proc::get_frame_thresholded(int feedID)
 {
-    switch(feedID){
-        case 1:
-            return frame_proc1;
-            break;
-        case 2:
-            return frame_proc2;
-            break;
-        default: 
-            throw 2;
-            break;
-    }
+            return frame_proc;
 }
 //-------PRIVATE FUNCTRIONS----------------
 
@@ -296,12 +280,12 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
             
 int im_proc::check_candidates(vector<vector<double>> candidates)
 {
-    int CHECK_SQUARE_SIZE = 10; //pixel length of half side
-    int H_MIN = 40 ;
-    int H_MAX = 75;
-    int S_MIN = 20;
-    int S_MAX = 255; 
-    double MIN_GREEN_REQUIRED = 30;
+    const int CHECK_SQUARE_SIZE = 10; //pixel length of half side
+    const int H_MIN = 40 ;
+    const int H_MAX = 75;
+    const int S_MIN = 20;
+    const int S_MAX = 255; 
+    const double MIN_GREEN_REQUIRED = 30;
     int matchID = 0;
     int numMatch = 0;
 
@@ -310,6 +294,12 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         vector<double> testcandidate = candidates.at(i);
         double x = testcandidate.at(1);
         double y = testcandidate.at(2);
+        
+        //skip if too close to the edge
+        if(x >= mainfeed.cols - CHECK_SQUARE_SIZE) continue;  
+        if(x <= CHECK_SQUARE_SIZE) continue;  
+        if(x >= mainfeed.cols - CHECK_SQUARE_SIZE) continue;  
+        if(y <= CHECK_SQUARE_SIZE) continue;  
         
         Rect greenrect(x - CHECK_SQUARE_SIZE,
                        y - CHECK_SQUARE_SIZE,
@@ -344,16 +334,8 @@ void im_proc::overlay_position(Mat *frame)
     //if statements mean it will only display if it has found a position
     //if statements use the first param of tuple    
     
-    if(get<0>(Pos1)){
-        circle(*frame,Point(get<1>(Pos1),get<2>(Pos1)),20,Scalar(0,0,255),2);
-    }
-
-    if(get<0>(Pos2)){
-        circle(*frame,Point(get<1>(Pos2),get<2>(Pos2)),20,Scalar(0,255,0),2);
-    }
-
-    if(get<0>(PosMaster)){
-        circle(*frame,Point(get<1>(PosMaster),get<2>(PosMaster)),30,Scalar(255,0,0),4);
+    if(get<0>(Pos)){
+        circle(*frame,Point(get<1>(Pos),get<2>(Pos)),20,Scalar(0,0,255),2);
     }
 }
 
