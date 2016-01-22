@@ -96,15 +96,6 @@ void im_proc::init_feed(int ID)
         threshold_frame(&frame_proc, &imParams);
         morph_frame(&frame_proc, &imParams);
         frame_info = inspect_frame(&frame_proc);
-
-        int numfound = get<1>(frame_info);
-        cout << "frame inspected, found: " << numfound << " objects" << endl;
-        
-        double areafound = get<2>(frame_info);
-        cout << "total area is: " << areafound;
-        
-        int numcandidates = get<0>(frame_info).size();
-        cout << "number of candidates found is:" << numcandidates << endl;
         
         int matchID = check_candidates(get<0>(frame_info));
         
@@ -112,23 +103,24 @@ void im_proc::init_feed(int ID)
         else imParams.at(0) = imParams.at(0) - 2;
 
         cout << "lowered threshold" << endl;
-    } 
-        //then after everything go down a bit more to make sure
-        imParams.at(0) = imParams.at(0) - 5;
+    }
+
+    //then after everything go down a bit more to make sure
+    imParams.at(0) = imParams.at(0) - 5;
 }
 
 void im_proc::process_frame()
 {
     loadframe(&mainfeed);
-    
+
     //clone is nessasary, assignment does not copy
     frame_proc = mainfeed.clone();
-    
+
     threshold_frame(&frame_proc, &imParams);
     morph_frame(&frame_proc, &imParams);
 
     frame_info = inspect_frame(&frame_proc);
-    
+
     vector<vector<double>> candidatearray = get<0>(frame_info); 
 
     int matchID = check_candidates(candidatearray);
@@ -162,8 +154,6 @@ void im_proc::threshold_frame(Mat *frame, vector<int> *params)
 
     cvtColor(*frame, *frame, CV_RGB2GRAY);
     threshold(*frame, *frame, paramslocal.at(0), paramslocal.at(1), THRESH_BINARY);
- //   adaptiveThreshold( *frame, *frame, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 11, 10);
-
 }
 
 
@@ -192,49 +182,6 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
 }
 
 
-
-tuple<bool, double, double> im_proc::trackObject(Mat *frame)
-{
-
-    Mat temp = frame->clone();
-    vector< vector<Point> > contours;
-    vector<Vec4i> hierarchy;
-    //find contours of filtered image using openCV findContours function
-    findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
-    //use moments method to find our filtered object
-    
-    double refArea = 0;
-    bool objectFound = false;
-    int MAX_NUM_OBJECTS = 20;
-    int MIN_OBJECT_AREA = 50;
-    int MAX_OBJECT_AREA = 500;
-
-    double x, y;
-
-    if (hierarchy.size() > 0) {
-        int numObjects = hierarchy.size();
-        //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
-        if(numObjects<MAX_NUM_OBJECTS){
-            for (int index = 0; index >= 0; index = hierarchy[index][0]) {
-
-                Moments moment = moments((cv::Mat)contours[index]);
-                double area = moment.m00;
-
-                if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA && area>refArea){
-                    x = moment.m10/area;
-                    y = moment.m01/area;
-                    objectFound = true;
-                    refArea = area;
-                } else objectFound = false;
-            }
-        }   
-
-    }
-    return make_tuple(objectFound, x, y);
-}
-
-
-
 tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
 {
 
@@ -245,27 +192,31 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
 
     findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
     
-    int MAX_NUM_OBJECTS = 20;
-    int MIN_OBJECT_AREA = 50;
-    int MAX_OBJECT_AREA = 500;
+    const int MAX_NUM_OBJECTS = 20;
+    const int MIN_OBJECT_AREA = 50;
+    const int MAX_OBJECT_AREA = 500;
 
     int numObjects = hierarchy.size();
 
     double x, y;
     double totalArea = countNonZero(*frame);
     
+    //a vector of vectors
     vector<vector<double>> candidates;
 
     if (numObjects > 0 && numObjects < MAX_NUM_OBJECTS)
     {
         for (int index = 0; index >= 0; index = hierarchy[index][0]) 
         {
+            //for each object
 
             Moments moment = moments((cv::Mat)contours[index]);
             double area = moment.m00;
             
             if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA)
             {
+                //if area matches, calculate position and
+                //pack it into the vector of candidates
                 x = moment.m10/area;
                 y = moment.m01/area;
                 vector<double> rowtoadd { area, x, y };
@@ -286,41 +237,53 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     const int S_MIN = 20;
     const int S_MAX = 255; 
     const double MIN_GREEN_REQUIRED = 30;
+
     int matchID = 0;
     int numMatch = 0;
 
     for(int i = candidates.size() - 1; i >= 0; i--)
     {
+        //unpack the info for the individual candidate
         vector<double> testcandidate = candidates.at(i);
+
+        //unpack the coordinates from the vector
         double x = testcandidate.at(1);
         double y = testcandidate.at(2);
         
         //skip if too close to the edge
+        //this can be done better
         if(x >= mainfeed.cols - CHECK_SQUARE_SIZE) continue;  
         if(x <= CHECK_SQUARE_SIZE) continue;  
-        if(x >= mainfeed.cols - CHECK_SQUARE_SIZE) continue;  
+        if(y >= mainfeed.rows - CHECK_SQUARE_SIZE) continue;  
         if(y <= CHECK_SQUARE_SIZE) continue;  
         
+        //create cv::Rect for area to check
         Rect greenrect(x - CHECK_SQUARE_SIZE,
                        y - CHECK_SQUARE_SIZE,
                        2 * CHECK_SQUARE_SIZE,
                        2 * CHECK_SQUARE_SIZE);
 
+        //crop to a roi
         Mat greenroi = mainfeed(greenrect).clone();
 
         cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
+        //threshold color and saturation
         inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
 
         double totalgreen = countNonZero(greenroi);
 
         if(totalgreen > MIN_GREEN_REQUIRED)
         {
+            //set the match id to the id of the iteration
             matchID = i;
+
+            //increment the match counter
             numMatch++;
         }
     }
-    cout << "found " << numMatch << " green objects" << endl;
 
+    //should change this to a throw and catch
+    //we only want one match, not zero or many
     if(numMatch > 1) matchID = -1;
     if(numMatch == 0) matchID = -1;
 
@@ -339,33 +302,6 @@ void im_proc::overlay_position(Mat *frame)
     }
 }
 
-tuple<bool, double, double> im_proc::filterpositions(tuple<bool, double, double> pos1, tuple<bool, double, double> pos2)
-{
-    //this function takes in the reported positions from
-    //each proccessing stream and decides whether they are
-    //close enough to be a match
-    
-
-    bool pos_valid = false;
-    int MAX_DIST_ALLOWED = 10;
-
-    //Calculate dist between reported positions
-    double diffx = abs(get<1>(pos1) - get<1>(pos2));
-    double diffy = abs(get<2>(pos1) - get<2>(pos2));
-
-    //calculate hypotenuse
-    double diffxy = sqrt( (diffx * diffx) + (diffy * diffy));
-
-    if (diffxy <= MAX_DIST_ALLOWED && get<0>(pos1) && get<0>(pos2)) pos_valid = true; 
-    
-    //take average of x and y positions
-    double posX = (get<1>(pos1) + get<1>(pos2)) / 2;
-    double posY = (get<2>(pos1) + get<2>(pos2)) / 2;
-
-    //return is valid and positions
-    return make_tuple(pos_valid, posX, posY); 
-
-}
 void im_proc::loadframe(Mat *frame)
 {
     switch(FRAME_SOURCE){
