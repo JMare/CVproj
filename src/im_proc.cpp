@@ -210,9 +210,9 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
 
     findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
     
-    const int MAX_NUM_OBJECTS = 20;
-    const int MIN_OBJECT_AREA = 50;
-    const int MAX_OBJECT_AREA = 700;
+    int MAX_NUM_OBJECTS = inspect_image_params.at(0); 
+    int MIN_OBJECT_AREA = inspect_image_params.at(1); 
+    int MAX_OBJECT_AREA = inspect_image_params.at(2); 
 
     int numObjects = hierarchy.size();
 
@@ -249,12 +249,12 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
             
 int im_proc::check_candidates(vector<vector<double>> candidates)
 {
-    const int CHECK_SQUARE_SIZE = 10; //pixel length of half side
-    const int H_MIN = 40 ;
-    const int H_MAX = 75;
-    const int S_MIN = 20;
-    const int S_MAX = 255; 
-    const double MIN_GREEN_REQUIRED = 30;
+    int CHECK_SQUARE_SIZE     = check_candidates_params.at(0);
+    int H_MIN                 = check_candidates_params.at(1);
+    int H_MAX                 = check_candidates_params.at(2);
+    int S_MIN                 = check_candidates_params.at(3);
+    int S_MAX                 = check_candidates_params.at(4);
+    int MIN_GREEN_REQUIRED    = check_candidates_params.at(5);
 
     int matchID = 0;
     int numMatch = 0;

@@ -23,6 +23,12 @@ using namespace std;
 //{0    , 1    , 2    , 3    , 4    , 5} 
 //{Threshmin, thresmax, erodesize , dilatesize, erodeiter,dilateiter}
 vector<int> imParams = {0, 256, 2, 4, 1, 2}; 
+//global variables for inspec_image
+//{MAX_NUM_OBJECTS, MIN_OBJECT_AREA, MAX_OBJECT_AREA}
+vector<int> inspect_image_params = {20, 50, 700};
+//global variables for check_candiates
+//{CHECK_SQUARE_SIZE, H_MIN, H_MAX, S_MIN, S_MAX, MIN_GREEN_REQUIRED}
+vector<int> check_candidates_params = {10,40,75,20,255,30};
 
 
 //command line arguments

@@ -94,34 +94,67 @@ void gui_draw::create_trackbars(vector<int> *params)
     namedWindow(windowTrackbars, 1);
     //create memory to store trackbar name on window
     char TrackbarName[50];
-    sprintf( TrackbarName, "MIN", params->at(0));
-    sprintf( TrackbarName, "MAX", params->at(1));
-    sprintf( TrackbarName, "Erode Pixels",     params->at(2));
-    sprintf( TrackbarName, "Dilate Pixels",      params->at(3));
-    sprintf( TrackbarName, "Erode Iterations", params->at(4));
-    sprintf( TrackbarName, "Dilate Iterations",  params->at(5));
+
+    sprintf( TrackbarName, "MIN"               , params->at(0));
+    sprintf( TrackbarName, "MAX"               , params->at(1));
+    sprintf( TrackbarName, "Erode Pixels"      , params->at(2));
+    sprintf( TrackbarName, "Dilate Pixels"     , params->at(3));
+    sprintf( TrackbarName, "Erode Iterations"  , params->at(4));
+    sprintf( TrackbarName, "Dilate Iterations" , params->at(5));
+    sprintf( TrackbarName, "MAX_NUM_OBJECTS"   , inspect_image_params.at(0));
+    sprintf( TrackbarName, "MIN_OBJECT_AREA"   , inspect_image_params.at(1));
+    sprintf( TrackbarName, "MAX_OBJECT_AREA"   , inspect_image_params.at(2));
+    sprintf( TrackbarName, "CHECK_SQUARE_SIZE" , check_candidates_params.at(0));
+    sprintf( TrackbarName, "H_MIN"             , check_candidates_params.at(1));
+    sprintf( TrackbarName, "H_MAX"             , check_candidates_params.at(2));
+    sprintf( TrackbarName, "S_MIN"             , check_candidates_params.at(3));
+    sprintf( TrackbarName, "S_MAX"             , check_candidates_params.at(4));
+    sprintf( TrackbarName, "MIN_GREEN_REQUIRED", check_candidates_params.at(5));
 
     //create trackbars and insert them into window
     //3 parameters are: the address of the variable that is changing when the trackbar is moved(eg.H_LOW),
     //the max value the trackbar can move (eg. H_HIGH), 
     //and the function that is called whenever the trackbar is moved(eg. on_trackbar)
     //                                  ---->    ---->     ---->      
-    createTrackbar( "MIN", windowTrackbars, &params->at(0), 256);
-    createTrackbar( "MAX", windowTrackbars, &params->at(1), 256);
-    createTrackbar( "Erode Pixels", windowTrackbars,     &params->at(2)     , 10);
-    createTrackbar( "Dilate Pixels", windowTrackbars,      &params->at(3)     , 10);
-    createTrackbar( "Erode Iterations", windowTrackbars, &params->at(4)     , 10);
-    createTrackbar( "Dilate Iterations", windowTrackbars,  &params->at(5)     , 10);
+    createTrackbar( "MIN"                , windowTrackbars, &params->at(0), 256);
+    createTrackbar( "MAX"                , windowTrackbars, &params->at(1), 256);
+    createTrackbar( "Erode Pixels"       , windowTrackbars, &params->at(2), 10);
+    createTrackbar( "Dilate Pixels"      , windowTrackbars, &params->at(3), 10);
+    createTrackbar( "Erode Iterations"   , windowTrackbars, &params->at(4), 10);
+    createTrackbar( "Dilate Iterations"  , windowTrackbars, &params->at(5), 10);
+    createTrackbar( "MAX_NUM_OBJECTS"    , windowTrackbars, &inspect_image_params.at(0), 100);
+    createTrackbar( "MIN_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(1), 100);
+    createTrackbar( "MAX_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(2), 100);
+    createTrackbar( "CHECK_SQUARE_SIZE"  , windowTrackbars, &check_candidates_params.at(0), 255);
+    createTrackbar( "H_MIN"              , windowTrackbars, &check_candidates_params.at(1), 255);
+    createTrackbar( "H_MAX"              , windowTrackbars, &check_candidates_params.at(2), 255);
+    createTrackbar( "S_MIN"              , windowTrackbars, &check_candidates_params.at(3), 255);
+    createTrackbar( "S_MAX"              , windowTrackbars, &check_candidates_params.at(4), 255);
+    createTrackbar( "MIN_GREEN_REQUIRED" , windowTrackbars, &check_candidates_params.at(5), 255);
 
 }
 void gui_draw::print_params(vector<int> *params)
 {
     if(TRACKBAR_ENABLE){ //Print the final values in case we want to save them
         cout << "Final values: " << endl;
+        cout << "{";
+        for(int i=0; i<params->size(); i++){
+            cout << params->at(i);
+            if(i<params->size() -1) cout << ",";
+        }
+        cout << "}" << endl;
 
-        cout << "{"  << params->at(0);
-        for(int i=1; i<6; i++){
-            cout << ", " << params->at(i);
+        cout << "{";
+        for(int i=0; i<inspect_image_params.size(); i++){
+            cout << inspect_image_params.at(i);
+            if(i<inspect_image_params.size() -1) cout << ",";
+        }
+        cout << "}" << endl;
+
+        cout << "{";
+        for(int i=0; i<check_candidates_params.size(); i++){
+            cout << check_candidates_params.at(i);
+            if(i<check_candidates_params.size() -1) cout << ",";
         }
         cout << "}" << endl;
     }
