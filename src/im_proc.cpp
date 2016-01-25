@@ -263,7 +263,9 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     
     int MOV_DETECT_ERROR      = 5;
 
-    int matchID = 0;
+    int greenID = -1;
+    int movedID = -1;
+
     int numMatch = 0;
 
     vector<int> greenscores;
@@ -311,6 +313,9 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         }
 
     }
+
+    //return the index i of the biggest element of the vector
+    greenID = distance(greenscores.begin(), max_element (greenscores.begin(),greenscores.end()));
 
     if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
     {
@@ -362,16 +367,29 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 
     }
 
-    //return the index i of the biggest element of the vector
-    matchID = distance(greenscores.begin(), max_element (greenscores.begin(),greenscores.end()));
-
-    //should change this to a throw and catch
-    //we only want one match
-    if(numMatch == 0) matchID = -1;
 
     lastcandidates = candidates;
 
-    return matchID;
+    if(greenID == movedID)                  
+    {
+        cout << "return case match" << endl;
+        return greenID;
+    }
+    else if(greenID == -1 && movedID != -1) 
+    {
+        cout << "return case movedID" << endl;
+        return movedID;
+    }
+    else if(greenID != -1 && movedID == -1) 
+    {
+        cout << "return case greenID" << endl;
+        return greenID;
+    }
+    else 
+    {
+        return -1;
+        cout << "candidate testing conflict" << endl;
+    }
 }
 
 
