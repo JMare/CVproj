@@ -269,7 +269,8 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     int numMatch = 0;
 
     vector<int> greenscores;
-
+    
+    int mostgreen = 0;
 
     for(int i = candidates.size() - 1; i >= 0; i--)
     {
@@ -309,13 +310,16 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         {
             //increment the match counter
             numMatch++;
-
+            
+            if(totalgreen > mostgreen)
+            {
+                mostgreen = totalgreen;
+                greenID = i;
+            }
         }
 
     }
 
-    //return the index i of the biggest element of the vector
-    greenID = distance(greenscores.begin(), max_element (greenscores.begin(),greenscores.end()));
 
     if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
     {
@@ -366,7 +370,6 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         }
 
     }
-
 
     lastcandidates = candidates;
 
