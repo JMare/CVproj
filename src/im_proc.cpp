@@ -132,10 +132,11 @@ void im_proc::process_frame()
 
     int matchID = check_candidates(candidatearray);
  
-    if(matchID >= 0)
+    if(matchID >= 0 && candidatearray.size() > 0)
     {
         vector<double> matcharray = candidatearray.at(matchID);
         Pos = make_tuple(true, matcharray.at(1), matcharray.at(2));
+
     } else
     {
         Pos = make_tuple(false, -1, -1);
@@ -261,7 +262,7 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     int S_MAX                 = check_candidates_params.at(4);
     int MIN_GREEN_REQUIRED    = check_candidates_params.at(5);
     
-    int MOV_DETECT_ERROR      = 5;
+    int MOV_DETECT_ERROR      = 3;
 
     int greenID = -1;
     int movedID = -1;
@@ -324,9 +325,7 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
     {
         //work out if anything is moving
-        cout << "begun checking movement" << endl; 
         vector<int> matched_objects;
-        int movedID;
 
         for(int i = candidates.size() - 1; i >= 0; i--)
         {
@@ -363,6 +362,7 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
                 {
                     movedID = i;
                     cout << "moved " <<  movedID << endl;
+
                     break;
                 }
                         
@@ -372,26 +372,25 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     }
 
     lastcandidates = candidates;
+    
+    cout << "greenID: " << greenID << "movedID: " << movedID << endl;
 
-    if(greenID == movedID)                  
+    if((greenID == movedID) && greenID >= 0)                  
     {
         cout << "return case match" << endl;
         return greenID;
-    }
-    else if(greenID == -1 && movedID != -1) 
+    } else if(greenID == -1 && movedID >= 0) 
     {
         cout << "return case movedID" << endl;
         return movedID;
-    }
-    else if(greenID != -1 && movedID == -1) 
+    } else if(greenID >= 0 && movedID == -1) 
     {
         cout << "return case greenID" << endl;
         return greenID;
-    }
-    else 
+    } else 
     {
-        return -1;
         cout << "candidate testing conflict" << endl;
+        return -1;
     }
 }
 
