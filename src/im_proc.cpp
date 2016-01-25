@@ -22,6 +22,8 @@ using namespace cv;
 const int STEP_UP = 5;
 const int STEP_DOWN = 2;
 
+vector<vector<double>> lastcandidates;
+
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(){
     //constructor
@@ -266,7 +268,6 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 
     vector<int> greenscores;
 
-    vector<vector<double>> lastcandidates;
 
     for(int i = candidates.size() - 1; i >= 0; i--)
     {
@@ -311,11 +312,10 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 
     }
 
-    if(lastcandidates.size() == candidates.size())
+    if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
     {
-        cout << "begun checking movement" << endl;
         //work out if anything is moving
-        
+        cout << "begun checking movement" << endl; 
         vector<int> matched_objects;
         int movedID;
 
