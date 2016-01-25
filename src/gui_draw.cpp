@@ -123,8 +123,8 @@ void gui_draw::create_trackbars(vector<int> *params)
     createTrackbar( "Erode Iterations"   , windowTrackbars, &params->at(4), 10);
     createTrackbar( "Dilate Iterations"  , windowTrackbars, &params->at(5), 10);
     createTrackbar( "MAX_NUM_OBJECTS"    , windowTrackbars, &inspect_image_params.at(0), 100);
-    createTrackbar( "MIN_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(1), 100);
-    createTrackbar( "MAX_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(2), 100);
+    createTrackbar( "MIN_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(1), 400);
+    createTrackbar( "MAX_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(2), 1000);
     createTrackbar( "CHECK_SQUARE_SIZE"  , windowTrackbars, &check_candidates_params.at(0), 255);
     createTrackbar( "H_MIN"              , windowTrackbars, &check_candidates_params.at(1), 255);
     createTrackbar( "H_MAX"              , windowTrackbars, &check_candidates_params.at(2), 255);

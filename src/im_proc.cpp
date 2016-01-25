@@ -259,6 +259,8 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     int matchID = 0;
     int numMatch = 0;
 
+    vector<int> greenscores;
+
     for(int i = candidates.size() - 1; i >= 0; i--)
     {
         //unpack the info for the individual candidate
@@ -293,16 +295,23 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         if(totalgreen > MIN_GREEN_REQUIRED)
         {
             //set the match id to the id of the iteration
-            matchID = i;
+    //        matchID = i;
 
             //increment the match counter
             numMatch++;
+
+            greenscores.push_back(totalgreen);
         }
     }
 
+    const int N = sizeof(greenscores) / sizeof(int); 
+    
+    matchID = max_element(greenscores.begin(), greenscores.end()) - greenscores.begin();
+
+
     //should change this to a throw and catch
     //we only want one match, not zero or many
-    if(numMatch > 1) matchID = -1;
+    //if(numMatch > 1) matchID = -1;
     if(numMatch == 0) matchID = -1;
 
     return matchID;
