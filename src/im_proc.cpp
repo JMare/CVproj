@@ -19,6 +19,9 @@
 using namespace std;
 using namespace cv;
 
+const int STEP_UP = 5;
+const int STEP_DOWN = 2;
+
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(){
     //constructor
@@ -71,7 +74,7 @@ void im_proc::init_feed(int ID)
         
         if(areafound == 0) emptyframe = true;
 
-        imParams.at(0) = imParams.at(0) + 7;
+        imParams.at(0) = imParams.at(0) + STEP_UP;
 
     }
 
@@ -102,7 +105,7 @@ void im_proc::init_feed(int ID)
         if(matchID >= 0) laserfound = true;
         else 
         {
-            imParams.at(0) = imParams.at(0) - 2;
+            imParams.at(0) = imParams.at(0) - STEP_DOWN;
             cout << "lowered threshold" << endl;
         }
     }
@@ -255,11 +258,15 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     int S_MIN                 = check_candidates_params.at(3);
     int S_MAX                 = check_candidates_params.at(4);
     int MIN_GREEN_REQUIRED    = check_candidates_params.at(5);
+    
+    int MOV_DETECT_ERROR      = 5;
 
     int matchID = 0;
     int numMatch = 0;
 
     vector<int> greenscores;
+
+    vector<vector<double>> lastcandidates;
 
     for(int i = candidates.size() - 1; i >= 0; i--)
     {
@@ -292,27 +299,32 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 
         double totalgreen = countNonZero(greenroi);
 
+        //add to the vector
+        greenscores.push_back(totalgreen);
+
         if(totalgreen > MIN_GREEN_REQUIRED)
         {
-            //set the match id to the id of the iteration
-    //        matchID = i;
-
             //increment the match counter
             numMatch++;
 
-            greenscores.push_back(totalgreen);
         }
+
     }
 
-    const int N = sizeof(greenscores) / sizeof(int); 
-    
-    matchID = max_element(greenscores.begin(), greenscores.end()) - greenscores.begin();
+    if(lastcandidates.size() == candidates.size())
+    {
+        //work out if anything is moving
 
+    }
+
+    //return the index i of the biggest element of the vector
+    matchID = distance(greenscores.begin(), max_element (greenscores.begin(),greenscores.end()));
 
     //should change this to a throw and catch
-    //we only want one match, not zero or many
-    //if(numMatch > 1) matchID = -1;
+    //we only want one match
     if(numMatch == 0) matchID = -1;
+
+    lastcandidates = candidates;
 
     return matchID;
 }
@@ -320,7 +332,7 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 
 void im_proc::overlay_position(Mat *frame)
 {
-    //if statements mean it will only display if it has found a position
+    //if statements mean it will only display if it has found a positinn
     //if statements use the first param of tuple    
     
     if(get<0>(Pos)){
