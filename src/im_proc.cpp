@@ -313,7 +313,52 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 
     if(lastcandidates.size() == candidates.size())
     {
+        cout << "begun checking movement" << endl;
         //work out if anything is moving
+        
+        vector<int> matched_objects;
+        int movedID;
+
+        for(int i = candidates.size() - 1; i >= 0; i--)
+        {
+            vector<double> testcandidate = candidates.at(i);
+
+            //unpack the coordinates from the vector
+            double nowx = testcandidate.at(1);
+            double nowy = testcandidate.at(2);
+        
+            for(int n = candidates.size() - 1; n >= 0; n--)
+            {
+                vector<double> lasttestcandidate = lastcandidates.at(n);
+
+                //unpack the coordinates from the vector
+                double lastx = lasttestcandidate.at(1);
+                double lasty = lasttestcandidate.at(2);
+                
+                if(lastx < nowx + MOV_DETECT_ERROR && lastx > nowx - MOV_DETECT_ERROR 
+                        && lasty < nowy + MOV_DETECT_ERROR && lasty > nowy - MOV_DETECT_ERROR)
+                {
+                    matched_objects.push_back(i);
+                    break;
+                }
+            } 
+        }
+        
+        matched_objects.push_back(-1);
+
+        if(matched_objects.size() == candidates.size())
+        {
+            for(int i = candidates.size() -1; i >= 0; i--)
+            {
+                if(!(find(matched_objects.begin(), matched_objects.end(), i) != matched_objects.end()))
+                {
+                    movedID = i;
+                    cout << "moved " <<  movedID << endl;
+                    break;
+                }
+                        
+            }
+        }
 
     }
 
