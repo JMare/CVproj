@@ -22,8 +22,10 @@ using namespace cv;
 const int STEP_UP = 5;
 const int STEP_DOWN = 2;
 const int STEP_FINAL = 4;
+const int HISTORY_LENGTH = 10;
 
 vector<vector<double>> lastcandidates;
+vector<tuple<bool, double, double>> PosHistory;
 
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(){
@@ -119,6 +121,8 @@ void im_proc::init_feed(int ID)
 
 void im_proc::process_frame()
 {
+    bool historyCheck = true;
+
     loadframe(&mainfeed);
 
     //clone is nessasary, assignment does not copy
@@ -143,10 +147,15 @@ void im_proc::process_frame()
         Pos = make_tuple(false, -1, -1);
     }
 
-    //require the last three positions to all be true to update master
-    if(get<0>(Pos) && get<0>(PosLast0) && get<0>(PosLast1))
+    for(int i = 0; i < PosHistory.size(); i++)
     {
-        const double filteramount = 0.1;
+        tuple<bool, double, double> PosCheck = PosHistory.at(i);
+        if(!get<0>(PosCheck)) historyCheck = false;
+    }
+
+    if(get<0>(Pos) && historyCheck)
+    {
+        const double filteramount = 0.05;
         double xLast = get<1>(Posmaster);
         double yLast = get<2>(Posmaster);
         double xNow = get<1>(Pos);
@@ -157,14 +166,20 @@ void im_proc::process_frame()
         double ySmooth;
         xSmooth = xLast + (filteramount * xChange);
         ySmooth = yLast + (filteramount * yChange);
-        cout << "Position: x - : " << xSmooth;
-        cout << " y - " << ySmooth << endl;
         Posmaster = make_tuple(true, xSmooth, ySmooth);
     } 
 
     //update last positions
-    PosLast0 = Pos;
-    PosLast1 = PosLast0;
+    PosHistory.push_back(Pos); 
+    if(PosHistory.size() > HISTORY_LENGTH)
+    {
+        PosHistory.erase(PosHistory.begin());
+    }
+}
+
+tuple<bool,double,double> im_proc::get_position()
+{
+   return Posmaster; 
 }
 
 Mat im_proc::get_frame_overlay()
