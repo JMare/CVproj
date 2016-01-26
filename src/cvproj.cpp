@@ -143,6 +143,9 @@ int main(int argc, char* argv[])
 
         frame_thresholded = imFrame.get_frame_thresholded();
         
+        tuple<bool, double, double> Pos = imFrame.get_position();
+        
+        cout << get<1>(Pos) << get<2>(Pos) << endl;
         if(GUI_ENABLE)
         {
             gui_obj.draw_interface();

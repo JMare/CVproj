@@ -22,6 +22,7 @@ class im_proc
         cv::Mat get_frame_overlay();
         cv::Mat get_frame_thresholded();
         
+        std::tuple<bool, double, double> get_position();
 
     private:
         //FUNCTIONS
