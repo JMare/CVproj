@@ -20,7 +20,7 @@ class im_proc
         void process_frame(); 
 
         cv::Mat get_frame_overlay();
-        cv::Mat get_frame_thresholded(int feedID);
+        cv::Mat get_frame_thresholded();
         
 
     private:

@@ -36,11 +36,10 @@ vector<int> check_candidates_params = {10,40,75,20,255,30};
 
 //command line arguments
 int FRAME_SOURCE = 0; //0: webcam 1: video 2: image
-int TRACKBAR_PARAMS; //sets which param vector will be changed by trackbars
 int camID = 0; 
 char* FILENAME; //image or video file 
 bool TRACKBAR_ENABLE = false;
-bool STREAM_POSITION = false;
+bool GUI_ENABLE = false;
 
 
 std::tuple<bool, double, double> Posmaster = make_tuple(true, 0, 0); 
@@ -86,17 +85,10 @@ int main(int argc, char* argv[])
             }  
         }
         if (string(argv[i]) == "--trackbar") {
-            if (i + 1 < argc) { // Make sure we aren't at the end of argv!
                 TRACKBAR_ENABLE = true;
-                i++; //increment so we dont get the number next round
-                TRACKBAR_PARAMS = atoi(argv[i]); 
-            } else { // Uh-oh, there was no argument to the destination option.
-                  cerr << "--trackbar option requires one argument." << endl;
-                return 1;
-            }  
         }
-        else if(string(argv[i]) == "--stream-position") {
-           STREAM_POSITION = true; 
+        else if(string(argv[i]) == "--gui") {
+            GUI_ENABLE  = true; 
             }
     } 
     
@@ -114,7 +106,6 @@ int main(int argc, char* argv[])
 
     if(TRACKBAR_ENABLE) {
         cout << "Trackbars Enabled" << endl;
-        cout << "Processing thread " << TRACKBAR_PARAMS << endl;
     }
 
     im_proc imFrame;
@@ -150,9 +141,12 @@ int main(int argc, char* argv[])
         
         frame_overlay = imFrame.get_frame_overlay();
 
-        frame_thresholded = imFrame.get_frame_thresholded(TRACKBAR_PARAMS);
-
-        gui_obj.draw_interface();
+        frame_thresholded = imFrame.get_frame_thresholded();
+        
+        if(GUI_ENABLE)
+        {
+            gui_obj.draw_interface();
+        }
 
         int key;
         key = cvWaitKey(10);
