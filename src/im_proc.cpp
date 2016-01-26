@@ -21,6 +21,7 @@ using namespace cv;
 
 const int STEP_UP = 5;
 const int STEP_DOWN = 2;
+const int STEP_FINAL = 4;
 
 vector<vector<double>> lastcandidates;
 
@@ -113,7 +114,7 @@ void im_proc::init_feed(int ID)
     }
 
     //then after everything go down a bit more to make sure
-    imParams.at(0) = imParams.at(0) - 5;
+    imParams.at(0) = imParams.at(0) - STEP_FINAL;
 }
 
 void im_proc::process_frame()
@@ -142,7 +143,8 @@ void im_proc::process_frame()
         Pos = make_tuple(false, -1, -1);
     }
 
-    if(get<0>(Pos))
+    //require the last three positions to all be true to update master
+    if(get<0>(Pos) && get<0>(PosLast0) && get<0>(PosLast1))
     {
         const double filteramount = 0.1;
         double xLast = get<1>(Posmaster);
@@ -157,6 +159,10 @@ void im_proc::process_frame()
         ySmooth = yLast + (filteramount * yChange);
         Posmaster = make_tuple(true, xSmooth, ySmooth);
     } 
+
+    //update last positions
+    PosLast0 = Pos;
+    PosLast1 = PosLast0;
 }
 
 Mat im_proc::get_frame_overlay()
@@ -261,15 +267,16 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     int S_MIN                 = check_candidates_params.at(3);
     int S_MAX                 = check_candidates_params.at(4);
     int MIN_GREEN_REQUIRED    = check_candidates_params.at(5);
-    
+   
+    //Distance a dot can move and be considered a match
     int MOV_DETECT_ERROR      = 3;
 
+    //ID of found object, if it stays -1 then no object was found
     int greenID = -1;
     int movedID = -1;
 
+    //number of green things
     int numMatch = 0;
-
-    vector<int> greenscores;
     
     int mostgreen = 0;
 
@@ -298,15 +305,17 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         //crop to a roi
         Mat greenroi = mainfeed(greenrect).clone();
 
+        //convert to hsv
         cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
+
         //threshold color and saturation
         inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
 
         double totalgreen = countNonZero(greenroi);
 
-        //add to the vector
-        greenscores.push_back(totalgreen);
-
+        //Whenever we find an object with more green
+        //mostgreen gets updated, once there are no more
+        //green objects greenID will be left as the most green object
         if(totalgreen > MIN_GREEN_REQUIRED)
         {
             //increment the match counter
@@ -318,13 +327,12 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
                 greenID = i;
             }
         }
-
     }
 
-
+    //if the array of candidates is the same size as the last
     if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
     {
-        //work out if anything is moving
+        //vector of array ID's that havent moved
         vector<int> matched_objects;
 
         for(int i = candidates.size() - 1; i >= 0; i--)
@@ -343,17 +351,23 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
                 double lastx = lasttestcandidate.at(1);
                 double lasty = lasttestcandidate.at(2);
                 
+                //If objects havn't moved (within error values) 
+                //add the ID to the array of matched objects
                 if(lastx < nowx + MOV_DETECT_ERROR && lastx > nowx - MOV_DETECT_ERROR 
                         && lasty < nowy + MOV_DETECT_ERROR && lasty > nowy - MOV_DETECT_ERROR)
                 {
                     matched_objects.push_back(i);
                     break;
+                    //stop looking for a match once we have found one
                 }
             } 
         }
         
+        //add a -1 to make it easier to find the ID we want
         matched_objects.push_back(-1);
 
+        //This checks whether there is one object that has no match
+        //in the array
         if(matched_objects.size() == candidates.size())
         {
             for(int i = candidates.size() -1; i >= 0; i--)
@@ -361,37 +375,20 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
                 if(!(find(matched_objects.begin(), matched_objects.end(), i) != matched_objects.end()))
                 {
                     movedID = i;
-                    cout << "moved " <<  movedID << endl;
-
                     break;
                 }
-                        
             }
         }
-
     }
 
     lastcandidates = candidates;
-    
-    cout << "greenID: " << greenID << "movedID: " << movedID << endl;
 
-    if((greenID == movedID) && greenID >= 0)                  
-    {
-        cout << "return case match" << endl;
-        return greenID;
-    } else if(greenID == -1 && movedID >= 0) 
-    {
-        cout << "return case movedID" << endl;
-        return movedID;
-    } else if(greenID >= 0 && movedID == -1) 
-    {
-        cout << "return case greenID" << endl;
-        return greenID;
-    } else 
-    {
-        cout << "candidate testing conflict" << endl;
-        return -1;
-    }
+
+    //check which method found something and return based on that
+    if((greenID == movedID) && greenID >= 0) return greenID;
+    else if(greenID == -1 && movedID >= 0) return movedID;
+    else if(greenID >= 0 && movedID == -1) return greenID;
+    else return -1;
 }
 
 
