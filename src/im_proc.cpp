@@ -157,6 +157,8 @@ void im_proc::process_frame()
         double ySmooth;
         xSmooth = xLast + (filteramount * xChange);
         ySmooth = yLast + (filteramount * yChange);
+        cout << "Position: x - : " << xSmooth;
+        cout << " y - " << ySmooth << endl;
         Posmaster = make_tuple(true, xSmooth, ySmooth);
     } 
 
@@ -171,7 +173,7 @@ Mat im_proc::get_frame_overlay()
     return mainfeed;
 }
 
-Mat im_proc::get_frame_thresholded(int feedID)
+Mat im_proc::get_frame_thresholded()
 {
             return frame_proc;
 }
