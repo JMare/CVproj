@@ -19,6 +19,9 @@
 using namespace cv;
 using namespace std;
 
+
+Mat frame_overlay, frame_thresholded;
+
 //global variables for thresholding editable with sliders
 //{0    , 1    , 2    , 3    , 4    , 5} 
 //{Threshmin, thresmax, erodesize , dilatesize, erodeiter,dilateiter}
@@ -114,10 +117,54 @@ int main(int argc, char* argv[])
         cout << "Processing thread " << TRACKBAR_PARAMS << endl;
     }
 
+    im_proc imFrame;
+
+    try{
+        imFrame.init_feed(camID); //try to open webcam/video
+    } catch (int x){ //check if feed actually opened
+        switch(x){
+            case 1:
+                cout << "Frame source could not be opened" << endl;
+                break;
+            case 6:
+                cout << "output_cap could not be opened" << endl;
+                break; 
+        }
+        cout << "ERROR CODE: " << x << endl;
+        return 0;
+    }
+
+    
     gui_draw gui_obj; //create object for gui drawing
 
-    gui_obj.draw_interface(); //this opens the main proccessing loop
     
+    while(1){
+        
+        try{
+            imFrame.process_frame();
+        } catch(int x){
+            cout << "Feed closed unexpectadly" << endl;
+            cout << "ERROR CODE: " << x << endl;
+            break;
+        }
+        
+        frame_overlay = imFrame.get_frame_overlay();
+
+        frame_thresholded = imFrame.get_frame_thresholded(TRACKBAR_PARAMS);
+
+        gui_obj.draw_interface();
+
+        int key;
+        key = cvWaitKey(10);
+        if (char(key) == 27){
+            if(TRACKBAR_ENABLE){
+                        cout << "Printing imParams" << endl;
+                        gui_obj.print_params(&imParams);
+            }
+            break;      //If you hit ESC key loop will break.
+        }
+
+    }
     cout << "Main run to completion - Aborting" << endl;
     return 0;
 }
