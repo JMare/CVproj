@@ -42,6 +42,8 @@ class im_proc
         cv::VideoCapture cap;
 
         std::tuple<bool, double, double> Pos;
+        std::tuple<bool, double, double> PosLast0;
+        std::tuple<bool, double, double> PosLast1;
 
         std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
 };
