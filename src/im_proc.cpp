@@ -27,6 +27,8 @@ const int HISTORY_LENGTH = 10;
 vector<vector<double>> lastcandidates;
 vector<tuple<bool, double, double>> PosHistory;
 
+int lostFixCount = 0;
+
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(){
     //constructor
@@ -107,7 +109,17 @@ void im_proc::init_feed(int ID)
         
         int matchID = check_candidates(get<0>(frame_info));
         
-        if(matchID >= 0) laserfound = true;
+        if(matchID >= 0) 
+        {
+            laserfound = true;
+            vector<vector<double>> candidatesFound = get<0>(frame_info);
+            vector<double> matchFound = candidatesFound.at(matchID);
+            int areaFound = matchFound.at(0);
+            
+            inspect_image_params.at(1) = areaFound - 50;
+            inspect_image_params.at(2) = areaFound + 300;
+
+        }
         else 
         {
             imParams.at(0) = imParams.at(0) - STEP_DOWN;
@@ -164,10 +176,22 @@ void im_proc::process_frame()
         double yChange = yNow - yLast;
         double xSmooth;
         double ySmooth;
-        xSmooth = xLast + (filteramount * xChange);
-        ySmooth = yLast + (filteramount * yChange);
+
+        if(xLast != -1){
+            xSmooth = xLast + (filteramount * xChange);
+            ySmooth = yLast + (filteramount * yChange);
+        } else {
+            xSmooth = xNow;
+            ySmooth = yNow;
+        }
         Posmaster = make_tuple(true, xSmooth, ySmooth);
-    } 
+    } else {
+        lostFixCount++;
+        if(lostFixCount > 100){
+            Posmaster = make_tuple(false, -1, -1);
+            lostFixCount = 0;
+        }
+    }
 
     //update last positions
     PosHistory.push_back(Pos); 
@@ -420,6 +444,7 @@ void im_proc::overlay_position(Mat *frame)
 
     if(get<0>(Posmaster)){
         circle(*frame,Point(get<1>(Posmaster),get<2>(Posmaster)),20,Scalar(0,255,0),2);
+        putText(*frame,"Tracking Object",Point(50,50),2,1,Scalar(150,255,0),1);
     }
 }
 
