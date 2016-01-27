@@ -1,6 +1,4 @@
-// Written by James Mare
-// OpenCV program with goal of following a laser pointer
-// im_proc.cpp - defines class functions for loading
+// Written by James Mare // OpenCV program with goal of following a laser pointer // im_proc.cpp - defines class functions for loading
 // and manipulating images, and object detection
 
 //----PROJECT HEADERS-----------
@@ -28,6 +26,9 @@ vector<vector<double>> lastcandidates;
 vector<tuple<bool, double, double>> PosHistory;
 
 int lostFixCount = 0;
+double areaFound;
+double xFound;
+double yFound;
 
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(){
@@ -99,6 +100,8 @@ void im_proc::init_feed(int ID)
     }
     
     bool laserfound = false;
+
+    //start the loop lowering threshold while looking for laser
     while(!laserfound && imParams.at(0) > 0)
     {
         loadframe(&mainfeed);
@@ -114,10 +117,11 @@ void im_proc::init_feed(int ID)
             laserfound = true;
             vector<vector<double>> candidatesFound = get<0>(frame_info);
             vector<double> matchFound = candidatesFound.at(matchID);
-            int areaFound = matchFound.at(0);
+            areaFound = matchFound.at(0);
             
-            inspect_image_params.at(1) = areaFound - 50;
-            inspect_image_params.at(2) = areaFound + 300;
+            //set min and max area thresholds based on 
+            inspect_image_params.at(1) = areaFound - 150;
+            inspect_image_params.at(2) = areaFound + 400;
 
         }
         else 
@@ -153,6 +157,10 @@ void im_proc::process_frame()
     {
         vector<double> matcharray = candidatearray.at(matchID);
         Pos = make_tuple(true, matcharray.at(1), matcharray.at(2));
+
+        areaFound = matcharray.at(0);
+        xFound = matcharray.at(1);
+        yFound = matcharray.at(2);
 
     } else
     {
@@ -437,14 +445,35 @@ void im_proc::overlay_position(Mat *frame)
 {
     //if statements mean it will only display if it has found a positinn
     //if statements use the first param of tuple    
+     
+    string areastring;          // string which will contain the result
+    ostringstream converta;   // stream used for the conversion
+    converta << areaFound;      // insert the textual representation of 'Number' in the characters in the stream
+    areastring = converta.str(); // set 'Result' to the contents of the stream
+
+    string xstring;          // string which will contain the result
+    ostringstream convertx;   // stream used for the conversion
+    convertx << xFound;      // insert the textual representation of 'Number' in the characters in the stream
+    xstring = convertx.str(); // set 'Result' to the contents of the stream
     
+    string ystring;          // string which will contain the result
+    ostringstream converty;   // stream used for the conversion
+    converty << yFound;      // insert the textual representation of 'Number' in the characters in the stream
+    ystring = converty.str(); // set 'Result' to the contents of the stream
+
     if(get<0>(Pos)){
         circle(*frame,Point(get<1>(Pos),get<2>(Pos)),20,Scalar(0,0,255),2);
+        putText(*frame,"Area: " ,Point(20,100),2,1,Scalar(150,255,0),1);
+        putText(*frame,areastring,Point(110,100),2,1,Scalar(150,255,0),1);
+        putText(*frame,"x: " ,Point(20,150),2,1,Scalar(150,255,0),1);
+        putText(*frame,xstring,Point(110,150),2,1,Scalar(150,255,0),1);
+        putText(*frame,"x: " ,Point(20,200),2,1,Scalar(150,255,0),1);
+        putText(*frame,ystring,Point(110,200),2,1,Scalar(150,255,0),1);
     }
 
     if(get<0>(Posmaster)){
         circle(*frame,Point(get<1>(Posmaster),get<2>(Posmaster)),20,Scalar(0,255,0),2);
-        putText(*frame,"Tracking Object",Point(50,50),2,1,Scalar(150,255,0),1);
+        putText(*frame,"Tracking Object",Point(20,50),2,1,Scalar(150,255,0),1);
     }
 }
 
