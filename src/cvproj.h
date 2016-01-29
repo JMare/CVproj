@@ -11,6 +11,10 @@
 
 //paramater arrays
 extern std::vector<int> imParams;
+extern std::vector<int> inspect_image_params;
+extern std::vector<int> check_candidates_params;
+
+extern cv::Mat frame_overlay, frame_thresholded;
 
 //Command line variables
 extern int FRAME_SOURCE;

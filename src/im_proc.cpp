@@ -19,6 +19,16 @@
 using namespace std;
 using namespace cv;
 
+const int STEP_UP = 5;
+const int STEP_DOWN = 2;
+const int STEP_FINAL = 4;
+const int HISTORY_LENGTH = 10;
+
+vector<vector<double>> lastcandidates;
+vector<tuple<bool, double, double>> PosHistory;
+
+int lostFixCount = 0;
+
 //-------PUBLIC FUNCTIONS-------------------
 im_proc::im_proc(){
     //constructor
@@ -71,7 +81,7 @@ void im_proc::init_feed(int ID)
         
         if(areafound == 0) emptyframe = true;
 
-        imParams.at(0) = imParams.at(0) + 7;
+        imParams.at(0) = imParams.at(0) + STEP_UP;
 
     }
 
@@ -99,20 +109,32 @@ void im_proc::init_feed(int ID)
         
         int matchID = check_candidates(get<0>(frame_info));
         
-        if(matchID >= 0) laserfound = true;
+        if(matchID >= 0) 
+        {
+            laserfound = true;
+            vector<vector<double>> candidatesFound = get<0>(frame_info);
+            vector<double> matchFound = candidatesFound.at(matchID);
+            int areaFound = matchFound.at(0);
+            
+            inspect_image_params.at(1) = areaFound - 50;
+            inspect_image_params.at(2) = areaFound + 300;
+
+        }
         else 
         {
-            imParams.at(0) = imParams.at(0) - 2;
+            imParams.at(0) = imParams.at(0) - STEP_DOWN;
             cout << "lowered threshold" << endl;
         }
     }
 
     //then after everything go down a bit more to make sure
-    imParams.at(0) = imParams.at(0) - 5;
+    imParams.at(0) = imParams.at(0) - STEP_FINAL;
 }
 
 void im_proc::process_frame()
 {
+    bool historyCheck = true;
+
     loadframe(&mainfeed);
 
     //clone is nessasary, assignment does not copy
@@ -127,18 +149,25 @@ void im_proc::process_frame()
 
     int matchID = check_candidates(candidatearray);
  
-    if(matchID >= 0)
+    if(matchID >= 0 && candidatearray.size() > 0)
     {
         vector<double> matcharray = candidatearray.at(matchID);
         Pos = make_tuple(true, matcharray.at(1), matcharray.at(2));
+
     } else
     {
         Pos = make_tuple(false, -1, -1);
     }
 
-    if(get<0>(Pos))
+    for(int i = 0; i < PosHistory.size(); i++)
     {
-        const double filteramount = 0.1;
+        tuple<bool, double, double> PosCheck = PosHistory.at(i);
+        if(!get<0>(PosCheck)) historyCheck = false;
+    }
+
+    if(get<0>(Pos) && historyCheck)
+    {
+        const double filteramount = 0.05;
         double xLast = get<1>(Posmaster);
         double yLast = get<2>(Posmaster);
         double xNow = get<1>(Pos);
@@ -147,10 +176,34 @@ void im_proc::process_frame()
         double yChange = yNow - yLast;
         double xSmooth;
         double ySmooth;
-        xSmooth = xLast + (filteramount * xChange);
-        ySmooth = yLast + (filteramount * yChange);
+
+        if(xLast != -1){
+            xSmooth = xLast + (filteramount * xChange);
+            ySmooth = yLast + (filteramount * yChange);
+        } else {
+            xSmooth = xNow;
+            ySmooth = yNow;
+        }
         Posmaster = make_tuple(true, xSmooth, ySmooth);
-    } 
+    } else {
+        lostFixCount++;
+        if(lostFixCount > 100){
+            Posmaster = make_tuple(false, -1, -1);
+            lostFixCount = 0;
+        }
+    }
+
+    //update last positions
+    PosHistory.push_back(Pos); 
+    if(PosHistory.size() > HISTORY_LENGTH)
+    {
+        PosHistory.erase(PosHistory.begin());
+    }
+}
+
+tuple<bool,double,double> im_proc::get_position()
+{
+   return Posmaster; 
 }
 
 Mat im_proc::get_frame_overlay()
@@ -159,7 +212,7 @@ Mat im_proc::get_frame_overlay()
     return mainfeed;
 }
 
-Mat im_proc::get_frame_thresholded(int feedID)
+Mat im_proc::get_frame_thresholded()
 {
             return frame_proc;
 }
@@ -210,9 +263,9 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
 
     findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
     
-    const int MAX_NUM_OBJECTS = 20;
-    const int MIN_OBJECT_AREA = 50;
-    const int MAX_OBJECT_AREA = 700;
+    int MAX_NUM_OBJECTS = inspect_image_params.at(0); 
+    int MIN_OBJECT_AREA = inspect_image_params.at(1); 
+    int MAX_OBJECT_AREA = inspect_image_params.at(2); 
 
     int numObjects = hierarchy.size();
 
@@ -249,15 +302,24 @@ tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
             
 int im_proc::check_candidates(vector<vector<double>> candidates)
 {
-    const int CHECK_SQUARE_SIZE = 10; //pixel length of half side
-    const int H_MIN = 40 ;
-    const int H_MAX = 75;
-    const int S_MIN = 20;
-    const int S_MAX = 255; 
-    const double MIN_GREEN_REQUIRED = 30;
+    int CHECK_SQUARE_SIZE     = check_candidates_params.at(0);
+    int H_MIN                 = check_candidates_params.at(1);
+    int H_MAX                 = check_candidates_params.at(2);
+    int S_MIN                 = check_candidates_params.at(3);
+    int S_MAX                 = check_candidates_params.at(4);
+    int MIN_GREEN_REQUIRED    = check_candidates_params.at(5);
+   
+    //Distance a dot can move and be considered a match
+    int MOV_DETECT_ERROR      = 3;
 
-    int matchID = 0;
+    //ID of found object, if it stays -1 then no object was found
+    int greenID = -1;
+    int movedID = -1;
+
+    //number of green things
     int numMatch = 0;
+    
+    int mostgreen = 0;
 
     for(int i = candidates.size() - 1; i >= 0; i--)
     {
@@ -284,34 +346,96 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         //crop to a roi
         Mat greenroi = mainfeed(greenrect).clone();
 
+        //convert to hsv
         cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
+
         //threshold color and saturation
         inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
 
         double totalgreen = countNonZero(greenroi);
 
+        //Whenever we find an object with more green
+        //mostgreen gets updated, once there are no more
+        //green objects greenID will be left as the most green object
         if(totalgreen > MIN_GREEN_REQUIRED)
         {
-            //set the match id to the id of the iteration
-            matchID = i;
-
             //increment the match counter
             numMatch++;
+            
+            if(totalgreen > mostgreen)
+            {
+                mostgreen = totalgreen;
+                greenID = i;
+            }
         }
     }
 
-    //should change this to a throw and catch
-    //we only want one match, not zero or many
-    if(numMatch > 1) matchID = -1;
-    if(numMatch == 0) matchID = -1;
+    //if the array of candidates is the same size as the last
+    if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
+    {
+        //vector of array ID's that havent moved
+        vector<int> matched_objects;
 
-    return matchID;
+        for(int i = candidates.size() - 1; i >= 0; i--)
+        {
+            vector<double> testcandidate = candidates.at(i);
+
+            //unpack the coordinates from the vector
+            double nowx = testcandidate.at(1);
+            double nowy = testcandidate.at(2);
+        
+            for(int n = candidates.size() - 1; n >= 0; n--)
+            {
+                vector<double> lasttestcandidate = lastcandidates.at(n);
+
+                //unpack the coordinates from the vector
+                double lastx = lasttestcandidate.at(1);
+                double lasty = lasttestcandidate.at(2);
+                
+                //If objects havn't moved (within error values) 
+                //add the ID to the array of matched objects
+                if(lastx < nowx + MOV_DETECT_ERROR && lastx > nowx - MOV_DETECT_ERROR 
+                        && lasty < nowy + MOV_DETECT_ERROR && lasty > nowy - MOV_DETECT_ERROR)
+                {
+                    matched_objects.push_back(i);
+                    break;
+                    //stop looking for a match once we have found one
+                }
+            } 
+        }
+        
+        //add a -1 to make it easier to find the ID we want
+        matched_objects.push_back(-1);
+
+        //This checks whether there is one object that has no match
+        //in the array
+        if(matched_objects.size() == candidates.size())
+        {
+            for(int i = candidates.size() -1; i >= 0; i--)
+            {
+                if(!(find(matched_objects.begin(), matched_objects.end(), i) != matched_objects.end()))
+                {
+                    movedID = i;
+                    break;
+                }
+            }
+        }
+    }
+
+    lastcandidates = candidates;
+
+
+    //check which method found something and return based on that
+    if((greenID == movedID) && greenID >= 0) return greenID;
+    else if(greenID == -1 && movedID >= 0) return movedID;
+    else if(greenID >= 0 && movedID == -1) return greenID;
+    else return -1;
 }
 
 
 void im_proc::overlay_position(Mat *frame)
 {
-    //if statements mean it will only display if it has found a position
+    //if statements mean it will only display if it has found a positinn
     //if statements use the first param of tuple    
     
     if(get<0>(Pos)){
@@ -320,6 +444,7 @@ void im_proc::overlay_position(Mat *frame)
 
     if(get<0>(Posmaster)){
         circle(*frame,Point(get<1>(Posmaster),get<2>(Posmaster)),20,Scalar(0,255,0),2);
+        putText(*frame,"Tracking Object",Point(50,50),2,1,Scalar(150,255,0),1);
     }
 }
 
