@@ -20,8 +20,9 @@ class im_proc
         void process_frame(); 
 
         cv::Mat get_frame_overlay();
-        cv::Mat get_frame_thresholded(int feedID);
+        cv::Mat get_frame_thresholded();
         
+        std::tuple<bool, double, double> get_position();
 
     private:
         //FUNCTIONS
@@ -42,6 +43,8 @@ class im_proc
         cv::VideoCapture cap;
 
         std::tuple<bool, double, double> Pos;
+        std::tuple<bool, double, double> PosLast0;
+        std::tuple<bool, double, double> PosLast1;
 
         std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
 };
