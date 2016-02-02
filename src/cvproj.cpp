@@ -133,6 +133,8 @@ int main(int argc, char* argv[])
     gui_draw gui_obj; //create object for gui drawing
 
     gim_control oGim; 
+
+    oGim.angleControl({30,30});
     
     while(1){
         

@@ -7,14 +7,16 @@
 #include <iostream>
 #include "SBGC.h"
 #include "serial_port.h"
+#include <vector>
 
 class gim_control 
 {
     public:
         //constructor
         gim_control();
-        
+        void angleControl(std::vector<int> pitchYawAngles); 
     private:
+        SBGC_Parser oSbgc_parser;
 
 };
 
