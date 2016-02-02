@@ -89,10 +89,11 @@ void im_proc::init_feed(int ID)
     cout << "Background calibration complete" << endl;
     cout << "Please turn on the laser and ensure it is in the frame" << endl;
     cout << "Press enter to continue" << endl;
+
     system("read");
 
     //now we need to check if we find the laser
-    
+
     //discard 30 frames
     for( int i = 0; i <= 30; i++)
     {
@@ -104,6 +105,7 @@ void im_proc::init_feed(int ID)
     //start the loop lowering threshold while looking for laser
     while(!laserfound && imParams.at(0) > 0)
     {
+
         loadframe(&mainfeed);
         Mat frame_proc = mainfeed.clone();
         threshold_frame(&frame_proc, &imParams);
@@ -120,7 +122,7 @@ void im_proc::init_feed(int ID)
             areaFound = matchFound.at(0);
             
             //set min and max area thresholds based on 
-            inspect_image_params.at(1) = areaFound - 150;
+            inspect_image_params.at(1) = areaFound - 250;
             inspect_image_params.at(2) = areaFound + 400;
 
         }
