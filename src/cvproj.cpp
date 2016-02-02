@@ -14,8 +14,11 @@
 #include "im_proc.h"
 #include "gui_draw.h"
 #include "cvproj.h"
+<<<<<<< HEAD
 #include "gim_control.h"
 #include "serial_port.h"
+=======
+>>>>>>> 501a84e06f37c2b92986da6ff49988acff961e13
 
 //----NAMESPACES----------------
 using namespace cv;
@@ -132,8 +135,12 @@ int main(int argc, char* argv[])
     
     gui_draw gui_obj; //create object for gui drawing
 
+<<<<<<< HEAD
     gim_control oGim; 
 
+=======
+    
+>>>>>>> 501a84e06f37c2b92986da6ff49988acff961e13
     while(1){
         
         try{
@@ -168,7 +175,10 @@ int main(int argc, char* argv[])
         }
 
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 501a84e06f37c2b92986da6ff49988acff961e13
     cout << "Main run to completion - Aborting" << endl;
     return 0;
 }
