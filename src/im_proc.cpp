@@ -1,4 +1,6 @@
-// Written by James Mare // OpenCV program with goal of following a laser pointer // im_proc.cpp - defines class functions for loading
+// Written by James Mare
+// OpenCV program with goal of following a laser pointer
+// im_proc.cpp - defines class functions for loading
 // and manipulating images, and object detection
 
 //----PROJECT HEADERS-----------
@@ -102,6 +104,7 @@ void im_proc::init_feed(int ID)
     bool laserfound = false;
 
     //start the loop lowering threshold while looking for laser
+    
     while(!laserfound && imParams.at(0) > 0)
     {
         loadframe(&mainfeed);
@@ -122,6 +125,7 @@ void im_proc::init_feed(int ID)
             //set min and max area thresholds based on 
             inspect_image_params.at(1) = areaFound - 150;
             inspect_image_params.at(2) = areaFound + 400;
+            int areaFound = matchFound.at(0);
 
         }
         else 
@@ -467,13 +471,16 @@ void im_proc::overlay_position(Mat *frame)
         putText(*frame,areastring,Point(110,100),2,1,Scalar(150,255,0),1);
         putText(*frame,"x: " ,Point(20,150),2,1,Scalar(150,255,0),1);
         putText(*frame,xstring,Point(110,150),2,1,Scalar(150,255,0),1);
-        putText(*frame,"x: " ,Point(20,200),2,1,Scalar(150,255,0),1);
+        putText(*frame,"y: " ,Point(20,200),2,1,Scalar(150,255,0),1);
         putText(*frame,ystring,Point(110,200),2,1,Scalar(150,255,0),1);
+    
+    if(get<0>(Pos)){
+        circle(*frame,Point(get<1>(Pos),get<2>(Pos)),20,Scalar(0,0,255),2);
     }
 
     if(get<0>(Posmaster)){
         circle(*frame,Point(get<1>(Posmaster),get<2>(Posmaster)),20,Scalar(0,255,0),2);
-        putText(*frame,"Tracking Object",Point(20,50),2,1,Scalar(150,255,0),1);
+        putText(*frame,"Tracking Object",Point(50,50),2,1,Scalar(150,255,0),1);
     }
 }
 
