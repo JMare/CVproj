@@ -483,6 +483,7 @@ void im_proc::overlay_position(Mat *frame)
         putText(*frame,"Tracking Object",Point(50,50),2,1,Scalar(150,255,0),1);
     }
 }
+}
 
 void im_proc::loadframe(Mat *frame)
 {
