@@ -12,8 +12,9 @@
 #include <fstream>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include "SBGC.h"
 
-class serial_port
+class serial_port: public SBGC_ComObj
 {
     public:
         serial_port();
@@ -21,6 +22,9 @@ class serial_port
         void writeByte(uint8_t b);
         uint8_t readByte();
         uint16_t getBytesAvailable();
+        uint16_t getOutEmptySpace(){
+            return 0xFFFF;
+        }
 
     private:
         int set_interface_attribs(int fd, int speed, int parity);

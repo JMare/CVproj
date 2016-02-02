@@ -7,19 +7,30 @@ using namespace std;
 
 gim_control::gim_control()
 {
-    cout << "trying serial" << endl;
-    
+    cout << "Starting serial" << endl;
+
     serial_port oPort;
+    SBGC_Parser oSbgc_parser;
+    SerialCommand b;
 
-    oPort.writeByte(41);
+    oSbgc_parser.init(&oPort);
 
-    uint16_t bytesavail = oPort.getBytesAvailable();
+    SBGC_cmd_control_t c;
 
-    cout << bytesavail << " bytes available" << endl;
+    /////////////////// Demo 1. PITCH and YAW gimbal by 40 and 30 degrees both sides and return back.
+    // Actual speed depends on PID setting.
+    // Whait 5 sec to finish
+    c.mode = SBGC_CONTROL_MODE_ANGLE;
+    c.anglePITCH = SBGC_DEGREE_TO_ANGLE(40);
+    c.angleYAW = SBGC_DEGREE_TO_ANGLE(30);
 
-    uint8_t read = oPort.readByte();
-    
+    SBGC_cmd_control_send(c, oSbgc_parser);
 
-    cout << read << endl;
+    c.anglePITCH = SBGC_DEGREE_TO_ANGLE(-40);
+    c.angleYAW = SBGC_DEGREE_TO_ANGLE(-30);
+    SBGC_cmd_control_send(c, oSbgc_parser);
+
+
+    cout << "ending serial" << endl;
 
 }
