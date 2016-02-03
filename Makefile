@@ -19,3 +19,5 @@ $(BIN): $(OBJ)
 # an object file, to follow this rule:
 %.o: %.cpp
 	g++ -std=c++11 -c -ggdb $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+#add -Wshadow to object rule to see shadowed definitions

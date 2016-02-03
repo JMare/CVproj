@@ -15,8 +15,13 @@ class gim_control
         //constructor
         gim_control();
         void angleControl(std::vector<int> pitchYawAngles); 
+        void centerGimbal();
+        void parseIncomingMessages();
+
     private:
+        serial_port oPort;
         SBGC_Parser oSbgc_parser;
+        SBGC_cmd_control_t c;
 
 };
 

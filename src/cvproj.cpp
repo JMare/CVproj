@@ -134,7 +134,7 @@ int main(int argc, char* argv[])
 
     gim_control oGim; 
 
-    oGim.angleControl({30,30});
+    oGim.angleControl({10,10});
     
     while(1){
         
