@@ -23,25 +23,30 @@ gim_control::gim_control()
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
 {
+    
     const int FRAME_ROWS = 480;
     const int FRAME_COLS = 680;
-    
-    if(get<0>(Pos))
-    {
-        if(get<1>(Pos) < (FRAME_COLS / 2) -100)
+    const double MOVEMENT_INT = 500; 
+
+    seconds = time(NULL);
+
+    if(seconds  > time_last_movement + MOVEMENT_INT){  
+        time_last_movement = seconds; 
+        if(get<0>(Pos))
         {
-            angleControl({0,-30});
-        } else if (get<1>(Pos) > (FRAME_COLS /2) +100) 
-        {
-            angleControl({0,30});
+            if(get<1>(Pos) < (FRAME_COLS / 2) -100)
+            {
+                angleControl({0,-30});
+            } else if (get<1>(Pos) > (FRAME_COLS /2) +100) 
+            {
+                angleControl({0,30});
+            }
         }
     }
 }
 
 void gim_control::angleControl(vector<int> pitchYawAngles)
 {
-    
-    cout << "Angle Command" << endl;
     c.mode = SBGC_CONTROL_MODE_ANGLE;
     c.anglePITCH = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(0));
     c.angleYAW = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(1));
