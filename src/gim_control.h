@@ -23,10 +23,10 @@ class gim_control
         SBGC_Parser oSbgc_parser;
         SBGC_cmd_control_t c = { 0, 0, 0, 0, 0, 0, 0 };
         SerialCommand b;
-        SBGC_cmd_control_ext_t cmd_control = { 
-            {SBGC_CONTROL_MODE_ANGLE, SBGC_CONTROL_MODE_RC, SBGC_CONTROL_MODE_RC} ,
-            { { 0, 0 }, { 0, 0 }, { 0, 0 } }  // angle and speed
-        }; 
+        SBGC_cmd_realtime_data_t rt_data;
+
+        bool checkConnection();
+        void processIncomingMessages();
 };
 
 #endif 
