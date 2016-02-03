@@ -17,7 +17,7 @@ gim_control::gim_control()
     //move gimbal to initial position
     c.mode = SBGC_CONTROL_MODE_ANGLE;
     //set speed
-    c.speedROLL = c.speedPITCH = c.speedYAW = 50 * SBGC_SPEED_SCALE;
+    c.speedROLL = c.speedPITCH = c.speedYAW = 70 * SBGC_SPEED_SCALE;
     SBGC_cmd_control_send(c, oSbgc_parser);
 }
 
@@ -26,20 +26,20 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
     
     const int FRAME_ROWS = 480;
     const int FRAME_COLS = 680;
-    const double MOVEMENT_INT = 500; 
+    const double MOVEMENT_INT = 100; //unit is secconds 
 
-    seconds = time(NULL);
+    now = time(NULL);
 
-    if(seconds  > time_last_movement + MOVEMENT_INT){  
-        time_last_movement = seconds; 
+    if(difftime(now,time_last_movement) * 1000 >  MOVEMENT_INT){  
+        time_last_movement = time(NULL);
         if(get<0>(Pos))
         {
             if(get<1>(Pos) < (FRAME_COLS / 2) -100)
             {
-                angleControl({0,-30});
+                angleControl({0,-10});
             } else if (get<1>(Pos) > (FRAME_COLS /2) +100) 
             {
-                angleControl({0,30});
+                angleControl({0,10});
             }
         }
     }

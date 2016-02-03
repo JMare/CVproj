@@ -28,8 +28,8 @@ class gim_control
         SerialCommand b;
         SBGC_cmd_realtime_data_t rt_data;
 
-        time_t seconds;
-        double time_last_movement;
+        time_t now;
+        time_t time_last_movement = 0;
 
         bool checkConnection();
         void processIncomingMessages();
