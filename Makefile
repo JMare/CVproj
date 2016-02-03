@@ -20,4 +20,7 @@ $(BIN): $(OBJ)
 %.o: %.cpp
 	g++ -std=c++11 -c -ggdb $(CFLAGS) $< -o $@ $(LDFLAGS)
 
+clean:
+	$(RM) $(BIN) src/*.o *~
+
 #add -Wshadow to object rule to see shadowed definitions
