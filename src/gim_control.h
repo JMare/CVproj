@@ -8,12 +8,15 @@
 #include "SBGC.h"
 #include "serial_port.h"
 #include <vector>
+#include <tuple>
 
 class gim_control 
 {
     public:
         //constructor
         gim_control();
+
+        void followPosition(std::tuple<bool, double, double> Pos);
         void angleControl(std::vector<int> pitchYawAngles); 
         void centerGimbal();
         void parseIncomingMessages();

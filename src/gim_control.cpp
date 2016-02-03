@@ -19,7 +19,23 @@ gim_control::gim_control()
     //set speed
     c.speedROLL = c.speedPITCH = c.speedYAW = 50 * SBGC_SPEED_SCALE;
     SBGC_cmd_control_send(c, oSbgc_parser);
+}
+
+void gim_control::followPosition(tuple<bool, double, double> Pos)
+{
+    const int FRAME_ROWS = 480;
+    const int FRAME_COLS = 680;
     
+    if(get<0>(Pos))
+    {
+        if(get<1>(Pos) < (FRAME_COLS / 2) -100)
+        {
+            angleControl({0,-30});
+        } else if (get<1>(Pos) > (FRAME_COLS /2) +100) 
+        {
+            angleControl({0,30});
+        }
+    }
 }
 
 void gim_control::angleControl(vector<int> pitchYawAngles)
