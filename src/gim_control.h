@@ -22,7 +22,10 @@ class gim_control
         serial_port oPort;
         SBGC_Parser oSbgc_parser;
         SBGC_cmd_control_t c;
-
+        SBGC_cmd_control_ext_t cmd_control = { 
+            {SBGC_CONTROL_MODE_ANGLE, SBGC_CONTROL_MODE_RC, SBGC_CONTROL_MODE_RC} ,
+            { { 0, 0 }, { 0, 0 }, { 0, 0 } }  // angle and speed
+        }; 
 };
 
 #endif 
