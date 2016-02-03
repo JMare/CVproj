@@ -91,6 +91,7 @@ void im_proc::init_feed(int ID)
     cout << "Background calibration complete" << endl;
     cout << "Please turn on the laser and ensure it is in the frame" << endl;
     cout << "Press enter to continue" << endl;
+
     system("read");
 
     //now we need to check if we find the laser
@@ -123,10 +124,9 @@ void im_proc::init_feed(int ID)
             areaFound = matchFound.at(0);
             
             //set min and max area thresholds based on 
-            inspect_image_params.at(1) = areaFound - 150;
+            inspect_image_params.at(1) = areaFound - 250;
             inspect_image_params.at(2) = areaFound + 400;
             int areaFound = matchFound.at(0);
-
         }
         else 
         {
@@ -267,8 +267,7 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
 
 tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
 {
-
-    Mat temp = frame->clone();
+Mat temp = frame->clone();
 
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
@@ -473,7 +472,7 @@ void im_proc::overlay_position(Mat *frame)
         putText(*frame,xstring,Point(110,150),2,1,Scalar(150,255,0),1);
         putText(*frame,"y: " ,Point(20,200),2,1,Scalar(150,255,0),1);
         putText(*frame,ystring,Point(110,200),2,1,Scalar(150,255,0),1);
-    
+
     if(get<0>(Pos)){
         circle(*frame,Point(get<1>(Pos),get<2>(Pos)),20,Scalar(0,0,255),2);
     }

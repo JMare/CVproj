@@ -14,6 +14,8 @@
 #include "im_proc.h"
 #include "gui_draw.h"
 #include "cvproj.h"
+#include "gim_control.h"
+#include "serial_port.h"
 
 //----NAMESPACES----------------
 using namespace cv;
@@ -130,7 +132,15 @@ int main(int argc, char* argv[])
     
     gui_draw gui_obj; //create object for gui drawing
 
-    
+    gim_control oGim; 
+    /*oGim.angleControl({10,10});
+    usleep(5000000);
+    oGim.angleControl({50,50});
+    usleep(5000000);
+    oGim.angleControl({-30,-50});
+    usleep(5000000);
+    oGim.centerGimbal();
+    */
     while(1){
         
         try{
@@ -146,8 +156,8 @@ int main(int argc, char* argv[])
         frame_thresholded = imFrame.get_frame_thresholded();
         
         tuple<bool, double, double> Pos = imFrame.get_position();
-
-
+        
+        oGim.followPosition(Pos);
         
         if(GUI_ENABLE)
         {
