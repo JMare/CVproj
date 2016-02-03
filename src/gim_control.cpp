@@ -11,7 +11,7 @@ gim_control::gim_control()
     
     //move gimbal to initial position
     c.mode = SBGC_CONTROL_MODE_ANGLE;
-    c.speedROLL = c.speedPITCH = c.speedYAW = 30 * SBGC_SPEED_SCALE;
+    c.speedROLL = c.speedPITCH = c.speedYAW = 50 * SBGC_SPEED_SCALE;
     SBGC_cmd_control_send(c, oSbgc_parser);
     
 }
@@ -29,6 +29,7 @@ void gim_control::angleControl(vector<int> pitchYawAngles)
 void gim_control::centerGimbal()
 {
     cout << "Centering Gimbal" << endl;
+    c.mode = SBGC_CONTROL_MODE_ANGLE;
     c.anglePITCH = 0;
     c.angleYAW = 0;
     SBGC_cmd_control_send(c, oSbgc_parser);

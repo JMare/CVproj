@@ -133,15 +133,13 @@ int main(int argc, char* argv[])
     gui_draw gui_obj; //create object for gui drawing
 
     gim_control oGim; 
-    usleep(500000);
-
     oGim.angleControl({10,10});
-    usleep(500000);
+    usleep(5000000);
     oGim.angleControl({50,50});
-    usleep(500000);
-    oGim.angleControl({-50,-50});
-    
-    usleep(500000);
+    usleep(5000000);
+    oGim.angleControl({-30,-50});
+    usleep(5000000);
+    oGim.centerGimbal();
     while(1){
         
         try{
