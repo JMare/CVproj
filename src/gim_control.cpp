@@ -19,6 +19,12 @@ gim_control::gim_control()
     //set speed
     c.speedROLL = c.speedPITCH = c.speedYAW = 70 * SBGC_SPEED_SCALE;
     SBGC_cmd_control_send(c, oSbgc_parser);
+    usleep(1000000);
+
+    
+    for(uint8_t i=0; i<SBGC_API_VIRT_NUM_CHANNELS; i++) {
+                    v.data[i] = SBGC_RC_UNDEF;
+            }
 
 }
 
@@ -27,56 +33,66 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
     
     const double MOVEMENT_INT = 100; //unit is ms 
 
-    now = time(NULL);
+    gettimeofday(&tp, NULL);
+    now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 
     //below is a crude example to demonstrate laser control
-    if(difftime(now,time_last_movement) * 1000 >  MOVEMENT_INT){  
-        time_last_movement = time(NULL);
+    if(now_ms - last_mov_ms >  MOVEMENT_INT){  
+        gettimeofday(&tp, NULL);
+        last_mov_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
         if(get<0>(Pos))
         {
-            if(get<1>(Pos) < (FRAME_COLS / 2) -100)
-            {
-                absoluteAngleControl({0,-10});
-            } else if (get<1>(Pos) > (FRAME_COLS /2) +100) 
-            {
-                absoluteAngleControl({0,10});
-            }
+            vector<double> relPos = calcRelativePosition(Pos);
+            relateiveAngleControl(relPos);
+        } else 
+        { 
+            v.data[0] = 0;
+            SBGC_cmd_api_virt_ch_control_send(v, oSbgc_parser);
         }
     }
 }
 
-vector<int> gim_control::calcRelativePosition(tuple<bool, double, double> Pos)
+vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos)
 {
-    int x = get<1>(Pos);
-    int y = get<2>(Pos);
+    double x = get<1>(Pos);
+    double y = get<2>(Pos);
 
-    const int GAIN_X = 0.05;
-    const int GAIN_Y = 0.05;
+    const double GAIN_X = 0.05;
+    const double GAIN_Y = 0.05;
 
     //These calculate a score between -100 and 100 for x and y
-    int xCorrected = ((x - (FRAME_COLS / 2)) / (FRAME_COLS / 2)) * 100;
-    int yCorrected = ((y - (FRAME_ROWS / 2)) / (FRAME_ROWS / 2)) * 100;
-   
-    int xRelativeAngle = GAIN_X * xCorrected;
-    int yRelativeAngle = GAIN_Y * yCorrected;
+    double xCorrected = ((x - (FRAME_COLS / 2)) / (FRAME_COLS / 2)) * 100;
+    double yCorrected = ((y - (FRAME_ROWS / 2)) / (FRAME_ROWS / 2)) * 100;
+
+    double xRelativeAngle = GAIN_X * xCorrected;
+    double yRelativeAngle = GAIN_Y * yCorrected;
 
     return {yRelativeAngle, xRelativeAngle};
 }
 
-void gim_control::relateiveAngleControl(vector<int> pitchYawAngles)
+void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
 {
-   int xAngleCmd = pitchYawAngles.at(1) + xAngleHistory;
-   int yAngleCmd = pitchYawAngles.at(0) + yAngleHistory; 
+   double xAngleCmd = pitchYawAngles.at(1) + xAngleHistory;
+   double yAngleCmd = pitchYawAngles.at(0) + yAngleHistory;
 
    absoluteAngleControl({yAngleCmd, xAngleCmd});
 
    xAngleHistory = xAngleCmd;
    yAngleHistory = yAngleCmd;
+
+
+    /*
+    v.data[0] = (int16_t)pitchYawAngles.at(0);
+    v.data[1] = pitchYawAngles.at(1);
+
+    SBGC_cmd_api_virt_ch_control_send(v, oSbgc_parser);
+    usleep(100);
+    */
 }
 
-void gim_control::absoluteAngleControl(vector<int> pitchYawAngles)
+void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
 {
-    //takes in {pitch,yaw} 
+    //takes in {pitch,yaw}
     c.mode = SBGC_CONTROL_MODE_ANGLE;
     c.anglePITCH = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(0));
     c.angleYAW = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(1));
