@@ -17,11 +17,14 @@ class gim_control
         gim_control();
 
         void followPosition(std::tuple<bool, double, double> Pos);
-        void angleControl(std::vector<int> pitchYawAngles); 
+        void absoluteAngleControl(std::vector<int> pitchYawAngles); 
         void centerGimbal();
         void parseIncomingMessages();
 
     private:
+        std::vector<int> calcRelativePosition(std::tuple<bool,double,double> Pos);
+        void relateiveAngleControl(std::vector<int> pitchYawAngles);
+
         serial_port oPort;
         SBGC_Parser oSbgc_parser;
         SBGC_cmd_control_t c = { 0, 0, 0, 0, 0, 0, 0 };
@@ -33,6 +36,14 @@ class gim_control
 
         bool checkConnection();
         void processIncomingMessages();
+
+
+        //this should be passed in from im_proc
+        const int FRAME_ROWS = 480;
+        const int FRAME_COLS = 680;
+
+        int xAngleHistory = 0;
+        int yAngleHistory = 0;
 };
 
 #endif 
