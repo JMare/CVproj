@@ -179,7 +179,7 @@ void im_proc::process_frame()
 
     if(get<0>(Pos) && historyCheck)
     {
-        const double filteramount = 0.05;
+        const double filteramount = 0.4;
         double xLast = get<1>(Posmaster);
         double yLast = get<2>(Posmaster);
         double xNow = get<1>(Pos);

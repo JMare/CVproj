@@ -21,7 +21,6 @@ serial_port::serial_port(){
 void serial_port::writeByte(uint8_t b)
 {
     write (fd, &b, 1);
-    usleep (2000);
 }
 
 uint8_t serial_port::readByte()

@@ -10,6 +10,7 @@ BIN = bin/cvproj
 # all is the target (you would run make all from the command line). 'all' is dependent
 # on $(BIN)
 all: $(BIN)
+	$(RM) src/*.o *~
 
 #$(BIN) is dependent on objects
 $(BIN): $(OBJ)
@@ -19,5 +20,8 @@ $(BIN): $(OBJ)
 # an object file, to follow this rule:
 %.o: %.cpp
 	g++ -std=c++11 -c -ggdb $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+clean:
+	$(RM) $(BIN) src/*.o *~
 
 #add -Wshadow to object rule to see shadowed definitions
