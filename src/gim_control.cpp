@@ -46,8 +46,9 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
             relateiveAngleControl(relPos);
         } else 
         { 
-            v.data[0] = 0;
-            SBGC_cmd_api_virt_ch_control_send(v, oSbgc_parser);
+            centerGimbal();
+            xAngleHistory = 0;
+            yAngleHistory = 0;
         }
     }
 }
@@ -75,19 +76,16 @@ void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
    double xAngleCmd = pitchYawAngles.at(1) + xAngleHistory;
    double yAngleCmd = pitchYawAngles.at(0) + yAngleHistory;
 
+   if(xAngleCmd < -YAW_LOWER_LIMIT) xAngleCmd = -YAW_LOWER_LIMIT;
+   if(xAngleCmd > YAW_UPPER_LIMIT) xAngleCmd = YAW_UPPER_LIMIT;
+   if(yAngleCmd < -PITCH_LOWER_LIMIT) yAngleCmd = -PITCH_LOWER_LIMIT;
+   if(yAngleCmd > PITCH_UPPER_LIMIT) yAngleCmd = PITCH_UPPER_LIMIT;
+
    absoluteAngleControl({yAngleCmd, xAngleCmd});
 
    xAngleHistory = xAngleCmd;
    yAngleHistory = yAngleCmd;
 
-
-    /*
-    v.data[0] = (int16_t)pitchYawAngles.at(0);
-    v.data[1] = pitchYawAngles.at(1);
-
-    SBGC_cmd_api_virt_ch_control_send(v, oSbgc_parser);
-    usleep(100);
-    */
 }
 
 void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
