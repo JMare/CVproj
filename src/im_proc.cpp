@@ -22,8 +22,8 @@ using namespace cv;
 const int STEP_UP = 5;
 const int STEP_DOWN = 2;
 const int STEP_FINAL = 4;
-const int HISTORY_LENGTH = 10;
-
+const int HISTORY_LENGTH = 100;
+const int LOST_FIX_FRAME = 500;
 vector<vector<double>> lastcandidates;
 vector<tuple<bool, double, double>> PosHistory;
 
@@ -197,9 +197,9 @@ void im_proc::process_frame()
             ySmooth = yNow;
         }
         Posmaster = make_tuple(true, xSmooth, ySmooth);
-    } else {
+    } else{
         lostFixCount++;
-        if(lostFixCount > 100){
+        if(lostFixCount > LOST_FIX_FRAME){
             Posmaster = make_tuple(false, -1, -1);
             lostFixCount = 0;
         }

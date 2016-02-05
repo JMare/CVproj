@@ -64,9 +64,14 @@ vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos
     //These calculate a score between -100 and 100 for x and y
     double xCorrected = ((x - (FRAME_COLS / 2)) / (FRAME_COLS / 2)) * 100;
     double yCorrected = ((y - (FRAME_ROWS / 2)) / (FRAME_ROWS / 2)) * 100;
+    
+    if(xCorrected > 20 || xCorrected < -20){ 
+        double xRelativeAngle = GAIN_X * xCorrected;
+    } else double xRelativeAngle = 0;
 
-    double xRelativeAngle = GAIN_X * xCorrected;
-    double yRelativeAngle = GAIN_Y * yCorrected;
+    if(yCorrected > 20 || xCorrected < -20){ 
+        double yRelativeAngle = GAIN_Y * yCorrected;
+    } else double yRelativeAngle = 0;
 
     return {yRelativeAngle, xRelativeAngle};
 }

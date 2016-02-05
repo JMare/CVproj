@@ -46,7 +46,7 @@ bool TRACKBAR_ENABLE = false;
 bool GUI_ENABLE = false;
 
 
-std::tuple<bool, double, double> Posmaster = make_tuple(true, 0, 0); 
+std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); 
 
 int main(int argc, char* argv[])
 {
@@ -133,14 +133,7 @@ int main(int argc, char* argv[])
     gui_draw gui_obj; //create object for gui drawing
 
     gim_control oGim; 
-    /*oGim.angleControl({10,10});
-    usleep(5000000);
-    oGim.angleControl({50,50});
-    usleep(5000000);
-    oGim.angleControl({-30,-50});
-    usleep(5000000);
-    oGim.centerGimbal();
-    */
+
     while(1){
         
         try{

@@ -10,7 +10,6 @@ BIN = bin/cvproj
 # all is the target (you would run make all from the command line). 'all' is dependent
 # on $(BIN)
 all: $(BIN)
-	$(RM) src/*.o *~
 
 #$(BIN) is dependent on objects
 $(BIN): $(OBJ)
