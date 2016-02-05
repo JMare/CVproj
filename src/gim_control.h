@@ -45,8 +45,8 @@ class gim_control
         const int FRAME_COLS = 680;
 
         //limits in degrees
-        const int PITCH_UPPER_LIMIT = 25;
-        const int PITCH_LOWER_LIMIT = 45;
+        const int PITCH_UPPER_LIMIT = 35;
+        const int PITCH_LOWER_LIMIT = 65;
         const int YAW_UPPER_LIMIT = 45;
         const int YAW_LOWER_LIMIT = 45;
 
