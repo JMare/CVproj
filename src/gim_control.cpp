@@ -9,6 +9,7 @@ gim_control::gim_control()
 {
     oSbgc_parser.init(&oPort);
 
+    cout << "Gimbal Initialised" << endl;
     //are we connected??
     //this does not work currently 
     // bool connectFlag = checkConnection();
@@ -30,6 +31,7 @@ gim_control::gim_control()
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
 {
+    cout << "follow position called" << endl;
     
     const double MOVEMENT_INT = 100; //unit is ms 
 
