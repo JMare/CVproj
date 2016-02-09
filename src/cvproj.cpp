@@ -209,13 +209,13 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
     now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
    
 //    if(DEBUG_FLAG)
-//   {
+//    {
 //        if(now_ms - last_debug_ms > DEBUG_INTERVAL)
-  //      {
-            print_debug();
-            last_debug_ms = now_ms;
- //       }
- //   }
+//        {
+//            print_debug();
+//            last_debug_ms = now_ms;
+//        }
+//    }
     
 }
 
