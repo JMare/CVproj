@@ -143,6 +143,8 @@ void im_proc::process_frame()
 {
     bool historyCheck = true;
 
+    double xSmooth;
+    double ySmooth;
     loadframe(&mainfeed);
 
     //clone is nessasary, assignment does not copy
@@ -186,8 +188,6 @@ void im_proc::process_frame()
         double yNow = get<2>(Pos);
         double xChange = xNow -xLast;
         double yChange = yNow - yLast;
-        double xSmooth;
-        double ySmooth;
 
         if(xLast != -1){
             xSmooth = xLast + (filteramount * xChange);
