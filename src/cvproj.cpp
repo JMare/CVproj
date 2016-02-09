@@ -191,6 +191,15 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
             gui_obj.draw_interface();
         }
 
+        if(DEBUG_FLAG)
+        {
+            if(now_ms - last_debug_ms > DEBUG_INTERVAL)
+            {
+                print_debug();
+                last_debug_ms = now_ms;
+            }
+        }
+
         int key;
         key = cvWaitKey(10);
        if (char(key) == 27){
@@ -208,14 +217,6 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
     gettimeofday(&tp, NULL);
     now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
    
-//    if(DEBUG_FLAG)
-//    {
-//        if(now_ms - last_debug_ms > DEBUG_INTERVAL)
-//        {
-//            print_debug();
-//            last_debug_ms = now_ms;
-//        }
-//    }
     
 }
 
