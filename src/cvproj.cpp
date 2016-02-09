@@ -152,6 +152,7 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
 	oGim.absoluteAngleControl({5,5});
 	usleep(100000);
 
+	cout << "Main processing loop started" << endl;
 
     while(1){
                 
@@ -192,7 +193,7 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
 
         int key;
         key = cvWaitKey(10);
-        if (char(key) == 27){
+       if (char(key) == 27){
             if(TRACKBAR_ENABLE){
                         cout << "Printing imParams" << endl;
                         gui_obj.print_params(&imParams);
@@ -207,14 +208,14 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
     gettimeofday(&tp, NULL);
     now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
    
-    if(DEBUG_FLAG)
-    {
-        if(now_ms - last_debug_ms > DEBUG_INTERVAL)
-        {
+//    if(DEBUG_FLAG)
+//   {
+//        if(now_ms - last_debug_ms > DEBUG_INTERVAL)
+  //      {
             print_debug();
             last_debug_ms = now_ms;
-        }
-    }
+ //       }
+ //   }
     
 }
 
