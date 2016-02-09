@@ -31,8 +31,6 @@ gim_control::gim_control()
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
 {
-    cout << "follow position called" << endl;
-    
     const double MOVEMENT_INT = 100; //unit is ms 
 
     gettimeofday(&tp, NULL);
@@ -109,7 +107,6 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
 void gim_control::centerGimbal()
 {
     //return to initial position
-    cout << "Centering Gimbal" << endl;
     c.mode = SBGC_CONTROL_MODE_ANGLE;
     c.anglePITCH = 0;
     c.angleYAW = 0;

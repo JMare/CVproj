@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include <sys/time.h>
 
 //paramater arrays
 extern std::vector<int> imParams;
@@ -24,4 +25,9 @@ extern int camID;
 extern bool TRACKBAR_ENABLE;
 extern bool STREAM_POSITION;
 extern std::tuple<bool, double, double> Posmaster;
+
+
+void print_debug();
+
+
 #endif 

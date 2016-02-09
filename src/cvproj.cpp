@@ -44,11 +44,21 @@ int camID = 0;
 char* FILENAME; //image or video file 
 bool TRACKBAR_ENABLE = false;
 bool GUI_ENABLE = false;
+bool DEBUG_FLAG = false;
 
+long int now_ms;
+long int last_loop_ms;
+long int last_debug_ms;
+long int loop_begin_ms;
+const int LOOP_HISTORY_LENGTH = 20;
+long int loopTime;
+const int DEBUG_INTERVAL = 5000;
 
-std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); 
+struct timeval tp;
 
-int main(int argc, char* argv[])
+vector<long int> loopTimeHistory;
+
+std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(int argc, char* argv[])
 {
     //dont let program start without arguments
     if (argc < 3) {
@@ -93,6 +103,9 @@ int main(int argc, char* argv[])
         }
         else if(string(argv[i]) == "--gui") {
             GUI_ENABLE  = true; 
+            }
+        else if(string(argv[i]) == "--debug") {
+            DEBUG_FLAG = true; 
             }
     } 
     
@@ -141,6 +154,20 @@ int main(int argc, char* argv[])
 
 
     while(1){
+                
+        last_loop_ms = loop_begin_ms;
+
+        gettimeofday(&tp, NULL);
+        now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        loop_begin_ms = now_ms;
+
+        loopTime = loop_begin_ms - last_loop_ms;
+        
+        loopTimeHistory.push_back(loopTime);
+        if(loopTimeHistory.size() > LOOP_HISTORY_LENGTH)
+        {
+            loopTimeHistory.erase(loopTimeHistory.begin());
+        }
         
         try{
             imFrame.process_frame();
@@ -176,6 +203,28 @@ int main(int argc, char* argv[])
     }
     cout << "Main run to completion - Aborting" << endl;
     return 0;
+
+    gettimeofday(&tp, NULL);
+    now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+   
+    if(DEBUG_FLAG)
+    {
+        if(now_ms - last_debug_ms > DEBUG_INTERVAL)
+        {
+            print_debug();
+            last_debug_ms = now_ms;
+        }
+    }
+    
 }
 
+void print_debug()
+{
+    cout << "------------------------" << endl;
+    
+    int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)) / loopTimeHistory.size();
+    
+    cout << "Loop time: " << loopTimePrint << " ms." << endl;
 
+    cout << "------------------------" << endl;
+}
