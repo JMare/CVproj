@@ -211,6 +211,9 @@ void im_proc::process_frame()
     {
         PosHistory.erase(PosHistory.begin());
     }
+
+    cout << "frame processing done" << endl;
+    cout << xSmooth << ySmooth << endl;
 }
 
 tuple<bool,double,double> im_proc::get_position()
