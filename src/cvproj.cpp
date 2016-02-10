@@ -231,8 +231,9 @@ void print_debug()
     cout << "------------------------" << endl;
     
     int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)) / loopTimeHistory.size();
+    int loopTimeFPS = 1000 / loopTimePrint;
     
-    cout << "Loop time: " << loopTimePrint << " ms." << endl;
+    cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
 
     cout << "------------------------" << endl;
 }
