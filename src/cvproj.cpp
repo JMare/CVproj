@@ -46,10 +46,10 @@ bool TRACKBAR_ENABLE = false;
 bool GUI_ENABLE = false;
 bool DEBUG_FLAG = false;
 
-long int now_ms;
-long int last_loop_ms;
-long int last_debug_ms;
-long int loop_begin_ms;
+long int now_ms = 0;
+long int last_loop_ms = 0;
+long int last_debug_ms = 0;
+long int loop_begin_ms = 0;
 const int LOOP_HISTORY_LENGTH = 20;
 long int loopTime;
 const int DEBUG_INTERVAL = 5000;
@@ -197,7 +197,7 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
 
         if(DEBUG_FLAG)
         {
-            if(now_ms - last_debug_ms > DEBUG_INTERVAL)
+            if(now_ms - last_debug_ms < DEBUG_INTERVAL)
             {
                 print_debug();
                 last_debug_ms = now_ms;
@@ -219,7 +219,7 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
     return 0;
 
     gettimeofday(&tp, NULL);
-    now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    now_ms = (tp.tv_sec * 1000 + tp.tv_usec / 1000);
    
     
 }
