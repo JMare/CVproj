@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 //----PROJECT HEADERS-----------
 #include "im_proc.h"
@@ -53,7 +54,7 @@ double  last_debug_ms = 0;
 double  loop_begin_ms = 0;
 const int LOOP_HISTORY_LENGTH = 20;
 double loopTime;
-const int DEBUG_INTERVAL = 5000;
+const int DEBUG_INTERVAL = 2000;
 
 struct timeval tp;
 
@@ -207,7 +208,7 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
         }
 
         int key;
-        key = cvWaitKey(10);
+        key = cvWaitKey(1);
        if (char(key) == 27){
             if(TRACKBAR_ENABLE){
                         cout << "Printing imParams" << endl;
@@ -239,7 +240,13 @@ void print_debug()
 
 static long myclock()
 {
-    struct timeval tp; 
-    gettimeofday(&tp, NULL);
-    return (tp.tv_sec * 1000) + tp.tv_usec / 1000;
+//    struct timeval tp; 
+//    gettimeofday(&tp, NULL);
+//    return (tp.tv_sec * 1000) + tp.tv_usec / 1000;
+    typedef std::chrono::high_resolution_clock clock;
+    typedef std::chrono::duration<float, std::milli> duration;
+
+    static clock::time_point start = clock::now();
+    duration elapsed = clock::now() - start;
+    return elapsed.count();
 }
