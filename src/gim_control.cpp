@@ -33,13 +33,12 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
 {
     const double MOVEMENT_INT = 100; //unit is ms 
 
-    gettimeofday(&tp, NULL);
-    now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    now_ms = myclock();
 
     //below is a crude example to demonstrate laser control
     if(now_ms - last_mov_ms >  MOVEMENT_INT){  
-        gettimeofday(&tp, NULL);
-        last_mov_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        last_mov_ms = myclock();
+
         if(get<0>(Pos))
         {
             vector<double> relPos = calcRelativePosition(Pos);
@@ -152,3 +151,12 @@ void gim_control::processIncomingMessages()
     }
 }
 
+long gim_control::myclock()
+{
+    typedef std::chrono::high_resolution_clock clock;
+    typedef std::chrono::duration<float, std::milli> duration;
+
+    static clock::time_point start = clock::now();
+    duration elapsed = clock::now() - start;
+    return elapsed.count();
+}

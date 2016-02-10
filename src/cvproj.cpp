@@ -124,121 +124,124 @@ int main(int argc, char* argv[])
             cout << "Cvproj started using image file: " << FILENAME << endl;
             break;
     }
-    
-    atexit(onExit);
 
     if(TRACKBAR_ENABLE) {
         cout << "Trackbars Enabled" << endl;
     }
 
+    im_proc imFrame;
 
-	usleep(100000);
-	
-	oGim.absoluteAngleControl({5,5});
-	usleep(100000);
+    gim_control oGim; 
 
-        oGim.centerGimbal();
-        usleep(100000);
+    gui_draw gui_obj; //create object for gui drawing
 
-
-    try{
-        imFrame.init_feed(camID); //try to open webcam/video
-    } catch (int x){ //check if feed actually opened
-        switch(x){
-            case 1:
-                cout << "Frame source could not be opened" << endl;
-                break;
-            case 6:
-                cout << "output_cap could not be opened" << endl;
-                break; 
-        }
-        cout << "ERROR CODE: " << x << endl;
-        return 0;
-    }
-
+    usleep(100000);
     
+    oGim.absoluteAngleControl({5,5});
+    usleep(100000);
+
+    oGim.centerGimbal();
+    usleep(100000);
 
 
-	cout << "Main processing loop started" << endl;
-
-    while(1){
-                
-        last_loop_ms = loop_begin_ms;
-
-        now_ms = myclock();
-        loop_begin_ms = now_ms;
-
-        loopTime = loop_begin_ms - last_loop_ms;
-        
-        loopTimeHistory.push_back(loopTime);
-        if(loopTimeHistory.size() > LOOP_HISTORY_LENGTH)
-        {
-            loopTimeHistory.erase(loopTimeHistory.begin());
-        }
-        
-        try{
-            imFrame.process_frame();
-        } catch(int x){
-            cout << "Feed closed unexpectadly" << endl;
-            cout << "ERROR CODE: " << x << endl;
+try{
+    imFrame.init_feed(camID); //try to open webcam/video
+} catch (int x){ //check if feed actually opened
+    switch(x){
+        case 1:
+            cout << "Frame source could not be opened" << endl;
             break;
-        }
-        
-        frame_overlay = imFrame.get_frame_overlay();
-
-        frame_thresholded = imFrame.get_frame_thresholded();
-        
-        Pos = imFrame.get_position();
-        
-        oGim.followPosition(Pos);
-        
-        if(GUI_ENABLE)
-        {
-            gui_obj.draw_interface();
-        }
-    
-        now_ms = myclock();
-
-        if(DEBUG_FLAG)
-        {
-            if(now_ms - last_debug_ms > DEBUG_INTERVAL)
-            {
-                print_debug();
-                last_debug_ms = now_ms;
-            }
-        }
-
-        int key;
-        key = cvWaitKey(1);
-       if (char(key) == 27){
-            if(TRACKBAR_ENABLE){
-                        cout << "Printing imParams" << endl;
-                        gui_obj.print_params(&imParams);
-            }
-            break;      //If you hit ESC key loop will break.
-        }
-
+        case 6:
+            cout << "output_cap could not be opened" << endl;
+            break; 
     }
-    cout << "Main run to completion - Aborting" << endl;
+    cout << "ERROR CODE: " << x << endl;
     return 0;
-    
+}
+
+
+
+
+    cout << "Main processing loop started" << endl;
+
+while(1){
+            
+    last_loop_ms = loop_begin_ms;
+
     now_ms = myclock();
-   
+    loop_begin_ms = now_ms;
+
+    loopTime = loop_begin_ms - last_loop_ms;
     
+    loopTimeHistory.push_back(loopTime);
+    if(loopTimeHistory.size() > LOOP_HISTORY_LENGTH)
+    {
+        loopTimeHistory.erase(loopTimeHistory.begin());
+    }
+    
+    try{
+        imFrame.process_frame();
+    } catch(int x){
+        cout << "Feed closed unexpectadly" << endl;
+        cout << "ERROR CODE: " << x << endl;
+        break;
+    }
+    
+    frame_overlay = imFrame.get_frame_overlay();
+
+    frame_thresholded = imFrame.get_frame_thresholded();
+    
+    Pos = imFrame.get_position();
+    
+    oGim.followPosition(Pos);
+    
+    if(GUI_ENABLE)
+    {
+        gui_obj.draw_interface();
+    }
+
+    now_ms = myclock();
+
+    if(DEBUG_FLAG)
+    {
+        if(now_ms - last_debug_ms > DEBUG_INTERVAL)
+        {
+            print_debug();
+            last_debug_ms = now_ms;
+        }
+    }
+
+    int key;
+    key = cvWaitKey(1);
+   if (char(key) == 27){
+        if(TRACKBAR_ENABLE){
+                    cout << "Printing imParams" << endl;
+                    gui_obj.print_params(&imParams);
+        }
+        break;      //If you hit ESC key loop will break.
+    }
+
+}
+cout << "Main run to completion - Aborting" << endl;
+return 0;
+
+now_ms = myclock();
+
+
 }
 
 void print_debug()
 {
-    cout << "------------------------" << endl;
-    
-    int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)) / loopTimeHistory.size();
-    int loopTimeFPS = 1000 / loopTimePrint;
-    
-    cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
+cout << "------------------------" << endl;
 
-    cout << "Position found: " << get<0>(Pos) << endl;
-    
-    cout << "Coordinates - x: " << get<1>(Pos) << " y: " << get<2>(Pos) << endl;
+int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)) / loopTimeHistory.size();
+int loopTimeFPS = 1000 / loopTimePrint;
+
+cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
+
+cout << "Position found: " << get<0>(Pos) << endl;
+
+cout << "Coordinates - x: " << get<1>(Pos) << " y: " << get<2>(Pos) << endl;
 
     cout << "------------------------" << endl;
 }
@@ -246,21 +249,10 @@ void print_debug()
 
 static long myclock()
 {
-//    struct timeval tp; 
-//    gettimeofday(&tp, NULL);
-//    return (tp.tv_sec * 1000) + tp.tv_usec / 1000;
     typedef std::chrono::high_resolution_clock clock;
     typedef std::chrono::duration<float, std::milli> duration;
 
     static clock::time_point start = clock::now();
     duration elapsed = clock::now() - start;
     return elapsed.count();
-}
-
-void onExit()
-{
-    oGim.centerGimbal();
-    gui_obj.print_params(&imParams);
-
-    cout << "Program Exiting" << endl;
 }

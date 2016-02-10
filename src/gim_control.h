@@ -9,7 +9,7 @@
 #include "serial_port.h"
 #include <vector>
 #include <tuple>
-#include <sys/time.h>
+#include <chrono>
 
 class gim_control 
 {
@@ -25,6 +25,7 @@ class gim_control
     private:
         std::vector<double> calcRelativePosition(std::tuple<bool,double,double> Pos);
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
+        long myclock();
 
         serial_port oPort;
         SBGC_Parser oSbgc_parser;
@@ -38,6 +39,7 @@ class gim_control
 
         bool checkConnection();
         void processIncomingMessages();
+
 
 
         //this should be passed in from im_proc

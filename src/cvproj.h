@@ -26,14 +26,10 @@ extern bool TRACKBAR_ENABLE;
 extern bool STREAM_POSITION;
 extern std::tuple<bool, double, double> Posmaster;
 
-im_proc imFrame;
-
-gim_control oGim; 
-
-gui_draw gui_obj; //create object for gui drawing
 
 void print_debug();
+
 static long myclock();
-void onExit();
+
 
 #endif 
