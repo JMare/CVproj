@@ -46,12 +46,12 @@ bool TRACKBAR_ENABLE = false;
 bool GUI_ENABLE = false;
 bool DEBUG_FLAG = false;
 
-long int now_ms = 0;
-long int last_loop_ms = 0;
-long int last_debug_ms = 0;
-long int loop_begin_ms = 0;
+long  now_ms = 0;
+long  last_loop_ms = 0;
+long  last_debug_ms = 0;
+long  loop_begin_ms = 0;
 const int LOOP_HISTORY_LENGTH = 20;
-long int loopTime;
+long loopTime;
 const int DEBUG_INTERVAL = 5000;
 
 struct timeval tp;
@@ -162,8 +162,7 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
                 
         last_loop_ms = loop_begin_ms;
 
-        gettimeofday(&tp, NULL);
-        now_ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        now_ms = myclock();
         loop_begin_ms = now_ms;
 
         loopTime = loop_begin_ms - last_loop_ms;
@@ -194,10 +193,12 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
         {
             gui_obj.draw_interface();
         }
+    
+        now_ms = myclock();
 
         if(DEBUG_FLAG)
         {
-            if(now_ms - last_debug_ms < DEBUG_INTERVAL)
+            if(now_ms - last_debug_ms > DEBUG_INTERVAL)
             {
                 print_debug();
                 last_debug_ms = now_ms;
@@ -217,9 +218,8 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
     }
     cout << "Main run to completion - Aborting" << endl;
     return 0;
-
-    gettimeofday(&tp, NULL);
-    now_ms = (tp.tv_sec * 1000 + tp.tv_usec / 1000);
+    
+    now_ms = myclock();
    
     
 }
@@ -233,4 +233,12 @@ void print_debug()
     cout << "Loop time: " << loopTimePrint << " ms." << endl;
 
     cout << "------------------------" << endl;
+}
+
+
+static long myclock()
+{
+    struct timeval tp; 
+    gettimeofday(&tp, NULL);
+    return (tp.tv_sec * 1000) + tp.tv_usec / 1000;
 }

@@ -28,6 +28,7 @@ extern std::tuple<bool, double, double> Posmaster;
 
 
 void print_debug();
+static long myclock();
 
 
 #endif 
