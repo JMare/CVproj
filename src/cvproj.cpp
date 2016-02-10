@@ -125,6 +125,16 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
         cout << "Trackbars Enabled" << endl;
     }
 
+    gim_control oGim; 
+
+	usleep(100000);
+	
+	oGim.absoluteAngleControl({5,5});
+	usleep(100000);
+
+        oGim.centerGimbal();
+        usleep(100000);
+
     im_proc imFrame;
 
     try{
@@ -145,12 +155,6 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
     
     gui_draw gui_obj; //create object for gui drawing
 
-    gim_control oGim; 
-
-	usleep(100000);
-	
-	oGim.absoluteAngleControl({5,5});
-	usleep(100000);
 
 	cout << "Main processing loop started" << endl;
 
