@@ -14,9 +14,9 @@
 //----PROJECT HEADERS-----------
 #include "im_proc.h"
 #include "gui_draw.h"
-#include "cvproj.h"
 #include "gim_control.h"
 #include "serial_port.h"
+#include "cvproj.h"
 
 //----NAMESPACES----------------
 using namespace cv;
@@ -60,7 +60,9 @@ struct timeval tp;
 
 vector<long int> loopTimeHistory;
 tuple<bool, double, double> Pos;
-std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(int argc, char* argv[])
+std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); 
+
+int main(int argc, char* argv[])
 {
     //dont let program start without arguments
     if (argc < 3) {
@@ -122,12 +124,13 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
             cout << "Cvproj started using image file: " << FILENAME << endl;
             break;
     }
+    
+    atexit(onExit);
 
     if(TRACKBAR_ENABLE) {
         cout << "Trackbars Enabled" << endl;
     }
 
-    gim_control oGim; 
 
 	usleep(100000);
 	
@@ -137,7 +140,6 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
         oGim.centerGimbal();
         usleep(100000);
 
-    im_proc imFrame;
 
     try{
         imFrame.init_feed(camID); //try to open webcam/video
@@ -155,7 +157,6 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
     }
 
     
-    gui_draw gui_obj; //create object for gui drawing
 
 
 	cout << "Main processing loop started" << endl;
@@ -254,4 +255,12 @@ static long myclock()
     static clock::time_point start = clock::now();
     duration elapsed = clock::now() - start;
     return elapsed.count();
+}
+
+void onExit()
+{
+    oGim.centerGimbal();
+    gui_obj.print_params(&imParams);
+
+    cout << "Program Exiting" << endl;
 }
