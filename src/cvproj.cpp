@@ -59,7 +59,7 @@ const int DEBUG_INTERVAL = 2000;
 struct timeval tp;
 
 vector<long int> loopTimeHistory;
-
+tuple<bool, double, double> Pos;
 std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(int argc, char* argv[])
 {
     //dont let program start without arguments
@@ -187,7 +187,7 @@ std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); int main(i
 
         frame_thresholded = imFrame.get_frame_thresholded();
         
-        tuple<bool, double, double> Pos = imFrame.get_position();
+        Pos = imFrame.get_position();
         
         oGim.followPosition(Pos);
         
@@ -234,6 +234,10 @@ void print_debug()
     int loopTimeFPS = 1000 / loopTimePrint;
     
     cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
+
+    cout << "Position found: " << get<0>(Pos) << endl;
+    
+    cout << "Coordinates - x: " << get<1>(Pos) << " y: " << get<2>(Pos) << endl;
 
     cout << "------------------------" << endl;
 }
