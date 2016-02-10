@@ -46,12 +46,13 @@ bool TRACKBAR_ENABLE = false;
 bool GUI_ENABLE = false;
 bool DEBUG_FLAG = false;
 
-long  now_ms = 0;
-long  last_loop_ms = 0;
-long  last_debug_ms = 0;
-long  loop_begin_ms = 0;
+//these probably shoulnt be doubles, it seems wasteful
+double  now_ms = 0;
+double  last_loop_ms = 0;
+double  last_debug_ms = 0;
+double  loop_begin_ms = 0;
 const int LOOP_HISTORY_LENGTH = 20;
-long loopTime;
+double loopTime;
 const int DEBUG_INTERVAL = 5000;
 
 struct timeval tp;
