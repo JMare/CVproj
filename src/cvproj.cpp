@@ -56,8 +56,6 @@ const int LOOP_HISTORY_LENGTH = 20;
 double loopTime;
 const int DEBUG_INTERVAL = 2000;
 
-struct timeval tp;
-
 vector<long int> loopTimeHistory;
 tuple<bool, double, double> Pos;
 std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); 
@@ -129,105 +127,106 @@ int main(int argc, char* argv[])
         cout << "Trackbars Enabled" << endl;
     }
 
+
+    //Instantiate classes
+    
     im_proc imFrame;
 
     gim_control oGim; 
 
     gui_draw gui_obj; //create object for gui drawing
 
+    //Move the gimbal slightly and then back to center
     usleep(100000);
-    
     oGim.absoluteAngleControl({5,5});
     usleep(100000);
-
     oGim.centerGimbal();
     usleep(100000);
 
 
-try{
-    imFrame.init_feed(camID); //try to open webcam/video
-} catch (int x){ //check if feed actually opened
-    switch(x){
-        case 1:
-            cout << "Frame source could not be opened" << endl;
-            break;
-        case 6:
-            cout << "output_cap could not be opened" << endl;
-            break; 
-    }
-    cout << "ERROR CODE: " << x << endl;
-    return 0;
-}
-
-
-
-
-    cout << "Main processing loop started" << endl;
-
-while(1){
-            
-    last_loop_ms = loop_begin_ms;
-
-    now_ms = myclock();
-    loop_begin_ms = now_ms;
-
-    loopTime = loop_begin_ms - last_loop_ms;
-    
-    loopTimeHistory.push_back(loopTime);
-    if(loopTimeHistory.size() > LOOP_HISTORY_LENGTH)
-    {
-        loopTimeHistory.erase(loopTimeHistory.begin());
-    }
-    
     try{
-        imFrame.process_frame();
-    } catch(int x){
-        cout << "Feed closed unexpectadly" << endl;
+        imFrame.init_feed(camID); //try to open webcam/video
+    } catch (int x){ //check if feed actually opened
+        switch(x){
+            case 1:
+                cout << "Frame source could not be opened" << endl;
+                break;
+            case 6:
+                cout << "output_cap could not be opened" << endl;
+                break; 
+        }
         cout << "ERROR CODE: " << x << endl;
-        break;
-    }
-    
-    frame_overlay = imFrame.get_frame_overlay();
-
-    frame_thresholded = imFrame.get_frame_thresholded();
-    
-    Pos = imFrame.get_position();
-    
-    oGim.followPosition(Pos);
-    
-    if(GUI_ENABLE)
-    {
-        gui_obj.draw_interface();
+        return 0;
     }
 
-    now_ms = myclock();
 
-    if(DEBUG_FLAG)
-    {
-        if(now_ms - last_debug_ms > DEBUG_INTERVAL)
+
+
+        cout << "Main processing loop started" << endl;
+
+    while(1){
+                
+        last_loop_ms = loop_begin_ms;
+
+        now_ms = myclock();
+        loop_begin_ms = now_ms;
+
+        loopTime = loop_begin_ms - last_loop_ms;
+        
+        loopTimeHistory.push_back(loopTime);
+        if(loopTimeHistory.size() > LOOP_HISTORY_LENGTH)
         {
-            print_debug();
-            last_debug_ms = now_ms;
+            loopTimeHistory.erase(loopTimeHistory.begin());
         }
-    }
-
-    int key;
-    key = cvWaitKey(1);
-   if (char(key) == 27){
-        if(TRACKBAR_ENABLE){
-                    cout << "Printing imParams" << endl;
-                    gui_obj.print_params(&imParams);
+        
+        try{
+            imFrame.process_frame();
+        } catch(int x){
+            cout << "Feed closed unexpectadly" << endl;
+            cout << "ERROR CODE: " << x << endl;
+            break;
         }
-        break;      //If you hit ESC key loop will break.
-    }
+        
+        frame_overlay = imFrame.get_frame_overlay();
 
-}
-cout << "Main run to completion - Aborting" << endl;
-return 0;
+        frame_thresholded = imFrame.get_frame_thresholded();
+        
+        Pos = imFrame.get_position();
+        
+        oGim.followPosition(Pos);
+        
+        if(GUI_ENABLE)
+        {
+            gui_obj.draw_interface();
+        }
 
-now_ms = myclock();
+        now_ms = myclock();
 
+        if(DEBUG_FLAG)
+        {
+            if(now_ms - last_debug_ms > DEBUG_INTERVAL)
+            {
+                print_debug();
+                last_debug_ms = now_ms;
+            }
+        }
 
+        int key;
+        key = cvWaitKey(1);
+       if (char(key) == 27){
+            if(TRACKBAR_ENABLE){
+                        cout << "Printing imParams" << endl;
+                        gui_obj.print_params(&imParams);
+            }
+            break;      //If you hit ESC key loop will break.
+        }
+
+        now_ms = myclock();
+
+    } //End main proccesing loop
+
+    cout << "Main run to completion - Aborting" << endl;
+    return 0;
 }
 
 void print_debug()

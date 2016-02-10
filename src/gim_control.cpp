@@ -35,7 +35,6 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
 
     now_ms = myclock();
 
-    //below is a crude example to demonstrate laser control
     if(now_ms - last_mov_ms >  MOVEMENT_INT){  
         last_mov_ms = myclock();
 
