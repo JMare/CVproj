@@ -34,8 +34,8 @@ class gim_control
         SBGC_cmd_realtime_data_t rt_data;
         SBGC_cmd_api_virt_ch_control_t v;
 
-        long int now_ms;
-        long int last_mov_ms;
+        double now_ms = 0;
+        double last_mov_ms = 0;
 
         bool checkConnection();
         void processIncomingMessages();
