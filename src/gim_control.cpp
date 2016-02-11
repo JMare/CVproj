@@ -56,8 +56,8 @@ vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos
     double x = get<1>(Pos);
     double y = get<2>(Pos);
 
-    const double GAIN_X = 0.05;
-    const double GAIN_Y = 0.05;
+    const double GAIN_X = 0.06;
+    const double GAIN_Y = 0.03;
 
     //These calculate a score between -100 and 100 for x and y
     double xCorrected = ((x - (FRAME_COLS / 2)) / (FRAME_COLS / 2)) * 100;
