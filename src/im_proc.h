@@ -24,6 +24,8 @@ class im_proc
         
         std::tuple<bool, double, double> get_position();
 
+        void get_info(int *numCandPass, int *areaOfLaser, int *greenOfLaser);
+
     private:
         //FUNCTIONS
         void threshold_frame(cv::Mat *frame, std::vector<int> *params);
@@ -47,6 +49,9 @@ class im_proc
         std::tuple<bool, double, double> PosLast1;
 
         std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
+        int mostgreen;
+
+        std::vector<std::vector<double>> candidatearray;
 };
 
 #endif

@@ -155,7 +155,7 @@ void im_proc::process_frame()
 
     frame_info = inspect_frame(&frame_proc);
 
-    vector<vector<double>> candidatearray = get<0>(frame_info); 
+    candidatearray = get<0>(frame_info); 
 
     int matchID = check_candidates(candidatearray);
  
@@ -211,6 +211,14 @@ void im_proc::process_frame()
     {
         PosHistory.erase(PosHistory.begin());
     }
+}
+
+void im_proc::get_info(int *numCandPass, int *areaOfLaser, int *greenOfLaser)
+{
+    *greenOfLaser = mostgreen;
+    *areaOfLaser = areaFound;
+    *numCandPass = candidatearray.size();
+
 }
 
 tuple<bool,double,double> im_proc::get_position()
@@ -330,7 +338,7 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     //number of green things
     int numMatch = 0;
     
-    int mostgreen = 0;
+    mostgreen = 0;
 
     for(int i = candidates.size() - 1; i >= 0; i--)
     {

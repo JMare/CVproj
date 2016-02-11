@@ -60,6 +60,8 @@ vector<long int> loopTimeHistory;
 tuple<bool, double, double> Pos;
 std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); 
 
+int numCandPass, areaOfLaser, greenOfLaser;
+
 int main(int argc, char* argv[])
 {
     //dont let program start without arguments
@@ -220,6 +222,8 @@ int main(int argc, char* argv[])
             break;      //If you hit ESC key loop will break.
         }
 
+        imFrame.get_info( &numCandPass, &areaOfLaser, &greenOfLaser);
+
         now_ms = myclock();
 
     } //End main proccesing loop
@@ -230,6 +234,7 @@ int main(int argc, char* argv[])
 
 void print_debug()
 {
+
 cout << "------------------------" << endl;
 
 int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)) / loopTimeHistory.size();
@@ -237,9 +242,16 @@ int loopTimeFPS = 1000 / loopTimePrint;
 
 cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
 
+cout << "Laser candidates: " << numCandPass << endl;
 cout << "Position found: " << get<0>(Pos) << endl;
 
 cout << "Coordinates - x: " << get<1>(Pos) << " y: " << get<2>(Pos) << endl;
+
+
+if(get<0>(Pos)){
+    cout << "Laser Area: " << areaOfLaser << endl;
+    cout << "Laser green count: " <<  greenOfLaser << endl;
+}
 
     cout << "------------------------" << endl;
 }
