@@ -36,7 +36,7 @@ vector<int> inspect_image_params = {20, 50, 700};
 
 //global variables for check_candiates
 //{CHECK_SQUARE_SIZE, H_MIN, H_MAX, S_MIN, S_MAX, MIN_GREEN_REQUIRED}
-vector<int> check_candidates_params = {10,40,75,20,255,30;
+vector<int> check_candidates_params = {10,40,75,20,255,30};
 
 
 //command line arguments
