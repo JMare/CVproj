@@ -446,7 +446,7 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
 
     //check which method found something and return based on that
     if((greenID == movedID) && greenID >= 0) return greenID;
-    else if(greenID == -1 && movedID >= 0) return movedID;
+    //else if(greenID == -1 && movedID >= 0) return movedID;
     else if(greenID >= 0 && movedID == -1) return greenID;
     else return -1;
 }
