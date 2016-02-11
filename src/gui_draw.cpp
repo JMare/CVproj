@@ -42,7 +42,6 @@ void gui_draw::draw_interface()
 
 void gui_draw::print_params(vector<int> *params)
 {
-    if(TRACKBAR_ENABLE){ //Print the final values in case we want to save them
         cout << "Final values: " << endl;
         cout << "{";
         for(int i=0; i<params->size(); i++){
@@ -64,7 +63,6 @@ void gui_draw::print_params(vector<int> *params)
             if(i<check_candidates_params.size() -1) cout << ",";
         }
         cout << "}" << endl;
-    }
 }
 
 

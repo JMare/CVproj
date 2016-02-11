@@ -159,10 +159,9 @@ int main(int argc, char* argv[])
         return 0;
     }
 
+    gui_obj.print_params(&imParams);
 
-
-
-        cout << "Main processing loop started" << endl;
+    cout << "Main processing loop started" << endl;
 
     while(1){
                 
