@@ -42,12 +42,12 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
         {
             vector<double> relPos = calcRelativePosition(Pos);
             relateiveAngleControl(relPos);
-        } else 
+        } /*else 
         { 
             centerGimbal();
             xAngleHistory = 0;
             yAngleHistory = 0;
-        }
+        }*/
     }
 }
 
