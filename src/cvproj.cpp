@@ -112,23 +112,6 @@ int main(int argc, char* argv[])
             DEBUG_FLAG = true; 
             }
     } 
-    
-    switch(FRAME_SOURCE){
-        case 0:
-            cout << "Cvproj started using wecam ID: " << camID << endl;
-            break;
-        case 1:
-            cout << "Cvproj started using video file: " << FILENAME << endl;
-            break;
-        case 2:
-            cout << "Cvproj started using image file: " << FILENAME << endl;
-            break;
-    }
-
-    if(TRACKBAR_ENABLE) {
-        cout << "Trackbars Enabled" << endl;
-    }
-
 
     //Instantiate classes
     
@@ -166,17 +149,17 @@ int main(int argc, char* argv[])
     cout << "Main processing loop started" << endl;
 
     while(1){
-                
+        //Calculate the loop time for the last loop
         last_loop_ms = loop_begin_ms;
-
         now_ms = myclock();
         loop_begin_ms = now_ms;
-
         loopTime = loop_begin_ms - last_loop_ms;
         
+        //Add looptime to the looptimehistory vector
         loopTimeHistory.push_back(loopTime);
         if(loopTimeHistory.size() > LOOP_HISTORY_LENGTH)
         {
+            //If full, push out the last entry
             loopTimeHistory.erase(loopTimeHistory.begin());
         }
         
@@ -237,14 +220,13 @@ void print_debug()
 
 cout << "------------------------" << endl;
 
+//Calculate loop time
 int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)) / loopTimeHistory.size();
 int loopTimeFPS = 1000 / loopTimePrint;
 
 cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
-
 cout << "Laser candidates: " << numCandPass << endl;
 cout << "Position found: " << get<0>(Pos) << endl;
-
 cout << "Coordinates - x: " << get<1>(Pos) << " y: " << get<2>(Pos) << endl;
 
 
@@ -252,7 +234,6 @@ if(get<0>(Pos)){
     cout << "Laser Area: " << areaOfLaser << endl;
     cout << "Laser green count: " <<  greenOfLaser << endl;
 }
-
     cout << "------------------------" << endl;
 }
 
@@ -265,4 +246,5 @@ static long myclock()
     static clock::time_point start = clock::now();
     duration elapsed = clock::now() - start;
     return elapsed.count();
+    //returns in ms
 }

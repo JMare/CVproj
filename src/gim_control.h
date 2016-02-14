@@ -23,10 +23,14 @@ class gim_control
         void parseIncomingMessages();
 
     private:
+        //FUNCTIONS
         std::vector<double> calcRelativePosition(std::tuple<bool,double,double> Pos);
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
+        bool checkConnection();
+        void processIncomingMessages();
         long myclock();
 
+        //API objects
         serial_port oPort;
         SBGC_Parser oSbgc_parser;
         SBGC_cmd_control_t c = { 0, 0, 0, 0, 0, 0, 0 };
@@ -34,14 +38,13 @@ class gim_control
         SBGC_cmd_realtime_data_t rt_data;
         SBGC_cmd_api_virt_ch_control_t v;
 
+        //VARIABLES
         double now_ms = 0;
         double last_mov_ms = 0;
+        int xAngleHistory = 0;
+        int yAngleHistory = 0;
 
-        bool checkConnection();
-        void processIncomingMessages();
-
-
-
+        //CONSTANTS
         //this should be passed in from im_proc
         const int FRAME_ROWS = 480;
         const int FRAME_COLS = 680;
@@ -54,8 +57,9 @@ class gim_control
 
         const int SPEED_SCALE_FACTOR = 20;
 
-        int xAngleHistory = 0;
-        int yAngleHistory = 0;
+        //Interval for movement commands
+        //Lower is more jerky, higher can lead to sync loss
+        const double MOVEMENT_INT = 100; //unit is ms 
 
         struct timeval tp;
 };

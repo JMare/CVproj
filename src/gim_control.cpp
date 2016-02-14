@@ -31,7 +31,6 @@ gim_control::gim_control()
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
 {
-    const double MOVEMENT_INT = 100; //unit is ms 
 
     now_ms = myclock();
 
