@@ -52,6 +52,8 @@ class gim_control
         const int YAW_UPPER_LIMIT = 45;
         const int YAW_LOWER_LIMIT = 45;
 
+        const int SPEED_SCALE_FACTOR = 20;
+
         int xAngleHistory = 0;
         int yAngleHistory = 0;
 

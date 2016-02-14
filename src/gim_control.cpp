@@ -18,7 +18,7 @@ gim_control::gim_control()
     //move gimbal to initial position
     c.mode = SBGC_CONTROL_MODE_ANGLE;
     //set speed
-    c.speedROLL = c.speedPITCH = c.speedYAW = 70 * SBGC_SPEED_SCALE;
+    c.speedROLL = c.speedPITCH = c.speedYAW = SPEED_SCALE_FACTOR * SBGC_SPEED_SCALE;
     SBGC_cmd_control_send(c, oSbgc_parser);
     usleep(1000000);
 
@@ -56,6 +56,7 @@ vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos
     double x = get<1>(Pos);
     double y = get<2>(Pos);
 
+    //These scale the angle change linearly.
     const double GAIN_X = 0.06;
     const double GAIN_Y = 0.03;
 
