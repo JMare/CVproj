@@ -7,6 +7,7 @@ using namespace std;
 
 gim_control::gim_control()
 {
+absoluteAngleControl({0,0});
 }
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
@@ -60,9 +61,9 @@ void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
    double xAngleCmd = pitchYawAngles.at(1) + xAngleHistory;
    double yAngleCmd = pitchYawAngles.at(0) + yAngleHistory;
 
-   if(xAngleCmd < -YAW_LOWER_LIMIT) xAngleCmd = -YAW_LOWER_LIMIT;
+   if(xAngleCmd < YAW_LOWER_LIMIT) xAngleCmd = YAW_LOWER_LIMIT;
    if(xAngleCmd > YAW_UPPER_LIMIT) xAngleCmd = YAW_UPPER_LIMIT;
-   if(yAngleCmd < -PITCH_LOWER_LIMIT) yAngleCmd = -PITCH_LOWER_LIMIT;
+   if(yAngleCmd < PITCH_LOWER_LIMIT) yAngleCmd = PITCH_LOWER_LIMIT;
    if(yAngleCmd > PITCH_UPPER_LIMIT) yAngleCmd = PITCH_UPPER_LIMIT;
 
    absoluteAngleControl({yAngleCmd, xAngleCmd});
@@ -80,7 +81,8 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
     pitchPwmCmd += "=";
     pitchPwmCmd += to_string(pitchPwm);
     pitchPwmCmd += "%";
-    pitchPwmCmd += " > /dev/servoblaser";
+    pitchPwmCmd += " > /dev/servoblaster";
+	cout << pitchPwmCmd << endl;
     system(pitchPwmCmd.c_str());
 
     int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
@@ -89,7 +91,7 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
     yawPwmCmd += "=";
     yawPwmCmd += to_string(yawPwm);
     yawPwmCmd += "%";
-    yawPwmCmd += " > /dev/servoblaser";
+    yawPwmCmd += " > /dev/servoblaster";
     system(yawPwmCmd.c_str());
 }
 
