@@ -12,7 +12,7 @@
 #include <chrono>
 #include <cstdlib>
 
-class gim_control 
+class gim_control_api 
 {
     public:
         //constructor

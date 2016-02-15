@@ -1,16 +1,12 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
-#include "gim_control_api_api.h"
+#include "gim_control_api.h"
 
 using namespace std;
 
 gim_control_api::gim_control_api()
 {
-    system("echo 5=10% > /dev/servoblaster");
-    usleep(1000000);
-    system("echo 5=50% > /dev/servoblaster");
-
     oSbgc_parser.init(&oPort);
 
     cout << "Gimbal Initialised" << endl;

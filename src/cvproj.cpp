@@ -15,6 +15,7 @@
 #include "im_proc.h"
 #include "gui_draw.h"
 #include "gim_control_pwm.h"
+#include "gim_control_api.h"
 #include "serial_port.h"
 #include "cvproj.h"
 
@@ -22,6 +23,11 @@
 using namespace cv;
 using namespace std;
 
+#ifdef __arm__
+    gim_control_pwm oGim; 
+#else
+    gim_control_api oGim;
+#endif
 
 Mat frame_overlay, frame_thresholded;
 
@@ -116,8 +122,6 @@ int main(int argc, char* argv[])
     //Instantiate classes
     
     im_proc imFrame;
-
-    gim_control_pwm oGim; 
 
     gui_draw gui_obj; //create object for gui drawing
 
