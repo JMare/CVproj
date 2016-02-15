@@ -1,8 +1,8 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
-#ifndef GIM_CONTROL_H
-#define GIM_CONTROL_H
+#ifndef GIM_CONTROL_API_H
+#define GIM_CONTROL_API_H
 
 #include <iostream>
 #include "SBGC.h"
@@ -16,7 +16,7 @@ class gim_control
 {
     public:
         //constructor
-        gim_control();
+        gim_control_api();
 
         void followPosition(std::tuple<bool, double, double> Pos);
         void absoluteAngleControl(std::vector<double> pitchYawAngles); 

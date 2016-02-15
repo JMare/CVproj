@@ -1,11 +1,11 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
-#include "gim_control.h"
+#include "gim_control_api_api.h"
 
 using namespace std;
 
-gim_control::gim_control()
+gim_control_api::gim_control_api()
 {
     system("echo 5=10% > /dev/servoblaster");
     usleep(1000000);
@@ -32,7 +32,7 @@ gim_control::gim_control()
             }
 }
 
-void gim_control::followPosition(tuple<bool, double, double> Pos)
+void gim_control_api::followPosition(tuple<bool, double, double> Pos)
 {
 
     now_ms = myclock();
@@ -53,7 +53,7 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
     }
 }
 
-vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos)
+vector<double> gim_control_api::calcRelativePosition(tuple<bool, double, double> Pos)
 {
     double x = get<1>(Pos);
     double y = get<2>(Pos);
@@ -79,7 +79,7 @@ vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos
     return {yRelativeAngle, xRelativeAngle};
 }
 
-void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
+void gim_control_api::relateiveAngleControl(vector<double> pitchYawAngles)
 {
    double xAngleCmd = pitchYawAngles.at(1) + xAngleHistory;
    double yAngleCmd = pitchYawAngles.at(0) + yAngleHistory;
@@ -96,7 +96,7 @@ void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
 
 }
 
-void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
+void gim_control_api::absoluteAngleControl(vector<double> pitchYawAngles)
 {
     //takes in {pitch,yaw}
     c.mode = SBGC_CONTROL_MODE_ANGLE;
@@ -106,7 +106,7 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
 }
 
 
-void gim_control::centerGimbal()
+void gim_control_api::centerGimbal()
 {
     //return to initial position
     c.mode = SBGC_CONTROL_MODE_ANGLE;
@@ -115,7 +115,7 @@ void gim_control::centerGimbal()
     SBGC_cmd_control_send(c, oSbgc_parser);
 }
 
-bool gim_control::checkConnection()
+bool gim_control_api::checkConnection()
 {
     SerialCommand cmd;
     cmd.init(SBGC_CMD_GET_ADJ_VARS_VAL);
@@ -134,7 +134,7 @@ bool gim_control::checkConnection()
     return true;
 }
 
-void gim_control::processIncomingMessages()
+void gim_control_api::processIncomingMessages()
 {
     while(oSbgc_parser.read_cmd()) {
         SerialCommand &cmd = oSbgc_parser.in_cmd;
@@ -154,7 +154,7 @@ void gim_control::processIncomingMessages()
     }
 }
 
-long gim_control::myclock()
+long gim_control_api::myclock()
 {
     typedef std::chrono::high_resolution_clock clock;
     typedef std::chrono::duration<float, std::milli> duration;
