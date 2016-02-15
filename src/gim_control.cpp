@@ -49,7 +49,7 @@ vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos
         xRelativeAngle = GAIN_X * xCorrected;
     } else xRelativeAngle = 0;
 
-    if(yCorrected > 20 || xCorrected < -20){ 
+    if(yCorrected > 20 || yCorrected < -20){ 
         yRelativeAngle = GAIN_Y * yCorrected;
     } else  yRelativeAngle = 0;
 
@@ -70,11 +70,11 @@ void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
 
    xAngleHistory = xAngleCmd;
    yAngleHistory = yAngleCmd;
-
 }
 
 void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
 {
+    //turn angle into pwm % given known limits
     int pitchPwm = ((pitchYawAngles.at(0) - PITCH_LOWER_LIMIT) / (PITCH_UPPER_LIMIT - PITCH_LOWER_LIMIT)) * 100; 
     string pitchPwmCmd = "echo ";
     pitchPwmCmd += to_string(PITCH_PWM_PIN);
@@ -82,7 +82,6 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
     pitchPwmCmd += to_string(pitchPwm);
     pitchPwmCmd += "%";
     pitchPwmCmd += " > /dev/servoblaster";
-	cout << pitchPwmCmd << endl;
     system(pitchPwmCmd.c_str());
 
     int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
