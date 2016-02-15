@@ -1,16 +1,16 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
-#include "gim_control.h"
+#include "gim_control_pwm.h"
 
 using namespace std;
 
-gim_control::gim_control()
+gim_control_pwm::gim_control_pwm()
 {
 absoluteAngleControl({0,0});
 }
 
-void gim_control::followPosition(tuple<bool, double, double> Pos)
+void gim_control_pwm::followPosition(tuple<bool, double, double> Pos)
 {
     now_ms = myclock();
 
@@ -30,7 +30,7 @@ void gim_control::followPosition(tuple<bool, double, double> Pos)
     }
 }
 
-vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos)
+vector<double> gim_control_pwm::calcRelativePosition(tuple<bool, double, double> Pos)
 {
     double x = get<1>(Pos);
     double y = get<2>(Pos);
@@ -56,7 +56,7 @@ vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos
     return {yRelativeAngle, xRelativeAngle};
 }
 
-void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
+void gim_control_pwm::relateiveAngleControl(vector<double> pitchYawAngles)
 {
    double xAngleCmd = pitchYawAngles.at(1) + xAngleHistory;
    double yAngleCmd = pitchYawAngles.at(0) + yAngleHistory;
@@ -72,7 +72,7 @@ void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
    yAngleHistory = yAngleCmd;
 }
 
-void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
+void gim_control_pwm::absoluteAngleControl(vector<double> pitchYawAngles)
 {
     //turn angle into pwm % given known limits
     int pitchPwm = ((pitchYawAngles.at(0) - PITCH_LOWER_LIMIT) / (PITCH_UPPER_LIMIT - PITCH_LOWER_LIMIT)) * 100; 
@@ -95,19 +95,12 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
 }
 
 
-void gim_control::centerGimbal()
+void gim_control_pwm::centerGimbal()
 {
+    absoluteAngleControl({0,0});
 }
 
-bool gim_control::checkConnection()
-{
-}
-
-void gim_control::processIncomingMessages()
-{
-}
-
-long gim_control::myclock()
+long gim_control_pwm::myclock()
 {
     typedef std::chrono::high_resolution_clock clock;
     typedef std::chrono::duration<float, std::milli> duration;

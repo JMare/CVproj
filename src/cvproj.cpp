@@ -14,7 +14,7 @@
 //----PROJECT HEADERS-----------
 #include "im_proc.h"
 #include "gui_draw.h"
-#include "gim_control.h"
+#include "gim_control_pwm.h"
 #include "serial_port.h"
 #include "cvproj.h"
 
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
     
     im_proc imFrame;
 
-    gim_control oGim; 
+    gim_control_pwm oGim; 
 
     gui_draw gui_obj; //create object for gui drawing
 

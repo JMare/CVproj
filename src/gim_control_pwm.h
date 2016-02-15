@@ -1,8 +1,8 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
-#ifndef GIM_CONTROL_H
-#define GIM_CONTROL_H
+#ifndef GIM_CONTROL_PWM_H
+#define GIM_CONTROL_PWM_H
 
 #include <iostream>
 #include "SBGC.h"
@@ -12,23 +12,20 @@
 #include <chrono>
 #include <cstdlib>
 
-class gim_control 
+class gim_control_pwm
 {
     public:
         //constructor
-        gim_control();
+        gim_control_pwm();
 
         void followPosition(std::tuple<bool, double, double> Pos);
         void absoluteAngleControl(std::vector<double> pitchYawAngles); 
         void centerGimbal();
-        void parseIncomingMessages();
 
     private:
         //FUNCTIONS
         std::vector<double> calcRelativePosition(std::tuple<bool,double,double> Pos);
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
-        bool checkConnection();
-        void processIncomingMessages();
         long myclock();
 
 
