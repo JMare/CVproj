@@ -1,5 +1,5 @@
 CFLAGS+=`pkg-config --cflags opencv`
-LDFLAGS+=`pkg-config --libs opencv`
+LDFLAGS+=`pkg-config --libs opencv` 
 
 SRC = $(shell find . -name *.cpp)
 
@@ -18,7 +18,7 @@ $(BIN): $(OBJ)
 #each object file is dependent on its source file, and whenever make needs to create
 # an object file, to follow this rule:
 %.o: %.cpp
-	g++ -std=c++11 -c -ggdb $(CFLAGS) $< -o $@ $(LDFLAGS)
+	g++ -std=c++11 -c -ggdb $(CFLAGS) $< -o $@ $(LDFLAGS) -lwiringPi -lpthread
 
 clean:
 	$(RM) $(BIN) src/*.o *~

@@ -7,6 +7,10 @@ using namespace std;
 
 gim_control::gim_control()
 {
+    softPwmCreate(23,50,100);
+    usleep(10000000);
+    softPwmWrite(23, 100);
+
     oSbgc_parser.init(&oPort);
 
     cout << "Gimbal Initialised" << endl;
@@ -26,7 +30,6 @@ gim_control::gim_control()
     for(uint8_t i=0; i<SBGC_API_VIRT_NUM_CHANNELS; i++) {
                     v.data[i] = SBGC_RC_UNDEF;
             }
-
 }
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
@@ -100,6 +103,11 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
     c.anglePITCH = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(0));
     c.angleYAW = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(1));
     SBGC_cmd_control_send(c, oSbgc_parser);
+}
+
+void gim_control::pwmAngleControl(vector<double> pitchYawAngles)
+{
+    
 }
 
 void gim_control::centerGimbal()

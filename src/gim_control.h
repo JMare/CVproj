@@ -11,6 +11,9 @@
 #include <tuple>
 #include <chrono>
 
+#include <wiringPi.h>
+#include <softPwm.h>
+
 class gim_control 
 {
     public:
