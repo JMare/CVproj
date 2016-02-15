@@ -7,12 +7,10 @@ using namespace std;
 
 gim_control::gim_control()
 {
-    absoluteAngleControl({0,15});
 }
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
 {
-
     now_ms = myclock();
 
     if(now_ms - last_mov_ms >  MOVEMENT_INT){  
@@ -37,7 +35,7 @@ vector<double> gim_control::calcRelativePosition(tuple<bool, double, double> Pos
     double y = get<2>(Pos);
 
     //These scale the angle change linearly.
-    const double GAIN_X = 0.06;
+    const double GAIN_X = 0.03;
     const double GAIN_Y = 0.03;
 
     //These calculate a score between -100 and 100 for x and y
@@ -83,7 +81,6 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
     pitchPwmCmd += to_string(pitchPwm);
     pitchPwmCmd += "%";
     pitchPwmCmd += " > /dev/servoblaser";
-    cout << pitchPwmCmd << endl;
     system(pitchPwmCmd.c_str());
 
     int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
@@ -93,7 +90,6 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
     yawPwmCmd += to_string(yawPwm);
     yawPwmCmd += "%";
     yawPwmCmd += " > /dev/servoblaser";
-    cout << yawPwmCmd << endl;
     system(yawPwmCmd.c_str());
 }
 
