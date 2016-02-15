@@ -7,7 +7,7 @@ using namespace std;
 
 gim_control_pwm::gim_control_pwm()
 {
-absoluteAngleControl({0,0});
+    absoluteAngleControl({0,0});
 }
 
 void gim_control_pwm::followPosition(tuple<bool, double, double> Pos)

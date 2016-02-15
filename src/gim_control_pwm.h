@@ -5,8 +5,6 @@
 #define GIM_CONTROL_PWM_H
 
 #include <iostream>
-#include "SBGC.h"
-#include "serial_port.h"
 #include <vector>
 #include <tuple>
 #include <chrono>
@@ -28,7 +26,6 @@ class gim_control_pwm
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
         long myclock();
 
-
         //VARIABLES
         double now_ms = 0;
         double last_mov_ms = 0;
@@ -37,6 +34,7 @@ class gim_control_pwm
 
         //CONSTANTS
         
+        //rpi pins for pwm
         const int PITCH_PWM_PIN = 5;
         const int YAW_PWM_PIN = 6;
 
@@ -45,12 +43,11 @@ class gim_control_pwm
         const int FRAME_COLS = 680;
 
         //limits in degrees
-        const int PITCH_UPPER_LIMIT = 30;
-        const int PITCH_LOWER_LIMIT = -30;
-        const int YAW_UPPER_LIMIT = 45;
-        const int YAW_LOWER_LIMIT = -45;
+        const int PITCH_UPPER_LIMIT = 25;
+        const int PITCH_LOWER_LIMIT = -25;
+        const int YAW_UPPER_LIMIT = 60;
+        const int YAW_LOWER_LIMIT = -60;
 
-        const int SPEED_SCALE_FACTOR = 20;
 
         //Interval for movement commands
         //Lower is more jerky, higher can lead to sync loss
