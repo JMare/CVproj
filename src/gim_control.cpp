@@ -105,10 +105,6 @@ void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
     SBGC_cmd_control_send(c, oSbgc_parser);
 }
 
-void gim_control::pwmAngleControl(vector<double> pitchYawAngles)
-{
-    
-}
 
 void gim_control::centerGimbal()
 {
