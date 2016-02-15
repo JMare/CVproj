@@ -10,9 +10,7 @@
 #include <vector>
 #include <tuple>
 #include <chrono>
-
-#include <wiringPi.h>
-#include <softPwm.h>
+#include <cstdlib>
 
 class gim_control 
 {
