@@ -7,6 +7,7 @@ using namespace std;
 
 gim_control::gim_control()
 {
+    wiringPiSetup();
     softPwmCreate(23,50,100);
     usleep(10000000);
     softPwmWrite(23, 100);
