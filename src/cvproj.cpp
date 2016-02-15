@@ -121,14 +121,6 @@ int main(int argc, char* argv[])
 
     gui_draw gui_obj; //create object for gui drawing
 
-    //Move the gimbal slightly and then back to center
-    usleep(100000);
-    oGim.absoluteAngleControl({5,5});
-    usleep(100000);
-    oGim.centerGimbal();
-    usleep(100000);
-
-
     try{
         imFrame.init_feed(camID); //try to open webcam/video
     } catch (int x){ //check if feed actually opened

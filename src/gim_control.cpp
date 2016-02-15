@@ -7,29 +7,7 @@ using namespace std;
 
 gim_control::gim_control()
 {
-    system("echo 5=10% > /dev/servoblaster");
-    usleep(1000000);
-    system("echo 5=50% > /dev/servoblaster");
-
-    oSbgc_parser.init(&oPort);
-
-    cout << "Gimbal Initialised" << endl;
-    //are we connected??
-    //this does not work currently 
-    // bool connectFlag = checkConnection();
-    // cout << connectFlag << endl;
-        
-    //move gimbal to initial position
-    c.mode = SBGC_CONTROL_MODE_ANGLE;
-    //set speed
-    c.speedROLL = c.speedPITCH = c.speedYAW = SPEED_SCALE_FACTOR * SBGC_SPEED_SCALE;
-    SBGC_cmd_control_send(c, oSbgc_parser);
-    usleep(1000000);
-
-    
-    for(uint8_t i=0; i<SBGC_API_VIRT_NUM_CHANNELS; i++) {
-                    v.data[i] = SBGC_RC_UNDEF;
-            }
+    absoluteAngleControl({0,15});
 }
 
 void gim_control::followPosition(tuple<bool, double, double> Pos)
@@ -98,60 +76,38 @@ void gim_control::relateiveAngleControl(vector<double> pitchYawAngles)
 
 void gim_control::absoluteAngleControl(vector<double> pitchYawAngles)
 {
-    //takes in {pitch,yaw}
-    c.mode = SBGC_CONTROL_MODE_ANGLE;
-    c.anglePITCH = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(0));
-    c.angleYAW = SBGC_DEGREE_TO_ANGLE(pitchYawAngles.at(1));
-    SBGC_cmd_control_send(c, oSbgc_parser);
+    int pitchPwm = ((pitchYawAngles.at(0) - PITCH_LOWER_LIMIT) / (PITCH_UPPER_LIMIT - PITCH_LOWER_LIMIT)) * 100; 
+    string pitchPwmCmd = "echo ";
+    pitchPwmCmd += to_string(PITCH_PWM_PIN);
+    pitchPwmCmd += "=";
+    pitchPwmCmd += to_string(pitchPwm);
+    pitchPwmCmd += "%";
+    pitchPwmCmd += " > /dev/servoblaser";
+    cout << pitchPwmCmd << endl;
+    system(pitchPwmCmd.c_str());
+
+    int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
+    string yawPwmCmd = "echo ";
+    yawPwmCmd += to_string(YAW_PWM_PIN);
+    yawPwmCmd += "=";
+    yawPwmCmd += to_string(yawPwm);
+    yawPwmCmd += "%";
+    yawPwmCmd += " > /dev/servoblaser";
+    cout << yawPwmCmd << endl;
+    system(yawPwmCmd.c_str());
 }
 
 
 void gim_control::centerGimbal()
 {
-    //return to initial position
-    c.mode = SBGC_CONTROL_MODE_ANGLE;
-    c.anglePITCH = 0;
-    c.angleYAW = 0;
-    SBGC_cmd_control_send(c, oSbgc_parser);
 }
 
 bool gim_control::checkConnection()
 {
-    SerialCommand cmd;
-    cmd.init(SBGC_CMD_GET_ADJ_VARS_VAL);
-    oSbgc_parser.send_cmd(cmd);
-
-    usleep(10000);
-
-    try{
-        processIncomingMessages();
-    }
-    catch(int x){
-        if(x == 51){
-            return false;
-        }
-    } 
-    return true;
 }
 
 void gim_control::processIncomingMessages()
 {
-    while(oSbgc_parser.read_cmd()) {
-        SerialCommand &cmd = oSbgc_parser.in_cmd;
-        
-        uint8_t error = 0;
-        int a = cmd.id;
-        cout << "command id is: " << cmd.id << endl;
-
-        switch(cmd.id) {
-            case SBGC_CMD_REALTIME_DATA_4:
-                error = SBGC_cmd_realtime_data_unpack(rt_data, cmd);
-                if(error){
-                     throw 51; 
-                }
-                break;
-        }
-    }
 }
 
 long gim_control::myclock()

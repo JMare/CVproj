@@ -31,13 +31,6 @@ class gim_control
         void processIncomingMessages();
         long myclock();
 
-        //API objects
-        serial_port oPort;
-        SBGC_Parser oSbgc_parser;
-        SBGC_cmd_control_t c = { 0, 0, 0, 0, 0, 0, 0 };
-        SerialCommand b;
-        SBGC_cmd_realtime_data_t rt_data;
-        SBGC_cmd_api_virt_ch_control_t v;
 
         //VARIABLES
         double now_ms = 0;
@@ -46,15 +39,19 @@ class gim_control
         int yAngleHistory = 0;
 
         //CONSTANTS
+        
+        const int PITCH_PWM_PIN = 5;
+        const int YAW_PWM_PIN = 6;
+
         //this should be passed in from im_proc
         const int FRAME_ROWS = 480;
         const int FRAME_COLS = 680;
 
         //limits in degrees
-        const int PITCH_UPPER_LIMIT = 35;
-        const int PITCH_LOWER_LIMIT = 65;
+        const int PITCH_UPPER_LIMIT = 30;
+        const int PITCH_LOWER_LIMIT = -30;
         const int YAW_UPPER_LIMIT = 45;
-        const int YAW_LOWER_LIMIT = 45;
+        const int YAW_LOWER_LIMIT = -45;
 
         const int SPEED_SCALE_FACTOR = 20;
 
