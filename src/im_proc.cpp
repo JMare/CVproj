@@ -23,7 +23,7 @@ const int STEP_UP = 5;
 const int STEP_DOWN = 2;
 const int STEP_FINAL = 4;
 const int HISTORY_LENGTH = 10;
-const int LOST_FIX_FRAME = 50;
+const int LOST_FIX_FRAME = 5;
 vector<vector<double>> lastcandidates;
 vector<tuple<bool, double, double>> PosHistory;
 
