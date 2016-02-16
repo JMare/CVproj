@@ -33,8 +33,14 @@ class im_proc
         void loadframe(cv::Mat *frame);
         void overlay_position(cv::Mat *frame);
         
-        int check_candidates(std::vector<std::vector<double>>);
-        
+        std::tuple<bool,double,double> check_candidates(std::vector<std::vector<double>>);
+        bool checkObjectColor(int CHECK_SQUARE_SIZE,
+                               int H_MIN,
+                               int H_MAX,
+                               int S_MIN,
+                               int S_MAX,
+                               int MIN_GREEN_REQUIRED,
+                               double x, double y);
         std::tuple< std::vector<std::vector<double>>, int, double> inspect_frame(cv::Mat *frame);       
 
         
@@ -45,11 +51,12 @@ class im_proc
         cv::VideoCapture cap;
 
         std::tuple<bool, double, double> Pos;
-        std::tuple<bool, double, double> PosLast0;
-        std::tuple<bool, double, double> PosLast1;
 
         std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
         int mostgreen;
+
+        const int MIN_LASER_DIST = 10;
+        const int MAX_LASER_DIST = 200;
 
         std::vector<std::vector<double>> candidatearray;
 };

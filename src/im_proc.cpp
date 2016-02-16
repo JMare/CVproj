@@ -114,19 +114,19 @@ void im_proc::init_feed(int ID)
         morph_frame(&frame_proc, &imParams);
         frame_info = inspect_frame(&frame_proc);
         
-        int matchID = check_candidates(get<0>(frame_info));
+        tuple<bool, double, double>  matchFound = check_candidates(get<0>(frame_info));
         
-        if(matchID >= 0) 
+        if(get<0>(matchFound) == true) 
         {
             laserfound = true;
-            vector<vector<double>> candidatesFound = get<0>(frame_info);
-            vector<double> matchFound = candidatesFound.at(matchID);
-            areaFound = matchFound.at(0);
+            //vector<vector<double>> candidatesFound = get<0>(frame_info);
+            //vector<double> matchFound = candidatesFound.at(matchID);
+            //areaFound = matchFound.at(0);
             
             //set min and max area thresholds based on 
-            inspect_image_params.at(1) = areaFound - 250;
-            inspect_image_params.at(2) = areaFound + 400;
-            int areaFound = matchFound.at(0);
+            //inspect_image_params.at(1) = areaFound - 250;
+            //inspect_image_params.at(2) = areaFound + 400;
+            //int areaFound = matchFound.at(0);
         }
         else 
         {
@@ -157,21 +157,7 @@ void im_proc::process_frame()
 
     candidatearray = get<0>(frame_info); 
 
-    int matchID = check_candidates(candidatearray);
- 
-    if(matchID >= 0 && candidatearray.size() > 0)
-    {
-        vector<double> matcharray = candidatearray.at(matchID);
-        Pos = make_tuple(true, matcharray.at(1), matcharray.at(2));
-
-        areaFound = matcharray.at(0);
-        xFound = matcharray.at(1);
-        yFound = matcharray.at(2);
-
-    } else
-    {
-        Pos = make_tuple(false, -1, -1);
-    }
+    tuple<bool, double, double>  Pos = check_candidates(candidatearray);
 
     for(int i = 0; i < PosHistory.size(); i++)
     {
@@ -319,7 +305,7 @@ Mat temp = frame->clone();
     return make_tuple(candidates, numObjects, totalArea);
 }
             
-int im_proc::check_candidates(vector<vector<double>> candidates)
+tuple<bool, double, double> im_proc::check_candidates(vector<vector<double>> candidates)
 {
     int CHECK_SQUARE_SIZE     = check_candidates_params.at(0);
     int H_MIN                 = check_candidates_params.at(1);
@@ -334,11 +320,16 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
     //ID of found object, if it stays -1 then no object was found
     int greenID = -1;
     int movedID = -1;
+    bool identifiedPair = false;
+    double xreturn = -1;
+    double yreturn = -1;
 
     //number of green things
     int numMatch = 0;
     
     mostgreen = 0;
+
+    vector<vector<double>> greenMatches;
 
     for(int i = candidates.size() - 1; i >= 0; i--)
     {
@@ -348,48 +339,37 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
         //unpack the coordinates from the vector
         double x = testcandidate.at(1);
         double y = testcandidate.at(2);
+
+        bool colorCheck = checkObjectColor(CHECK_SQUARE_SIZE,
+                H_MIN, H_MAX, S_MIN, S_MAX, MIN_GREEN_REQUIRED,
+                x, y);
+        if(colorCheck){
+            greenMatches.push_back({x, y});
+        }
+    }        
+
+    if(greenMatches.size() == 2){
+        //if there are two green objects, work out how close they are
+        vector<double> match1 = greenMatches.at(0);
+        vector<double> match2 = greenMatches.at(1);
+        double x1 = match1.at(0);
+        double x2 = match2.at(0);
+        double y1 = match1.at(1);
+        double y2 = match2.at(1);
+
+        double deltax = abs(x1 - x2);
+        double deltay = abs(y1 - y2);
+        double dist = sqrt(deltax*deltax + deltay*deltay);
         
-        //skip if too close to the edge
-        //this can be done better
-        if(x >= mainfeed.cols - CHECK_SQUARE_SIZE) continue;  
-        if(x <= CHECK_SQUARE_SIZE) continue;  
-        if(y >= mainfeed.rows - CHECK_SQUARE_SIZE) continue;  
-        if(y <= CHECK_SQUARE_SIZE) continue;  
-        
-        //create cv::Rect for area to check
-        Rect greenrect(x - CHECK_SQUARE_SIZE,
-                       y - CHECK_SQUARE_SIZE,
-                       2 * CHECK_SQUARE_SIZE,
-                       2 * CHECK_SQUARE_SIZE);
-
-        //crop to a roi
-        Mat greenroi = mainfeed(greenrect).clone();
-
-        //convert to hsv
-        cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
-
-        //threshold color and saturation
-        inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
-
-        double totalgreen = countNonZero(greenroi);
-
-        //Whenever we find an object with more green
-        //mostgreen gets updated, once there are no more
-        //green objects greenID will be left as the most green object
-        if(totalgreen > MIN_GREEN_REQUIRED)
+        if(dist > MIN_LASER_DIST && dist < MAX_LASER_DIST)
         {
-            //increment the match counter
-            numMatch++;
-            
-            if(totalgreen > mostgreen)
-            {
-                mostgreen = totalgreen;
-                greenID = i;
-            }
+            xreturn = (x1 + x2) / 2;
+            yreturn = (y1 + y2) / 2;
+            identifiedPair = true;
         }
     }
 
-    //if the array of candidates is the same size as the last
+    /*//if the array of candidates is the same size as the last
     if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
     {
         //vector of array ID's that havent moved
@@ -439,18 +419,64 @@ int im_proc::check_candidates(vector<vector<double>> candidates)
                 }
             }
         }
-    }
+    } 
 
     lastcandidates = candidates;
-
-
+*/
+/*
     //check which method found something and return based on that
     if((greenID == movedID) && greenID >= 0) return greenID;
     //else if(greenID == -1 && movedID >= 0) return movedID;
     else if(greenID >= 0 && movedID == -1) return greenID;
     else return -1;
-}
+    */
+    return make_tuple(identifiedPair, xreturn, yreturn);
 
+}//check candidates
+
+bool im_proc::checkObjectColor(int CHECK_SQUARE_SIZE,
+                               int H_MIN,
+                               int H_MAX,
+                               int S_MIN,
+                               int S_MAX,
+                               int MIN_GREEN_REQUIRED,
+                               double x, double y)
+{
+    bool colorReturn = false;
+    //skip if too close to the edge
+    //this can be done better
+    if(x >= mainfeed.cols - CHECK_SQUARE_SIZE) return false;  
+    if(x <= CHECK_SQUARE_SIZE) return false;  
+    if(y >= mainfeed.rows - CHECK_SQUARE_SIZE) return false;  
+    if(y <= CHECK_SQUARE_SIZE) return false;  
+    
+    //create cv::Rect for area to check
+    Rect greenrect(x - CHECK_SQUARE_SIZE,
+                   y - CHECK_SQUARE_SIZE,
+                   2 * CHECK_SQUARE_SIZE,
+                   2 * CHECK_SQUARE_SIZE);
+
+    //crop to a roi
+    Mat greenroi = mainfeed(greenrect).clone();
+
+    //convert to hsv
+    cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
+
+    //threshold color and saturation
+    inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
+
+    double totalgreen = countNonZero(greenroi);
+
+    //Whenever we find an object with more green
+    //mostgreen gets updated, once there are no more
+    //green objects greenID will be left as the most green object
+    if(totalgreen > MIN_GREEN_REQUIRED)
+    {
+        colorReturn = true;
+    }
+    
+    return colorReturn;
+}
 
 void im_proc::overlay_position(Mat *frame)
 {
