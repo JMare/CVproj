@@ -32,5 +32,15 @@ extern std::tuple<bool, double, double> Posmaster;
 void print_debug();
 static long myclock();
 
+struct laserInfo
+{
+    laserInfo(): isMatch(false) {}
 
-#endif 
+    bool isMatch;
+    float x;
+    float y;
+    float area;
+    int colorCount;
+};
+
+#endif

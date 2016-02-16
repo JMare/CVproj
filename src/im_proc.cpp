@@ -307,6 +307,7 @@ Mat temp = frame->clone();
             
 tuple<bool, double, double> im_proc::check_candidates(vector<vector<double>> candidates)
 {
+    laserInfo laserInfoBlend;
     int CHECK_SQUARE_SIZE     = check_candidates_params.at(0);
     int H_MIN                 = check_candidates_params.at(1);
     int H_MAX                 = check_candidates_params.at(2);
@@ -320,6 +321,7 @@ tuple<bool, double, double> im_proc::check_candidates(vector<vector<double>> can
     //ID of found object, if it stays -1 then no object was found
     int greenID = -1;
     int movedID = -1;
+
     bool identifiedPair = false;
     double xreturn = -1;
     double yreturn = -1;
