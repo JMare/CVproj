@@ -68,7 +68,7 @@ vector<double> gim_control_api::calcRelativePosition(tuple<bool, double, double>
         xRelativeAngle = GAIN_X * xCorrected;
     } else xRelativeAngle = 0;
 
-    if(yCorrected > 20 || xCorrected < -20){ 
+    if(yCorrected > 20 || yCorrected < -20){ 
         yRelativeAngle = GAIN_Y * yCorrected;
     } else  yRelativeAngle = 0;
 
