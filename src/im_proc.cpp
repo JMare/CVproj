@@ -326,31 +326,6 @@ void im_proc::check_candidates(vector<laserInfo>* laserContainerPointer)
 
     //call calcObjectScores to balance the different methods of detection
     calcObjectScores(laserContainerPointer, MIN_GREEN_REQUIRED);
-
-    /*
-    if(greenMatches.size() == 2){
-        //if there are two green objects, work out how close they are
-        vector<double> match1 = greenMatches.at(0);
-        vector<double> match2 = greenMatches.at(1);
-        double x1 = match1.at(0);
-        double x2 = match2.at(0);
-        double y1 = match1.at(1);
-        double y2 = match2.at(1);
-
-        double deltax = abs(x1 - x2);
-        double deltay = abs(y1 - y2);
-        double dist = sqrt(deltax*deltax + deltay*deltay);
-        
-        if(dist > MIN_LASER_DIST && dist < MAX_LASER_DIST)
-        {
-            xreturn = (x1 + x2) / 2;
-            yreturn = (y1 + y2) / 2;
-            identifiedPair = true;
-        }
-    }
-    */
-
-
 }
 
 void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN_GREEN_REQUIRED)
@@ -363,11 +338,11 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
     const int AREA_EXPECTED = 120;
     const int AREA_MAX_DIFF = 200;
 
-    const int MIN_PAIR_DIST = 0;
-    const int MAX_PAIR_DIST = 100;
+    const int MIN_PAIR_DIST = 20;
+    const int MAX_PAIR_DIST = 70;
 
     //how much green will result in all the extra points
-    int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 20;
+    int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 10;
     float extraGreenPercent;
 
     //iterate through all the things
@@ -377,30 +352,38 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
         
         //Look at the greenness and assign score
         if(laserToCheck->colorCount > MIN_GREEN_REQUIRED){
+            //If green is over the threshold give a score
             laserToCheck->matchScore = laserToCheck->matchScore + scorePercentColor;
 
+            //Give extra points for how much the green is over the threshold, up to MAX_GREEN_EXTRA
             if(laserToCheck->colorCount > MAX_GREEN_EXTRA) extraGreenPercent = 1;
             else extraGreenPercent = float(laserToCheck->colorCount) / float(MAX_GREEN_EXTRA);
-
             float extraGreen = extraGreenPercent * scorePercentColorExtra ;
             laserToCheck->matchScore = laserToCheck->matchScore + extraGreen;
         }
 
         //look at the sizeness and assign score
+        //Calculate difference
         float areaDiff = abs(laserToCheck->area - AREA_EXPECTED);  
         float areaDiffDec;
+        //Calculate decimal difference, with cap at 1
         if(areaDiff < AREA_MAX_DIFF) areaDiffDec = areaDiff / AREA_MAX_DIFF;
         else areaDiffDec = 1;
+       
+        //subtract from 1, this means the lower the score the bigger the multipler
         float areaZerotoOne = abs(1 - areaDiffDec);
+
+        //apply score based on how close the area is to the expected
         laserToCheck->matchScore = laserToCheck->matchScore + scorePercentSize * areaZerotoOne;
 
 
         //Check for pairs close to each other and assign pairID
         if(laserToCheck->pairID == -1)
         {
+            //If no pair has been found yet, iterate though others
             for(int n = 0; n < laserContainerPointer->size(); n++)
             {
-                if(n != i)
+                if(n != i) //dont check self pairs
                 {
                     float diffx = abs(laserToCheck->x - (laserContainerPointer->at(n)).x);
                     float diffy = abs(laserToCheck->y - (laserContainerPointer->at(n)).y);
@@ -408,6 +391,7 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
                     
                     if(totDiff < MAX_PAIR_DIST && totDiff > MIN_PAIR_DIST)
                     {
+                        //pair has been found, set pair id and totDiff on both 
                         laserToCheck->pairID = n;
                         laserToCheck->pairDist = totDiff;
                         (laserContainerPointer->at(n)).pairID = i;
