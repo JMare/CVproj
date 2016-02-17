@@ -25,22 +25,9 @@ extern int camID;
 extern bool TRACKBAR_ENABLE;
 extern bool STREAM_POSITION;
 
-//main position array
-extern std::tuple<bool, double, double> Posmaster;
-
 //Misc Functions
 void print_debug();
 static long myclock();
 
-struct laserInfo
-{
-    laserInfo(): isMatch(false) {}
-
-    bool isMatch;
-    float x;
-    float y;
-    float area;
-    int colorCount;
-};
 
 #endif

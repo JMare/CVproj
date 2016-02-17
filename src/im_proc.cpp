@@ -58,7 +58,9 @@ void im_proc::init_feed(int ID)
     }
 
     cout << "Welcome to CVproj. " << endl;
+    /*
     cout << "Please ensure the laser is not in the frame." << endl;
+
     cout << "Press enter to continue." << endl;
     system("read");
 
@@ -137,14 +139,22 @@ void im_proc::init_feed(int ID)
 
     //then after everything go down a bit more to make sure
     imParams.at(0) = imParams.at(0) - STEP_FINAL;
+    */
+
+    //hardcoded hack
+    imParams.at(0) = 230;
 }
 
-void im_proc::process_frame()
+tuple<bool, float, float> im_proc::process_frame()
 {
+   
+    vector<laserInfo> laserContainer;
+
     bool historyCheck = true;
 
     double xSmooth;
     double ySmooth;
+
     loadframe(&mainfeed);
 
     //clone is nessasary, assignment does not copy
@@ -153,13 +163,17 @@ void im_proc::process_frame()
     threshold_frame(&frame_proc, &imParams);
     morph_frame(&frame_proc, &imParams);
 
-    frame_info = inspect_frame(&frame_proc);
+    inspect_frame(&frame_proc, &laserContainer);
 
-    candidatearray = get<0>(frame_info); 
+    check_candidates(&laserContainer);
 
-    tuple<bool, double, double>  Pos = check_candidates(candidatearray);
+    tuple<bool, float, float> masterPosition = calcMasterPosition(&laserContainer);
 
-    for(int i = 0; i < PosHistory.size(); i++)
+    overlay_position(&mainfeed, &laserContainer, masterPosition);
+
+    return masterPosition;
+    
+/*    for(int i = 0; i < PosHistory.size(); i++)
     {
         tuple<bool, double, double> PosCheck = PosHistory.at(i);
         if(!get<0>(PosCheck)) historyCheck = false;
@@ -196,25 +210,11 @@ void im_proc::process_frame()
     if(PosHistory.size() > HISTORY_LENGTH)
     {
         PosHistory.erase(PosHistory.begin());
-    }
-}
-
-void im_proc::get_info(int *numCandPass, int *areaOfLaser, int *greenOfLaser)
-{
-    *greenOfLaser = mostgreen;
-    *areaOfLaser = areaFound;
-    *numCandPass = candidatearray.size();
-
-}
-
-tuple<bool,double,double> im_proc::get_position()
-{
-   return Posmaster; 
+    }*/
 }
 
 Mat im_proc::get_frame_overlay()
 {
-    overlay_position(&mainfeed);
     return mainfeed;
 }
 
@@ -259,9 +259,9 @@ void im_proc::morph_frame(Mat *frame, vector<int> *params)
 }
 
 
-tuple< vector<vector<double>>, int, double> im_proc::inspect_frame(Mat *frame)
+vector<laserInfo>* im_proc::inspect_frame(Mat *frame, vector<laserInfo>* laserContainerPointer)
 {
-Mat temp = frame->clone();
+    Mat temp = frame->clone();
 
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
@@ -274,11 +274,9 @@ Mat temp = frame->clone();
 
     int numObjects = hierarchy.size();
 
-    double x, y;
+    float x, y;
+
     double totalArea = countNonZero(*frame);
-    
-    //a vector of vectors
-    vector<vector<double>> candidates;
 
     if (numObjects > 0 && numObjects < MAX_NUM_OBJECTS)
     {
@@ -287,7 +285,7 @@ Mat temp = frame->clone();
             //for each object
 
             Moments moment = moments((cv::Mat)contours[index]);
-            double area = moment.m00;
+            float area = moment.m00;
             
             if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA)
             {
@@ -295,19 +293,25 @@ Mat temp = frame->clone();
                 //pack it into the vector of candidates
                 x = moment.m10/area;
                 y = moment.m01/area;
-                vector<double> rowtoadd { area, x, y };
-                candidates.push_back(rowtoadd);
+                
+                //initialize object and assign values
+                laserInfo laserTemp;
+                laserTemp.x = x;
+                laserTemp.y = y;
+                laserTemp.area = area;
 
+                //pack into container
+                laserContainerPointer->push_back(laserTemp);
             } 
         } 
+    } else if (numObjects > MAX_NUM_OBJECTS){
+        //noisy filter/too many objects throw
+        throw 41;
     }
-    
-    return make_tuple(candidates, numObjects, totalArea);
 }
             
-tuple<bool, double, double> im_proc::check_candidates(vector<vector<double>> candidates)
+void im_proc::check_candidates(vector<laserInfo>* laserContainerPointer)
 {
-    laserInfo laserInfoBlend;
     int CHECK_SQUARE_SIZE     = check_candidates_params.at(0);
     int H_MIN                 = check_candidates_params.at(1);
     int H_MAX                 = check_candidates_params.at(2);
@@ -315,41 +319,15 @@ tuple<bool, double, double> im_proc::check_candidates(vector<vector<double>> can
     int S_MAX                 = check_candidates_params.at(4);
     int MIN_GREEN_REQUIRED    = check_candidates_params.at(5);
    
-    //Distance a dot can move and be considered a match
-    int MOV_DETECT_ERROR      = 3;
+    //call colorcheck to count and apply greenness to objects
+    checkObjectColor(CHECK_SQUARE_SIZE,
+                H_MIN, H_MAX, S_MIN, S_MAX, 
+                laserContainerPointer);
 
-    //ID of found object, if it stays -1 then no object was found
-    int greenID = -1;
-    int movedID = -1;
+    //call calcObjectScores to balance the different methods of detection
+    calcObjectScores(laserContainerPointer, MIN_GREEN_REQUIRED);
 
-    bool identifiedPair = false;
-    double xreturn = -1;
-    double yreturn = -1;
-
-    //number of green things
-    int numMatch = 0;
-    
-    mostgreen = 0;
-
-    vector<vector<double>> greenMatches;
-
-    for(int i = candidates.size() - 1; i >= 0; i--)
-    {
-        //unpack the info for the individual candidate
-        vector<double> testcandidate = candidates.at(i);
-
-        //unpack the coordinates from the vector
-        double x = testcandidate.at(1);
-        double y = testcandidate.at(2);
-
-        bool colorCheck = checkObjectColor(CHECK_SQUARE_SIZE,
-                H_MIN, H_MAX, S_MIN, S_MAX, MIN_GREEN_REQUIRED,
-                x, y);
-        if(colorCheck){
-            greenMatches.push_back({x, y});
-        }
-    }        
-
+    /*
     if(greenMatches.size() == 2){
         //if there are two green objects, work out how close they are
         vector<double> match1 = greenMatches.at(0);
@@ -370,118 +348,71 @@ tuple<bool, double, double> im_proc::check_candidates(vector<vector<double>> can
             identifiedPair = true;
         }
     }
-
-    /*//if the array of candidates is the same size as the last
-    if(lastcandidates.size() == candidates.size() && lastcandidates.size() != 0)
-    {
-        //vector of array ID's that havent moved
-        vector<int> matched_objects;
-
-        for(int i = candidates.size() - 1; i >= 0; i--)
-        {
-            vector<double> testcandidate = candidates.at(i);
-
-            //unpack the coordinates from the vector
-            double nowx = testcandidate.at(1);
-            double nowy = testcandidate.at(2);
-        
-            for(int n = candidates.size() - 1; n >= 0; n--)
-            {
-                vector<double> lasttestcandidate = lastcandidates.at(n);
-
-                //unpack the coordinates from the vector
-                double lastx = lasttestcandidate.at(1);
-                double lasty = lasttestcandidate.at(2);
-                
-                //If objects havn't moved (within error values) 
-                //add the ID to the array of matched objects
-                if(lastx < nowx + MOV_DETECT_ERROR && lastx > nowx - MOV_DETECT_ERROR 
-                        && lasty < nowy + MOV_DETECT_ERROR && lasty > nowy - MOV_DETECT_ERROR)
-                {
-                    matched_objects.push_back(i);
-                    break;
-                    //stop looking for a match once we have found one
-                }
-            } 
-        }
-        
-        //add a -1 to make it easier to find the ID we want
-        matched_objects.push_back(-1);
-
-        //This checks whether there is one object that has no match
-        //in the array
-        if(matched_objects.size() == candidates.size())
-        {
-            for(int i = candidates.size() -1; i >= 0; i--)
-            {
-                if(!(find(matched_objects.begin(), matched_objects.end(), i) != matched_objects.end()))
-                {
-                    movedID = i;
-                    break;
-                }
-            }
-        }
-    } 
-
-    lastcandidates = candidates;
-*/
-/*
-    //check which method found something and return based on that
-    if((greenID == movedID) && greenID >= 0) return greenID;
-    //else if(greenID == -1 && movedID >= 0) return movedID;
-    else if(greenID >= 0 && movedID == -1) return greenID;
-    else return -1;
     */
-    return make_tuple(identifiedPair, xreturn, yreturn);
 
-}//check candidates
 
-bool im_proc::checkObjectColor(int CHECK_SQUARE_SIZE,
+}
+
+void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN_GREEN_REQUIRED)
+{
+    for (int i = 0; i < laserContainerPointer->size(); i++)
+    {
+        laserInfo *laserToCheck = &laserContainerPointer->at(i);
+        
+        //crude to see if this approach will work
+        if(laserToCheck->colorCount > MIN_GREEN_REQUIRED){
+            laserToCheck->matchScore = laserToCheck->matchScore + 25;
+        }
+    }
+}
+
+tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserContainerPointer){
+    return make_tuple(true, 100, 200);
+}
+
+void im_proc::checkObjectColor(int CHECK_SQUARE_SIZE,
                                int H_MIN,
                                int H_MAX,
                                int S_MIN,
                                int S_MAX,
-                               int MIN_GREEN_REQUIRED,
-                               double x, double y)
+                               vector<laserInfo>* laserContainerPointer)
 {
-    bool colorReturn = false;
-    //skip if too close to the edge
-    //this can be done better
-    if(x >= mainfeed.cols - CHECK_SQUARE_SIZE) return false;  
-    if(x <= CHECK_SQUARE_SIZE) return false;  
-    if(y >= mainfeed.rows - CHECK_SQUARE_SIZE) return false;  
-    if(y <= CHECK_SQUARE_SIZE) return false;  
-    
-    //create cv::Rect for area to check
-    Rect greenrect(x - CHECK_SQUARE_SIZE,
-                   y - CHECK_SQUARE_SIZE,
-                   2 * CHECK_SQUARE_SIZE,
-                   2 * CHECK_SQUARE_SIZE);
-
-    //crop to a roi
-    Mat greenroi = mainfeed(greenrect).clone();
-
-    //convert to hsv
-    cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
-
-    //threshold color and saturation
-    inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
-
-    double totalgreen = countNonZero(greenroi);
-
-    //Whenever we find an object with more green
-    //mostgreen gets updated, once there are no more
-    //green objects greenID will be left as the most green object
-    if(totalgreen > MIN_GREEN_REQUIRED)
+    for (int i = 0; i < laserContainerPointer->size(); i++)
     {
-        colorReturn = true;
+        laserInfo* laserToCheck = &laserContainerPointer->at(i);
+
+        //skip if too close to the edge
+        //this can be done better
+        if(laserToCheck->x >= mainfeed.cols - CHECK_SQUARE_SIZE) return;  
+        if(laserToCheck->x <= CHECK_SQUARE_SIZE) return;  
+        if(laserToCheck->y >= mainfeed.rows - CHECK_SQUARE_SIZE) return;  
+        if(laserToCheck->y <= CHECK_SQUARE_SIZE) return;  
+        
+        //create cv::Rect for area to check
+        Rect greenrect(laserToCheck->x - CHECK_SQUARE_SIZE,
+                       laserToCheck->y - CHECK_SQUARE_SIZE,
+                       2 * CHECK_SQUARE_SIZE,
+                       2 * CHECK_SQUARE_SIZE);
+
+        //crop to a roi
+        Mat greenroi = mainfeed(greenrect).clone();
+
+        //convert to hsv
+        cvtColor(greenroi,greenroi,COLOR_BGR2HSV);
+
+        //threshold color and saturation
+        inRange(greenroi,Scalar(H_MIN,S_MIN,0),Scalar(H_MAX,S_MAX,255),greenroi);
+        
+        //set parameter of structure to the green we have counted
+        laserToCheck->colorCount = countNonZero(greenroi);
     }
-    
-    return colorReturn;
 }
 
-void im_proc::overlay_position(Mat *frame)
+void im_proc::overlay_position(cv::Mat *frame,
+           std::vector<laserInfo>* laserContainerPointer,
+           std::tuple<bool, float, float> masterPosition)
 {
+    /*
     //if statements mean it will only display if it has found a positinn
     //if statements use the first param of tuple    
      
@@ -518,6 +449,7 @@ void im_proc::overlay_position(Mat *frame)
         putText(*frame,"Tracking Object",Point(50,50),2,1,Scalar(150,255,0),1);
     }
 }
+*/
 }
 
 void im_proc::loadframe(Mat *frame)

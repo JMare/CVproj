@@ -159,21 +159,13 @@ int main(int argc, char* argv[])
             loopTimeHistory.erase(loopTimeHistory.begin());
         }
         
-        try{
-            imFrame.process_frame();
-        } catch(int x){
-            cout << "Feed closed unexpectadly" << endl;
-            cout << "ERROR CODE: " << x << endl;
-            break;
-        }
+        tuple<bool, float, float> PosMain = imFrame.process_frame();
         
         frame_overlay = imFrame.get_frame_overlay();
 
         frame_thresholded = imFrame.get_frame_thresholded();
         
-        Pos = imFrame.get_position();
-        
-        oGim.followPosition(Pos);
+        // oGim.followPosition(Pos);
         
         if(GUI_ENABLE)
         {
@@ -201,8 +193,6 @@ int main(int argc, char* argv[])
             break;      //If you hit ESC key loop will break.
         }
 
-        imFrame.get_info( &numCandPass, &areaOfLaser, &greenOfLaser);
-
         now_ms = myclock();
 
     } //End main proccesing loop
@@ -221,6 +211,7 @@ int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)
 int loopTimeFPS = 1000 / loopTimePrint;
 
 cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
+/*
 cout << "Laser candidates: " << numCandPass << endl;
 cout << "Position found: " << get<0>(Pos) << endl;
 cout << "Coordinates - x: " << get<1>(Pos) << " y: " << get<2>(Pos) << endl;
@@ -230,7 +221,9 @@ if(get<0>(Pos)){
     cout << "Laser Area: " << areaOfLaser << endl;
     cout << "Laser green count: " <<  greenOfLaser << endl;
 }
+*/
     cout << "------------------------" << endl;
+
 }
 
 

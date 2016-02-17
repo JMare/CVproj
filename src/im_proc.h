@@ -11,37 +11,56 @@
 #include <vector>
 #include <tuple>
 
+struct laserInfo
+{
+    bool isMatch;
+    float x;
+    float y;
+    float area;
+    int colorCount;
+    int matchScore;
+
+    //structrure constructor
+    laserInfo(){
+        isMatch = false;
+        colorCount = 0;
+        matchScore = 0;
+    }
+};
+
 class im_proc
 {
     public:
         im_proc();
            
         void init_feed(int ID);
-        void process_frame(); 
+        std::tuple<bool, float, float>  process_frame(); 
 
         cv::Mat get_frame_overlay();
         cv::Mat get_frame_thresholded();
-        
-        std::tuple<bool, double, double> get_position();
-
-        void get_info(int *numCandPass, int *areaOfLaser, int *greenOfLaser);
 
     private:
         //FUNCTIONS
         void threshold_frame(cv::Mat *frame, std::vector<int> *params);
         void morph_frame(cv::Mat *frame, std::vector<int> *params);
         void loadframe(cv::Mat *frame);
-        void overlay_position(cv::Mat *frame);
+        void overlay_position(cv::Mat *frame,
+                   std::vector<laserInfo>* laserContainerPointer,
+                   std::tuple<bool, float, float> masterPosition);
         
-        std::tuple<bool,double,double> check_candidates(std::vector<std::vector<double>>);
-        bool checkObjectColor(int CHECK_SQUARE_SIZE,
+        void check_candidates(std::vector<laserInfo>* laserContainerPointer);
+
+        void checkObjectColor(int CHECK_SQUARE_SIZE,
                                int H_MIN,
                                int H_MAX,
                                int S_MIN,
                                int S_MAX,
-                               int MIN_GREEN_REQUIRED,
-                               double x, double y);
-        std::tuple< std::vector<std::vector<double>>, int, double> inspect_frame(cv::Mat *frame);       
+                               std::vector<laserInfo>* laserContainerPointer);
+
+        void calcObjectScores(std::vector<laserInfo>* laserContainerPointer, int MIN_GREEN_REQUIRED);
+
+        std::tuple<bool, float, float> calcMasterPosition(std::vector<laserInfo>* laserContainerPointer);
+        std::vector<laserInfo>* inspect_frame(cv::Mat *frame, std::vector<laserInfo>* laserContainerPointer);
 
         
         //VARIABLES AND OBJECTS
@@ -50,15 +69,10 @@ class im_proc
         
         cv::VideoCapture cap;
 
-        std::tuple<bool, double, double> Pos;
-
-        std::tuple< std::vector<std::vector<double>>, int, double> frame_info;       
-        int mostgreen;
-
         const int MIN_LASER_DIST = 10;
         const int MAX_LASER_DIST = 200;
 
-        std::vector<std::vector<double>> candidatearray;
 };
+
 
 #endif
