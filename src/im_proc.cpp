@@ -360,6 +360,10 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
     const int scorePercentColorExtra = 35;
     const int scorePercentSize = 50;
 
+    const int AREA_EXPECTED = 120;
+    const int AREA_MAX_DIFF = 200;
+
+
     //how much green will result in all the extra points
     int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 20;
     float extraGreenPercent;
@@ -379,9 +383,16 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
         }
 
         //look at the sizeness and assign score
-        
+        float areaDiff = abs(laserToCheck->area - AREA_EXPECTED);  
+
+        float areaDiffDec;
+        if(areaDiff < AREA_MAX_DIFF) areaDiffDec = areaDiff / AREA_MAX_DIFF;
+        else areaDiffDec = 1;
+        float areaZerotoOne = abs(1 - areaDiffDec);
+        laserToCheck->matchScore = laserToCheck->matchScore + scorePercentSize * areaZerotoOne;
     }
 }
+
 
 tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserContainerPointer){
     
