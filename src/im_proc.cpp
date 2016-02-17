@@ -355,18 +355,39 @@ void im_proc::check_candidates(vector<laserInfo>* laserContainerPointer)
 
 void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN_GREEN_REQUIRED)
 {
+
+    const int scorePercentColor = 15;
+    const int scorePercentColorExtra = 35;
+    const int scorePercentSize = 50;
+
+    //how much green will result in all the extra points
+    int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 20;
+    float extraGreenPercent;
     for (int i = 0; i < laserContainerPointer->size(); i++)
     {
         laserInfo *laserToCheck = &laserContainerPointer->at(i);
         
-        //crude to see if this approach will work
+        //Look at the greenness and assign score
         if(laserToCheck->colorCount > MIN_GREEN_REQUIRED){
-            laserToCheck->matchScore = laserToCheck->matchScore + 25;
+            laserToCheck->matchScore = laserToCheck->matchScore + scorePercentColor;
+
+            if(laserToCheck->colorCount > MAX_GREEN_EXTRA) extraGreenPercent = 1;
+            else extraGreenPercent = float(laserToCheck->colorCount) / float(MAX_GREEN_EXTRA);
+
+            float extraGreen = extraGreenPercent * scorePercentColorExtra ;
+            laserToCheck->matchScore = laserToCheck->matchScore + extraGreen;
         }
+
+        //look at the sizeness and assign score
+        
     }
 }
 
 tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserContainerPointer){
+    
+    const int MIN_SCORE_NON_PAIR = 50;
+    const int MIN_SCORE_PAIR = 25;
+
     return make_tuple(true, 100, 200);
 }
 
@@ -414,10 +435,12 @@ void im_proc::overlay_position(cv::Mat *frame,
 {
     for(int i = 0; i < laserContainerPointer->size(); i++){
         laserInfo* laserToDraw = &laserContainerPointer->at(i);
+
+        //print dot on each candidate
         circle(*frame,Point(laserToDraw->x,laserToDraw->y),2,Scalar(0,0,255),3);
 
+        //print score next to each candidate
         std::ostringstream str;
-
         str << laserToDraw->matchScore;;
         putText(*frame,str.str(), Point(laserToDraw->x + 5,laserToDraw->y + 5), CV_FONT_HERSHEY_PLAIN, 1,Scalar(0,0,250));
     }
