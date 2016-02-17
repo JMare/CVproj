@@ -19,12 +19,16 @@ struct laserInfo
     float area;
     int colorCount;
     int matchScore;
+   
+    int pairID;
+    float pairDist;    
 
     //structrure constructor
     laserInfo(){
         isMatch = false;
         colorCount = 0;
         matchScore = 0;
+        pairID = -1;
     }
 };
 

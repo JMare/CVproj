@@ -363,10 +363,14 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
     const int AREA_EXPECTED = 120;
     const int AREA_MAX_DIFF = 200;
 
+    const int MIN_PAIR_DIST = 0;
+    const int MAX_PAIR_DIST = 100;
 
     //how much green will result in all the extra points
     int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 20;
     float extraGreenPercent;
+
+    //iterate through all the things
     for (int i = 0; i < laserContainerPointer->size(); i++)
     {
         laserInfo *laserToCheck = &laserContainerPointer->at(i);
@@ -384,12 +388,35 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
 
         //look at the sizeness and assign score
         float areaDiff = abs(laserToCheck->area - AREA_EXPECTED);  
-
         float areaDiffDec;
         if(areaDiff < AREA_MAX_DIFF) areaDiffDec = areaDiff / AREA_MAX_DIFF;
         else areaDiffDec = 1;
         float areaZerotoOne = abs(1 - areaDiffDec);
         laserToCheck->matchScore = laserToCheck->matchScore + scorePercentSize * areaZerotoOne;
+
+
+        //Check for pairs close to each other and assign pairID
+        if(laserToCheck->pairID == -1)
+        {
+            for(int n = 0; n < laserContainerPointer->size(); n++)
+            {
+                if(n != i)
+                {
+                    float diffx = abs(laserToCheck->x - (laserContainerPointer->at(n)).x);
+                    float diffy = abs(laserToCheck->y - (laserContainerPointer->at(n)).y);
+                    float totDiff = sqrt(diffx*diffx + diffy*diffy);
+                    
+                    if(totDiff < MAX_PAIR_DIST && totDiff > MIN_PAIR_DIST)
+                    {
+                        laserToCheck->pairID = n;
+                        laserToCheck->pairDist = totDiff;
+                        (laserContainerPointer->at(n)).pairID = i;
+                        (laserContainerPointer->at(n)).pairDist = totDiff;
+                    }
+                }
+            }
+        }
+
     }
 }
 
@@ -454,6 +481,14 @@ void im_proc::overlay_position(cv::Mat *frame,
         std::ostringstream str;
         str << laserToDraw->matchScore;;
         putText(*frame,str.str(), Point(laserToDraw->x + 5,laserToDraw->y + 5), CV_FONT_HERSHEY_PLAIN, 1,Scalar(0,0,250));
+
+        if(laserToDraw->pairID != -1)
+        {
+            float xtarget = (laserContainerPointer->at(laserToDraw->pairID)).x;
+            float ytarget = (laserContainerPointer->at(laserToDraw->pairID)).y;
+            
+            line(*frame,Point(laserToDraw->x, laserToDraw->y),Point(xtarget,ytarget),Scalar(0,0,255),1,CV_AA, 0);
+        }
     }
 
 }
