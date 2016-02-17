@@ -409,9 +409,39 @@ tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserCo
     
     const int MIN_SCORE_NON_PAIR = 50;
     const int MIN_SCORE_PAIR = 25;
+    const int PAIR_SCORE_BOOST = 15;
+    
+    int bestPairID = -1;
+    int bestSingleID = -1;
+    int pairScore = 0;
+    
+    for(int i = 0; i < laserContainerPointer->size(); i++)
+    {
+        laserInfo *laserToCheck = &laserContainerPointer->at(i);
 
-    return make_tuple(true, 100, 200);
-}
+        if(laserToCheck->pairID == -1){ //if not pair
+            if(laserToCheck->matchScore > MIN_SCORE_NON_PAIR){
+                bestSingleID = i;
+            }
+        } else { //is pair
+            pairScore = ((laserToCheck->matchScore + (laserContainerPointer->at(laserToCheck->pairID)).matchScore) /2) + PAIR_SCORE_BOOST ;
+            if(pairScore > MIN_SCORE_PAIR){
+                bestPairID = i;
+            }
+        }
+    }
+    if(bestPairID == -1 && bestSingleID == -1) return make_tuple(false, -1, -1);
+    else if(bestPairID == -1 && bestSingleID != -1){
+        return make_tuple(true, (laserContainerPointer->at(bestSingleID)).x, (laserContainerPointer->at(bestSingleID)).y);
+    } else if(bestPairID != -1 && bestSingleID == -1){
+        return make_tuple(true, (laserContainerPointer->at(bestPairID)).x, (laserContainerPointer->at(bestPairID)).y);
+    } else {
+        if((laserContainerPointer->at(bestSingleID)).matchScore > pairScore){
+                return make_tuple(true, (laserContainerPointer->at(bestSingleID)).x, (laserContainerPointer->at(bestSingleID)).y);
+        } else  return make_tuple(true, (laserContainerPointer->at(bestPairID)).x, (laserContainerPointer->at(bestPairID).y));
+    }
+    
+} //calcMasterPosition
 
 void im_proc::checkObjectColor(int CHECK_SQUARE_SIZE,
                                int H_MIN,
@@ -473,6 +503,11 @@ void im_proc::overlay_position(cv::Mat *frame,
             
             line(*frame,Point(laserToDraw->x, laserToDraw->y),Point(xtarget,ytarget),Scalar(0,0,255),1,CV_AA, 0);
         }
+    }
+
+    if(get<0>(masterPosition) == true)
+    {
+        circle(*frame,Point(get<0>(masterPosition),get<0>(masterPosition)),5,Scalar(0,255,0),3);
     }
 
 }
