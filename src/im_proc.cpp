@@ -306,7 +306,7 @@ vector<laserInfo>* im_proc::inspect_frame(Mat *frame, vector<laserInfo>* laserCo
         } 
     } else if (numObjects > MAX_NUM_OBJECTS){
         //noisy filter/too many objects throw
-        throw 41;
+       // throw 41;
     }
 }
             
@@ -412,44 +412,16 @@ void im_proc::overlay_position(cv::Mat *frame,
            std::vector<laserInfo>* laserContainerPointer,
            std::tuple<bool, float, float> masterPosition)
 {
-    /*
-    //if statements mean it will only display if it has found a positinn
-    //if statements use the first param of tuple    
-     
-    string areastring;          // string which will contain the result
-    ostringstream converta;   // stream used for the conversion
-    converta << areaFound;      // insert the textual representation of 'Number' in the characters in the stream
-    areastring = converta.str(); // set 'Result' to the contents of the stream
+    for(int i = 0; i < laserContainerPointer->size(); i++){
+        laserInfo* laserToDraw = &laserContainerPointer->at(i);
+        circle(*frame,Point(laserToDraw->x,laserToDraw->y),2,Scalar(0,0,255),3);
 
-    string xstring;          // string which will contain the result
-    ostringstream convertx;   // stream used for the conversion
-    convertx << xFound;      // insert the textual representation of 'Number' in the characters in the stream
-    xstring = convertx.str(); // set 'Result' to the contents of the stream
-    
-    string ystring;          // string which will contain the result
-    ostringstream converty;   // stream used for the conversion
-    converty << yFound;      // insert the textual representation of 'Number' in the characters in the stream
-    ystring = converty.str(); // set 'Result' to the contents of the stream
+        std::ostringstream str;
 
-    if(get<0>(Pos)){
-        circle(*frame,Point(get<1>(Pos),get<2>(Pos)),20,Scalar(0,0,255),2);
-        putText(*frame,"Area: " ,Point(20,100),2,1,Scalar(150,255,0),1);
-        putText(*frame,areastring,Point(110,100),2,1,Scalar(150,255,0),1);
-        putText(*frame,"x: " ,Point(20,150),2,1,Scalar(150,255,0),1);
-        putText(*frame,xstring,Point(110,150),2,1,Scalar(150,255,0),1);
-        putText(*frame,"y: " ,Point(20,200),2,1,Scalar(150,255,0),1);
-        putText(*frame,ystring,Point(110,200),2,1,Scalar(150,255,0),1);
-
-    if(get<0>(Pos)){
-        circle(*frame,Point(get<1>(Pos),get<2>(Pos)),20,Scalar(0,0,255),2);
+        str << laserToDraw->matchScore;;
+        putText(*frame,str.str(), Point(laserToDraw->x + 5,laserToDraw->y + 5), CV_FONT_HERSHEY_PLAIN, 1,Scalar(0,0,250));
     }
 
-    if(get<0>(Posmaster)){
-        circle(*frame,Point(get<1>(Posmaster),get<2>(Posmaster)),20,Scalar(0,255,0),2);
-        putText(*frame,"Tracking Object",Point(50,50),2,1,Scalar(150,255,0),1);
-    }
-}
-*/
 }
 
 void im_proc::loadframe(Mat *frame)
