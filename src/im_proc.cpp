@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <math.h>
 
 //----NAMESPACES----------------
 using namespace std;
@@ -289,6 +290,11 @@ vector<laserInfo>* im_proc::inspect_frame(Mat *frame, vector<laserInfo>* laserCo
             
             if(area>MIN_OBJECT_AREA && area<MAX_OBJECT_AREA)
             {
+                //find the min enclosing circle for the object
+                Point2f center;
+                float radius;
+                minEnclosingCircle(contours[index], center, radius);
+
                 //if area matches, calculate position and
                 //pack it into the vector of candidates
                 x = moment.m10/area;
@@ -299,6 +305,7 @@ vector<laserInfo>* im_proc::inspect_frame(Mat *frame, vector<laserInfo>* laserCo
                 laserTemp.x = x;
                 laserTemp.y = y;
                 laserTemp.area = area;
+                laserTemp.minCircleArea = M_PI*radius*radius;
 
                 //pack into container
                 laserContainerPointer->push_back(laserTemp);
@@ -331,9 +338,11 @@ void im_proc::check_candidates(vector<laserInfo>* laserContainerPointer)
 void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN_GREEN_REQUIRED)
 {
 
-    const int scorePercentColor = 15;
-    const int scorePercentColorExtra = 35;
-    const int scorePercentSize = 50;
+    //Score weighting variables
+    const int scorePercentColor = 10;
+    const int scorePercentColorExtra = 30;
+    const int scorePercentSize = 30;
+    const int scorePercentCircle = 30;
 
     const int AREA_EXPECTED = 120;
     const int AREA_MAX_DIFF = 200;
@@ -376,6 +385,10 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
         //apply score based on how close the area is to the expected
         laserToCheck->matchScore = laserToCheck->matchScore + scorePercentSize * areaZerotoOne;
 
+
+        //Look for circleness and apply score
+        float circleAreaDec = laserToCheck->area / laserToCheck->minCircleArea; 
+        laserToCheck->matchScore = laserToCheck->matchScore + scorePercentCircle * circleAreaDec;
 
         //Check for pairs close to each other and assign pairID
         if(laserToCheck->pairID == -1)

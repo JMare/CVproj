@@ -17,6 +17,7 @@ struct laserInfo
     float x;
     float y;
     float area;
+    float minCircleArea;
     int colorCount;
     int matchScore;
    
