@@ -23,7 +23,7 @@ using namespace cv;
 const int STEP_UP = 5;
 const int STEP_DOWN = 2;
 const int STEP_FINAL = 4;
-const int HISTORY_LENGTH = 10;
+const int HISTORY_LENGTH = 5;
 const int LOST_FIX_FRAME = 5;
 vector<vector<double>> lastcandidates;
 vector<tuple<bool, double, double>> PosHistory;
@@ -169,49 +169,38 @@ tuple<bool, float, float> im_proc::process_frame()
     check_candidates(&laserContainer);
 
     tuple<bool, float, float> masterPosition = calcMasterPosition(&laserContainer);
+    tuple<bool, float, float> Posmaster; 
 
     overlay_position(&mainfeed, &laserContainer, masterPosition);
 
-    return masterPosition;
     
-/*    for(int i = 0; i < PosHistory.size(); i++)
-    {
-        tuple<bool, double, double> PosCheck = PosHistory.at(i);
-        if(!get<0>(PosCheck)) historyCheck = false;
-    }
-
-    if(get<0>(Pos) && historyCheck)
-    {
-        const double filteramount = 0.4;
-        double xLast = get<1>(Posmaster);
-        double yLast = get<2>(Posmaster);
-        double xNow = get<1>(Pos);
-        double yNow = get<2>(Pos);
-        double xChange = xNow -xLast;
-        double yChange = yNow - yLast;
-
-        if(xLast != -1){
-            xSmooth = xLast + (filteramount * xChange);
-            ySmooth = yLast + (filteramount * yChange);
-        } else {
-            xSmooth = xNow;
-            ySmooth = yNow;
-        }
-        Posmaster = make_tuple(true, xSmooth, ySmooth);
-    } else{
-        lostFixCount++;
-        if(lostFixCount > LOST_FIX_FRAME){
-            Posmaster = make_tuple(false, -1, -1);
-            lostFixCount = 0;
-        }
-    }
-
     //update last positions
-    PosHistory.push_back(Pos); 
+    PosHistory.push_back(masterPosition); 
     if(PosHistory.size() > HISTORY_LENGTH)
     {
         PosHistory.erase(PosHistory.begin());
-    }*/
+    }
+
+    if(get<0>(masterPosition))
+    {
+        vector<float> xHistory, yHistory;
+        for(int i = 0; i < PosHistory.size(); i++){
+            if(get<1>(PosHistory.at(i)) != -1){
+                xHistory.push_back(get<1>(PosHistory.at(i)));    
+                yHistory.push_back(get<2>(PosHistory.at(i)));    
+            }
+        }
+
+        float xsum = std::accumulate(xHistory.begin(), xHistory.end(), 0.0);
+        float xSmooth = xsum / xHistory.size();
+
+        float ysum = std::accumulate(yHistory.begin(), yHistory.end(), 0.0);
+        float ySmooth = ysum / yHistory.size();
+
+        Posmaster = make_tuple(true, xSmooth, ySmooth);
+    } else Posmaster = make_tuple(false, -1, -1);
+
+    return Posmaster;
 }
 
 Mat im_proc::get_frame_overlay()
