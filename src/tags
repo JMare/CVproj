@@ -4,45 +4,529 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-0	Session.vim	/^normal! 0$/;"	m
-023|	Session.vim	/^normal! 023|$/;"	m
-028|	Session.vim	/^normal! 028|$/;"	m
-047|	Session.vim	/^normal! 047|$/;"	m
+ADJ_VAR_ACC_LIMITER	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_ACC_LIMITER$/;"	e	enum:__anon12
+ADJ_VAR_DEF_ACC_LIMIT	include/SBGC_adj_vars.h	80;"	d
+ADJ_VAR_DEF_D_PITCH	include/SBGC_adj_vars.h	75;"	d
+ADJ_VAR_DEF_D_ROLL	include/SBGC_adj_vars.h	74;"	d
+ADJ_VAR_DEF_D_YAW	include/SBGC_adj_vars.h	76;"	d
+ADJ_VAR_DEF_FOLLOW_DEADBAND	include/SBGC_adj_vars.h	99;"	d
+ADJ_VAR_DEF_FOLLOW_EXPO_RATE	include/SBGC_adj_vars.h	100;"	d
+ADJ_VAR_DEF_FOLLOW_LPF_PITCH	include/SBGC_adj_vars.h	85;"	d
+ADJ_VAR_DEF_FOLLOW_LPF_ROLL	include/SBGC_adj_vars.h	84;"	d
+ADJ_VAR_DEF_FOLLOW_LPF_YAW	include/SBGC_adj_vars.h	86;"	d
+ADJ_VAR_DEF_FOLLOW_MODE	include/SBGC_adj_vars.h	98;"	d
+ADJ_VAR_DEF_FOLLOW_ROLL_MIX_RANGE	include/SBGC_adj_vars.h	102;"	d
+ADJ_VAR_DEF_FOLLOW_ROLL_MIX_START	include/SBGC_adj_vars.h	101;"	d
+ADJ_VAR_DEF_FOLLOW_SPEED_PITCH	include/SBGC_adj_vars.h	82;"	d
+ADJ_VAR_DEF_FOLLOW_SPEED_ROLL	include/SBGC_adj_vars.h	81;"	d
+ADJ_VAR_DEF_FOLLOW_SPEED_YAW	include/SBGC_adj_vars.h	83;"	d
+ADJ_VAR_DEF_GYRO_TRUST	include/SBGC_adj_vars.h	103;"	d
+ADJ_VAR_DEF_I_PITCH	include/SBGC_adj_vars.h	72;"	d
+ADJ_VAR_DEF_I_ROLL	include/SBGC_adj_vars.h	71;"	d
+ADJ_VAR_DEF_I_YAW	include/SBGC_adj_vars.h	73;"	d
+ADJ_VAR_DEF_POWER_PITCH	include/SBGC_adj_vars.h	78;"	d
+ADJ_VAR_DEF_POWER_ROLL	include/SBGC_adj_vars.h	77;"	d
+ADJ_VAR_DEF_POWER_YAW	include/SBGC_adj_vars.h	79;"	d
+ADJ_VAR_DEF_P_PITCH	include/SBGC_adj_vars.h	69;"	d
+ADJ_VAR_DEF_P_ROLL	include/SBGC_adj_vars.h	68;"	d
+ADJ_VAR_DEF_P_YAW	include/SBGC_adj_vars.h	70;"	d
+ADJ_VAR_DEF_RC_DEADBAND	include/SBGC_adj_vars.h	96;"	d
+ADJ_VAR_DEF_RC_EXPO_RATE	include/SBGC_adj_vars.h	97;"	d
+ADJ_VAR_DEF_RC_LPF_PITCH	include/SBGC_adj_vars.h	91;"	d
+ADJ_VAR_DEF_RC_LPF_ROLL	include/SBGC_adj_vars.h	90;"	d
+ADJ_VAR_DEF_RC_LPF_YAW	include/SBGC_adj_vars.h	92;"	d
+ADJ_VAR_DEF_RC_SPEED_PITCH	include/SBGC_adj_vars.h	88;"	d
+ADJ_VAR_DEF_RC_SPEED_ROLL	include/SBGC_adj_vars.h	87;"	d
+ADJ_VAR_DEF_RC_SPEED_YAW	include/SBGC_adj_vars.h	89;"	d
+ADJ_VAR_DEF_RC_TRIM_PITCH	include/SBGC_adj_vars.h	94;"	d
+ADJ_VAR_DEF_RC_TRIM_ROLL	include/SBGC_adj_vars.h	93;"	d
+ADJ_VAR_DEF_RC_TRIM_YAW	include/SBGC_adj_vars.h	95;"	d
+ADJ_VAR_D_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_D_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_D_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_D_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_D_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_D_YAW$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_DEADBAND	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_DEADBAND$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_EXPO_RATE	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_EXPO_RATE$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_LPF_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_LPF_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_LPF_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_LPF_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_LPF_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_LPF_YAW$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_MODE	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_MODE$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_ROLL_MIX_RANGE	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_ROLL_MIX_RANGE$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_ROLL_MIX_START	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_ROLL_MIX_START$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_SPEED_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_SPEED_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_SPEED_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_SPEED_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_FOLLOW_SPEED_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_FOLLOW_SPEED_YAW$/;"	e	enum:__anon12
+ADJ_VAR_GYRO_TRUST	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_GYRO_TRUST$/;"	e	enum:__anon12
+ADJ_VAR_I_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_I_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_I_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_I_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_I_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_I_YAW$/;"	e	enum:__anon12
+ADJ_VAR_NAME_MAX_LENGTH	include/SBGC_adj_vars.h	58;"	d
+ADJ_VAR_POWER_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_POWER_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_POWER_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_POWER_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_POWER_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_POWER_YAW$/;"	e	enum:__anon12
+ADJ_VAR_P_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_P_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_P_ROLL	include/SBGC_adj_vars.h	/^	ADJ_VAR_P_ROLL = 0$/;"	e	enum:__anon12
+ADJ_VAR_P_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_P_YAW$/;"	e	enum:__anon12
+ADJ_VAR_RC_DEADBAND	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_DEADBAND$/;"	e	enum:__anon12
+ADJ_VAR_RC_EXPO_RATE	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_EXPO_RATE$/;"	e	enum:__anon12
+ADJ_VAR_RC_FOLLOW_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_FOLLOW_YAW$/;"	e	enum:__anon12
+ADJ_VAR_RC_LPF_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_LPF_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_RC_LPF_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_LPF_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_RC_LPF_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_LPF_YAW$/;"	e	enum:__anon12
+ADJ_VAR_RC_SPEED_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_SPEED_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_RC_SPEED_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_SPEED_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_RC_SPEED_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_SPEED_YAW$/;"	e	enum:__anon12
+ADJ_VAR_RC_TRIM_PITCH	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_TRIM_PITCH$/;"	e	enum:__anon12
+ADJ_VAR_RC_TRIM_ROLL	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_TRIM_ROLL$/;"	e	enum:__anon12
+ADJ_VAR_RC_TRIM_YAW	include/SBGC_adj_vars.h	/^	,	ADJ_VAR_RC_TRIM_YAW$/;"	e	enum:__anon12
+CMD_PIN_SSAT_POWER	SBGC.h	92;"	d
 CVPROJ_H	cvproj.h	7;"	d
-DILATE_PIX	cvproj.cpp	/^int DILATE_PIX = 5;$/;"	v
-ERODE_PIX	cvproj.cpp	/^int ERODE_PIX = 2;$/;"	v
+DEBUG_FLAG	cvproj.cpp	/^bool DEBUG_FLAG = false;$/;"	v
+DEBUG_INTERVAL	cvproj.cpp	/^const int DEBUG_INTERVAL = 2000;$/;"	v
+FILENAME	cvproj.cpp	/^char* FILENAME; \/\/image or video file $/;"	v
+FRAME_COLS	gim_control_api.h	/^        const int FRAME_COLS = 680;$/;"	m	class:gim_control_api
+FRAME_COLS	gim_control_pwm.h	/^        const int FRAME_COLS = 680;$/;"	m	class:gim_control_pwm
+FRAME_ROWS	gim_control_api.h	/^        const int FRAME_ROWS = 480;$/;"	m	class:gim_control_api
+FRAME_ROWS	gim_control_pwm.h	/^        const int FRAME_ROWS = 480;$/;"	m	class:gim_control_pwm
+FRAME_SOURCE	cvproj.cpp	/^int FRAME_SOURCE = 0; \/\/0: webcam 1: video 2: image$/;"	v
+GIM_CONTROL_API_H	gim_control_api.h	5;"	d
+GIM_CONTROL_PWM_H	gim_control_pwm.h	5;"	d
 GUI_DRAW_H	gui_draw.h	6;"	d
-H_MAX	cvproj.cpp	/^int H_MAX = 256;$/;"	v
-H_MIN	cvproj.cpp	/^int H_MIN = 0;$/;"	v
+GUI_ENABLE	cvproj.cpp	/^bool GUI_ENABLE = false;$/;"	v
+HISTORY_LENGTH	im_proc.cpp	/^const int HISTORY_LENGTH = 10;$/;"	v
 IM_PROC_H	im_proc.h	6;"	d
-S_MAX	cvproj.cpp	/^int S_MAX = 256;$/;"	v
-S_MIN	cvproj.cpp	/^int S_MIN = 0;$/;"	v
-SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
-V_MAX	cvproj.cpp	/^int V_MAX = 256;$/;"	v
-V_MIN	cvproj.cpp	/^int V_MIN = 0;$/;"	v
-create_trackbars	gui_draw.cpp	/^void gui_draw::create_trackbars()$/;"	f	class:gui_draw
+LOOP_HISTORY_LENGTH	cvproj.cpp	/^const int LOOP_HISTORY_LENGTH = 20;$/;"	v
+LOST_FIX_FRAME	im_proc.cpp	/^const int LOST_FIX_FRAME = 5;$/;"	v
+MAX_LASER_DIST	im_proc.h	/^        const int MAX_LASER_DIST = 200;$/;"	m	class:im_proc
+MIN_LASER_DIST	im_proc.h	/^        const int MIN_LASER_DIST = 10;$/;"	m	class:im_proc
+MOVEMENT_INT	gim_control_api.h	/^        const double MOVEMENT_INT = 100; \/\/unit is ms $/;"	m	class:gim_control_api
+MOVEMENT_INT	gim_control_pwm.h	/^        const double MOVEMENT_INT = 100; \/\/unit is ms $/;"	m	class:gim_control_pwm
+PARSER_ERROR_BUFFER_IS_FULL	include/SBGC_parser.h	/^	PARSER_ERROR_BUFFER_IS_FULL=3,$/;"	e	enum:__anon1
+PARSER_ERROR_PROTOCOL	include/SBGC_parser.h	/^	PARSER_ERROR_PROTOCOL=1,$/;"	e	enum:__anon1
+PARSER_ERROR_WRONG_CMD_SIZE	include/SBGC_parser.h	/^	PARSER_ERROR_WRONG_CMD_SIZE=2,$/;"	e	enum:__anon1
+PARSER_ERROR_WRONG_DATA_SIZE	include/SBGC_parser.h	/^	PARSER_ERROR_WRONG_DATA_SIZE=4,$/;"	e	enum:__anon1
+PARSER_NO_ERROR	include/SBGC_parser.h	/^	PARSER_NO_ERROR=0,$/;"	e	enum:__anon1
+PITCH	include/SBGC_cmd_helpers.h	35;"	d
+PITCH_LOWER_LIMIT	gim_control_api.h	/^        const int PITCH_LOWER_LIMIT = 65;$/;"	m	class:gim_control_api
+PITCH_LOWER_LIMIT	gim_control_pwm.h	/^        const int PITCH_LOWER_LIMIT = -25;$/;"	m	class:gim_control_pwm
+PITCH_PWM_PIN	gim_control_pwm.h	/^        const int PITCH_PWM_PIN = 5;$/;"	m	class:gim_control_pwm
+PITCH_UPPER_LIMIT	gim_control_api.h	/^        const int PITCH_UPPER_LIMIT = 35;$/;"	m	class:gim_control_api
+PITCH_UPPER_LIMIT	gim_control_pwm.h	/^        const int PITCH_UPPER_LIMIT = 25;$/;"	m	class:gim_control_pwm
+Pos	cvproj.cpp	/^tuple<bool, double, double> Pos;$/;"	v
+PosHistory	im_proc.cpp	/^vector<tuple<bool, double, double>> PosHistory;$/;"	v
+Posmaster	cvproj.cpp	/^std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); $/;"	v
+ROLL	include/SBGC_cmd_helpers.h	34;"	d
+SBGC_ANGLE_DEGREE_SCALE	include/SBGC_cmd_helpers.h	20;"	d
+SBGC_ANGLE_FULL_TURN	include/SBGC_cmd_helpers.h	16;"	d
+SBGC_ANGLE_TO_DEGREE	include/SBGC_cmd_helpers.h	25;"	d
+SBGC_ANGLE_TO_DEGREE_01_INT	include/SBGC_cmd_helpers.h	30;"	d
+SBGC_ANGLE_TO_DEGREE_INT	include/SBGC_cmd_helpers.h	29;"	d
+SBGC_API_VIRT_NUM_CHANNELS	include/SBGC_rc.h	46;"	d
+SBGC_CMD_ADJ_VARS_STATE	include/SBGC_command.h	79;"	d
+SBGC_CMD_AHRS_HELPER	include/SBGC_command.h	89;"	d
+SBGC_CMD_API_VIRT_CH_CONTROL	include/SBGC_command.h	78;"	d
+SBGC_CMD_AUTO_PID	include/SBGC_command.h	68;"	d
+SBGC_CMD_BOARD_INFO	include/SBGC_command.h	32;"	d
+SBGC_CMD_BOARD_INFO_3	include/SBGC_command.h	52;"	d
+SBGC_CMD_BODE_TEST_DATA	include/SBGC_command.h	71;"	d
+SBGC_CMD_BODE_TEST_START_STOP	include/SBGC_command.h	70;"	d
+SBGC_CMD_BOOT_MODE_3	include/SBGC_command.h	84;"	d
+SBGC_CMD_CALIB_ACC	include/SBGC_command.h	33;"	d
+SBGC_CMD_CALIB_BAT	include/SBGC_command.h	41;"	d
+SBGC_CMD_CALIB_EXT_GAIN	include/SBGC_command.h	35;"	d
+SBGC_CMD_CALIB_GYRO	include/SBGC_command.h	34;"	d
+SBGC_CMD_CALIB_INFO	include/SBGC_command.h	82;"	d
+SBGC_CMD_CALIB_MAG	include/SBGC_command.h	92;"	d
+SBGC_CMD_CALIB_OFFSET	include/SBGC_command.h	40;"	d
+SBGC_CMD_CALIB_POLES	include/SBGC_command.h	37;"	d
+SBGC_CMD_CONFIRM	include/SBGC_command.h	48;"	d
+SBGC_CMD_CONTROL	include/SBGC_command.h	44;"	d
+SBGC_CMD_DATA_SIZE	include/SBGC_command.h	24;"	d
+SBGC_CMD_DEBUG_VARS_3	include/SBGC_command.h	101;"	d
+SBGC_CMD_DEBUG_VARS_INFO_3	include/SBGC_command.h	100;"	d
+SBGC_CMD_EEPROM_READ	include/SBGC_command.h	81;"	d
+SBGC_CMD_EEPROM_WRITE	include/SBGC_command.h	80;"	d
+SBGC_CMD_ENCODERS_CALIB_FLD_OFFSET_4	include/SBGC_command.h	59;"	d
+SBGC_CMD_ENCODERS_CALIB_OFFSET_4	include/SBGC_command.h	58;"	d
+SBGC_CMD_ERROR	include/SBGC_command.h	102;"	d
+SBGC_CMD_EXECUTE_MENU	include/SBGC_command.h	46;"	d
+SBGC_CMD_FS_CLEAR_ALL	include/SBGC_command.h	88;"	d
+SBGC_CMD_GET_ADJ_VARS_VAL	include/SBGC_command.h	97;"	d
+SBGC_CMD_GET_ANGLES	include/SBGC_command.h	47;"	d
+SBGC_CMD_GET_ANGLES_EXT	include/SBGC_command.h	94;"	d
+SBGC_CMD_HELPER_DATA	include/SBGC_command.h	39;"	d
+SBGC_CMD_I2C_READ_REG_BUF	include/SBGC_command.h	73;"	d
+SBGC_CMD_I2C_WRITE_REG_BUF	include/SBGC_command.h	72;"	d
+SBGC_CMD_MAX_BYTES	include/SBGC_command.h	22;"	d
+SBGC_CMD_MOTORS_OFF	include/SBGC_command.h	43;"	d
+SBGC_CMD_MOTORS_ON	include/SBGC_command.h	42;"	d
+SBGC_CMD_NON_PAYLOAD_BYTES	include/SBGC_command.h	20;"	d
+SBGC_CMD_QUEUE_PARAMS_INFO_3	include/SBGC_command.h	63;"	d
+SBGC_CMD_READ_ADJ_VARS_CFG	include/SBGC_command.h	76;"	d
+SBGC_CMD_READ_EXTERNAL_DATA	include/SBGC_command.h	75;"	d
+SBGC_CMD_READ_FILE	include/SBGC_command.h	86;"	d
+SBGC_CMD_READ_PARAMS	include/SBGC_command.h	29;"	d
+SBGC_CMD_READ_PARAMS_3	include/SBGC_command.h	53;"	d
+SBGC_CMD_READ_PARAMS_EXT	include/SBGC_command.h	66;"	d
+SBGC_CMD_READ_PARAMS_EXT2	include/SBGC_command.h	95;"	d
+SBGC_CMD_READ_PROFILE_NAMES	include/SBGC_command.h	60;"	d
+SBGC_CMD_REALTIME_DATA	include/SBGC_command.h	31;"	d
+SBGC_CMD_REALTIME_DATA_3	include/SBGC_command.h	55;"	d
+SBGC_CMD_REALTIME_DATA_4	include/SBGC_command.h	57;"	d
+SBGC_CMD_RESET	include/SBGC_command.h	38;"	d
+SBGC_CMD_RUN_SCRIPT	include/SBGC_command.h	90;"	d
+SBGC_CMD_SAVE_PARAMS_3	include/SBGC_command.h	65;"	d
+SBGC_CMD_SCRIPT_DEBUG	include/SBGC_command.h	91;"	d
+SBGC_CMD_SELECT_IMU_3	include/SBGC_command.h	56;"	d
+SBGC_CMD_SERVO_OUT	include/SBGC_command.h	69;"	d
+SBGC_CMD_SET_ADJ_VARS_VAL	include/SBGC_command.h	64;"	d
+SBGC_CMD_SIGN_MESSAGE_3	include/SBGC_command.h	83;"	d
+SBGC_CMD_START_BYTE	include/SBGC_parser.h	19;"	d
+SBGC_CMD_STRUCT_ALIGNED	SBGC.h	49;"	d
+SBGC_CMD_SYSTEM_STATE	include/SBGC_command.h	85;"	d
+SBGC_CMD_TRIGGER_PIN	include/SBGC_command.h	45;"	d
+SBGC_CMD_UART_BYPASS	include/SBGC_command.h	93;"	d
+SBGC_CMD_USE_DEFAULTS	include/SBGC_command.h	36;"	d
+SBGC_CMD_WRITE_ADJ_VARS_CFG	include/SBGC_command.h	77;"	d
+SBGC_CMD_WRITE_EXTERNAL_DATA	include/SBGC_command.h	74;"	d
+SBGC_CMD_WRITE_FILE	include/SBGC_command.h	87;"	d
+SBGC_CMD_WRITE_PARAMS	include/SBGC_command.h	30;"	d
+SBGC_CMD_WRITE_PARAMS_3	include/SBGC_command.h	54;"	d
+SBGC_CMD_WRITE_PARAMS_EXT	include/SBGC_command.h	67;"	d
+SBGC_CMD_WRITE_PARAMS_EXT2	include/SBGC_command.h	96;"	d
+SBGC_CMD_WRITE_PROFILE_NAMES	include/SBGC_command.h	61;"	d
+SBGC_CONTROL_MODE_ANGLE	SBGC.h	140;"	d
+SBGC_CONTROL_MODE_ANGLE	SBGC.h	147;"	d
+SBGC_CONTROL_MODE_ANGLE_REL_FRAME	SBGC.h	150;"	d
+SBGC_CONTROL_MODE_NO	SBGC.h	138;"	d
+SBGC_CONTROL_MODE_NO	SBGC.h	145;"	d
+SBGC_CONTROL_MODE_RC	SBGC.h	142;"	d
+SBGC_CONTROL_MODE_RC	SBGC.h	149;"	d
+SBGC_CONTROL_MODE_SPEED	SBGC.h	139;"	d
+SBGC_CONTROL_MODE_SPEED	SBGC.h	146;"	d
+SBGC_CONTROL_MODE_SPEED_ANGLE	SBGC.h	141;"	d
+SBGC_CONTROL_MODE_SPEED_ANGLE	SBGC.h	148;"	d
+SBGC_ComObj	include/SBGC_parser.h	/^class SBGC_ComObj {$/;"	c
+SBGC_DEGREE_01_TO_ANGLE_INT	include/SBGC_cmd_helpers.h	28;"	d
+SBGC_DEGREE_ANGLE_SCALE	include/SBGC_cmd_helpers.h	19;"	d
+SBGC_DEGREE_TO_ANGLE	include/SBGC_cmd_helpers.h	24;"	d
+SBGC_DEGREE_TO_ANGLE_INT	include/SBGC_cmd_helpers.h	27;"	d
+SBGC_ERR_CALIBRATE_BAT	SBGC.h	68;"	d
+SBGC_ERR_CMD_SIZE	SBGC.h	64;"	d
+SBGC_ERR_CRYPTO	SBGC.h	67;"	d
+SBGC_ERR_GET_DEVICE_ID	SBGC.h	66;"	d
+SBGC_ERR_UNKNOWN_COMMAND	SBGC.h	69;"	d
+SBGC_ERR_WRONG_PARAMS	SBGC.h	65;"	d
+SBGC_IOStream	include/SBGC_parser.h	/^class SBGC_IOStream {$/;"	c
+SBGC_MENU_AUTO_PID	SBGC.h	114;"	d
+SBGC_MENU_BUTTON_PRESS	SBGC.h	120;"	d
+SBGC_MENU_CALIB_ACC	SBGC.h	104;"	d
+SBGC_MENU_CALIB_ACC_TEMP	SBGC.h	119;"	d
+SBGC_MENU_CALIB_GYRO	SBGC.h	107;"	d
+SBGC_MENU_CALIB_GYRO_TEMP	SBGC.h	118;"	d
+SBGC_MENU_CALIB_MAG	SBGC.h	131;"	d
+SBGC_MENU_CENTER_YAW	SBGC.h	133;"	d
+SBGC_MENU_FRAME_UPSIDE_DOWN	SBGC.h	111;"	d
+SBGC_MENU_HOME_POSITION	SBGC.h	116;"	d
+SBGC_MENU_LEVEL_ROLL_PITCH	SBGC.h	132;"	d
+SBGC_MENU_LOOK_DOWN	SBGC.h	115;"	d
+SBGC_MENU_MOTOR_OFF	SBGC.h	110;"	d
+SBGC_MENU_MOTOR_ON	SBGC.h	109;"	d
+SBGC_MENU_MOTOR_TOGGLE	SBGC.h	108;"	d
+SBGC_MENU_PROFILE1	SBGC.h	99;"	d
+SBGC_MENU_PROFILE2	SBGC.h	100;"	d
+SBGC_MENU_PROFILE3	SBGC.h	101;"	d
+SBGC_MENU_PROFILE4	SBGC.h	112;"	d
+SBGC_MENU_PROFILE5	SBGC.h	113;"	d
+SBGC_MENU_RC_BIND	SBGC.h	117;"	d
+SBGC_MENU_RESET	SBGC.h	105;"	d
+SBGC_MENU_RUN_SCRIPT1	SBGC.h	121;"	d
+SBGC_MENU_RUN_SCRIPT10	SBGC.h	130;"	d
+SBGC_MENU_RUN_SCRIPT2	SBGC.h	122;"	d
+SBGC_MENU_RUN_SCRIPT3	SBGC.h	123;"	d
+SBGC_MENU_RUN_SCRIPT4	SBGC.h	124;"	d
+SBGC_MENU_RUN_SCRIPT5	SBGC.h	125;"	d
+SBGC_MENU_RUN_SCRIPT6	SBGC.h	126;"	d
+SBGC_MENU_RUN_SCRIPT7	SBGC.h	127;"	d
+SBGC_MENU_RUN_SCRIPT8	SBGC.h	128;"	d
+SBGC_MENU_RUN_SCRIPT9	SBGC.h	129;"	d
+SBGC_MENU_SET_ANGLE	SBGC.h	106;"	d
+SBGC_MENU_SWAP_PITCH_ROLL	SBGC.h	102;"	d
+SBGC_MENU_SWAP_YAW_ROLL	SBGC.h	103;"	d
+SBGC_MENU_UNTWIST_CABLES	SBGC.h	134;"	d
+SBGC_PIN_AUX1	SBGC.h	88;"	d
+SBGC_PIN_AUX2	SBGC.h	89;"	d
+SBGC_PIN_AUX3	SBGC.h	90;"	d
+SBGC_PIN_BUZZER	SBGC.h	91;"	d
+SBGC_Parser	include/SBGC_parser.h	/^class SBGC_Parser {$/;"	c
+SBGC_RC_INPUT_ADC1	include/SBGC_rc.h	25;"	d
+SBGC_RC_INPUT_ADC2	include/SBGC_rc.h	26;"	d
+SBGC_RC_INPUT_ADC3	include/SBGC_rc.h	27;"	d
+SBGC_RC_INPUT_ANALOG_BIT	include/SBGC_rc.h	32;"	d
+SBGC_RC_INPUT_API_VIRT_BIT	include/SBGC_rc.h	36;"	d
+SBGC_RC_INPUT_CH_MASK	include/SBGC_rc.h	39;"	d
+SBGC_RC_INPUT_EXT_PITCH	include/SBGC_rc.h	21;"	d
+SBGC_RC_INPUT_EXT_ROLL	include/SBGC_rc.h	20;"	d
+SBGC_RC_INPUT_MODE_MASK	include/SBGC_rc.h	40;"	d
+SBGC_RC_INPUT_NO	include/SBGC_rc.h	17;"	d
+SBGC_RC_INPUT_PITCH	include/SBGC_rc.h	19;"	d
+SBGC_RC_INPUT_ROLL	include/SBGC_rc.h	18;"	d
+SBGC_RC_INPUT_VIRT_BIT	include/SBGC_rc.h	34;"	d
+SBGC_RC_INPUT_YAW	include/SBGC_rc.h	22;"	d
+SBGC_RC_MAX_VAL	include/SBGC_rc.h	51;"	d
+SBGC_RC_MIN_VAL	include/SBGC_rc.h	50;"	d
+SBGC_RC_NUM_CHANNELS	include/SBGC_rc.h	14;"	d
+SBGC_RC_UNDEF	include/SBGC_rc.h	53;"	d
+SBGC_SERVO_OUT_DISABLED	SBGC.h	95;"	d
+SBGC_SPEED_SCALE	include/SBGC_cmd_helpers.h	18;"	d
+SBGC_SYS_ERR_BAT_CRITICAL	SBGC.h	80;"	d
+SBGC_SYS_ERR_BAT_LOW	SBGC.h	79;"	d
+SBGC_SYS_ERR_CALIB_ACC	SBGC.h	74;"	d
+SBGC_SYS_ERR_CALIB_POLES	SBGC.h	76;"	d
+SBGC_SYS_ERR_EMERGENCY_STOP	SBGC.h	84;"	d
+SBGC_SYS_ERR_GUI_VERSION	SBGC.h	81;"	d
+SBGC_SYS_ERR_MISS_STEPS	SBGC.h	82;"	d
+SBGC_SYS_ERR_NO_SENSOR	SBGC.h	73;"	d
+SBGC_SYS_ERR_PROTECTION	SBGC.h	77;"	d
+SBGC_SYS_ERR_SERIAL	SBGC.h	78;"	d
+SBGC_SYS_ERR_SET_POWER	SBGC.h	75;"	d
+SBGC_SYS_ERR_SYSTEM	SBGC.h	83;"	d
+SBGC_VIRT_NUM_CHANNELS	include/SBGC_rc.h	44;"	d
+SBGC_cmd_api_virt_ch_control_pack	SBGC_cmd_helpers.cpp	/^void SBGC_cmd_api_virt_ch_control_pack(SBGC_cmd_api_virt_ch_control_t &p, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_api_virt_ch_control_send	include/SBGC_cmd_helpers.h	/^inline uint8_t SBGC_cmd_api_virt_ch_control_send(SBGC_cmd_api_virt_ch_control_t &p, SBGC_Parser &parser) {$/;"	f
+SBGC_cmd_api_virt_ch_control_t	include/SBGC_cmd_helpers.h	/^} SBGC_cmd_api_virt_ch_control_t;$/;"	t	typeref:struct:__anon6
+SBGC_cmd_control_ext_pack	SBGC_cmd_helpers.cpp	/^void SBGC_cmd_control_ext_pack(SBGC_cmd_control_ext_t &p, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_control_ext_send	include/SBGC_cmd_helpers.h	/^inline uint8_t SBGC_cmd_control_ext_send(SBGC_cmd_control_ext_t &p, SBGC_Parser &parser) {$/;"	f
+SBGC_cmd_control_ext_t	include/SBGC_cmd_helpers.h	/^} SBGC_cmd_control_ext_t;$/;"	t	typeref:struct:__anon4
+SBGC_cmd_control_pack	SBGC_cmd_helpers.cpp	/^void SBGC_cmd_control_pack(SBGC_cmd_control_t &p, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_control_send	include/SBGC_cmd_helpers.h	/^inline uint8_t SBGC_cmd_control_send(SBGC_cmd_control_t &p, SBGC_Parser &parser) {$/;"	f
+SBGC_cmd_control_t	include/SBGC_cmd_helpers.h	/^} SBGC_cmd_control_t;$/;"	t	typeref:struct:__anon3
+SBGC_cmd_execute_menu_send	include/SBGC_cmd_helpers.h	/^inline uint8_t SBGC_cmd_execute_menu_send(uint8_t menu_action, SBGC_Parser &parser) {$/;"	f
+SBGC_cmd_realtime_data_t	include/SBGC_cmd_helpers.h	/^} SBGC_cmd_realtime_data_t;$/;"	t	typeref:struct:__anon10
+SBGC_cmd_realtime_data_unpack	SBGC_cmd_helpers.cpp	/^uint8_t SBGC_cmd_realtime_data_unpack(SBGC_cmd_realtime_data_t &p, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_servo_out_pack	SBGC_cmd_helpers.cpp	/^void SBGC_cmd_servo_out_pack(SBGC_cmd_servo_out_t &p, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_servo_out_send	include/SBGC_cmd_helpers.h	/^inline uint8_t SBGC_cmd_servo_out_send(SBGC_cmd_servo_out_t &p, SBGC_Parser &parser) {$/;"	f
+SBGC_cmd_servo_out_t	include/SBGC_cmd_helpers.h	/^} SBGC_cmd_servo_out_t;$/;"	t	typeref:struct:__anon8
+SBGC_cmd_set_adj_vars_pack	SBGC_cmd_helpers.cpp	/^void SBGC_cmd_set_adj_vars_pack(SBGC_cmd_set_adj_vars_var_t vars[], uint8_t vars_num, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_set_adj_vars_send	include/SBGC_cmd_helpers.h	/^inline uint8_t SBGC_cmd_set_adj_vars_send(SBGC_cmd_set_adj_vars_var_t vars[], uint8_t vars_num, SBGC_Parser &parser) {$/;"	f
+SBGC_cmd_set_adj_vars_unpack	SBGC_cmd_helpers.cpp	/^uint8_t SBGC_cmd_set_adj_vars_unpack(SBGC_cmd_set_adj_vars_var_t vars_buf[], uint8_t &vars_num, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_set_adj_vars_var_t	include/SBGC_cmd_helpers.h	/^} SBGC_cmd_set_adj_vars_var_t;$/;"	t	typeref:struct:__anon9
+SBGC_cmd_trigger_pack	SBGC_cmd_helpers.cpp	/^void SBGC_cmd_trigger_pack(SBGC_cmd_trigger_t &p, SerialCommand &cmd) {$/;"	f
+SBGC_cmd_trigger_send	include/SBGC_cmd_helpers.h	/^inline uint8_t SBGC_cmd_trigger_send(SBGC_cmd_trigger_t &p, SBGC_Parser &parser) {$/;"	f
+SBGC_cmd_trigger_t	include/SBGC_cmd_helpers.h	/^} SBGC_cmd_trigger_t;$/;"	t	typeref:struct:__anon7
+SBGC_parser_errors	include/SBGC_parser.h	/^} SBGC_parser_errors;$/;"	t	typeref:enum:__anon1
+SERIAL_PORT_H	serial_port.h	5;"	d
+SPEED_SCALE_FACTOR	gim_control_api.h	/^        const int SPEED_SCALE_FACTOR = 20;$/;"	m	class:gim_control_api
+STATE_GOT_DATA	include/SBGC_parser.h	/^	enum {STATE_WAIT, STATE_GOT_MARKER, STATE_GOT_ID, STATE_GOT_LEN, STATE_GOT_HEADER, STATE_GOT_DATA } state;$/;"	e	enum:SBGC_Parser::__anon2
+STATE_GOT_HEADER	include/SBGC_parser.h	/^	enum {STATE_WAIT, STATE_GOT_MARKER, STATE_GOT_ID, STATE_GOT_LEN, STATE_GOT_HEADER, STATE_GOT_DATA } state;$/;"	e	enum:SBGC_Parser::__anon2
+STATE_GOT_ID	include/SBGC_parser.h	/^	enum {STATE_WAIT, STATE_GOT_MARKER, STATE_GOT_ID, STATE_GOT_LEN, STATE_GOT_HEADER, STATE_GOT_DATA } state;$/;"	e	enum:SBGC_Parser::__anon2
+STATE_GOT_LEN	include/SBGC_parser.h	/^	enum {STATE_WAIT, STATE_GOT_MARKER, STATE_GOT_ID, STATE_GOT_LEN, STATE_GOT_HEADER, STATE_GOT_DATA } state;$/;"	e	enum:SBGC_Parser::__anon2
+STATE_GOT_MARKER	include/SBGC_parser.h	/^	enum {STATE_WAIT, STATE_GOT_MARKER, STATE_GOT_ID, STATE_GOT_LEN, STATE_GOT_HEADER, STATE_GOT_DATA } state;$/;"	e	enum:SBGC_Parser::__anon2
+STATE_WAIT	include/SBGC_parser.h	/^	enum {STATE_WAIT, STATE_GOT_MARKER, STATE_GOT_ID, STATE_GOT_LEN, STATE_GOT_HEADER, STATE_GOT_DATA } state;$/;"	e	enum:SBGC_Parser::__anon2
+STEP_DOWN	im_proc.cpp	/^const int STEP_DOWN = 2;$/;"	v
+STEP_FINAL	im_proc.cpp	/^const int STEP_FINAL = 4;$/;"	v
+STEP_UP	im_proc.cpp	/^const int STEP_UP = 5;$/;"	v
+SYS_LITTLE_ENDIAN	SBGC.h	40;"	d
+SerialCommand	include/SBGC_parser.h	/^class SerialCommand : public SBGC_IOStream {$/;"	c
+TRACKBAR_ENABLE	cvproj.cpp	/^bool TRACKBAR_ENABLE = false;$/;"	v
+YAW	include/SBGC_cmd_helpers.h	36;"	d
+YAW_LOWER_LIMIT	gim_control_api.h	/^        const int YAW_LOWER_LIMIT = 45;$/;"	m	class:gim_control_api
+YAW_LOWER_LIMIT	gim_control_pwm.h	/^        const int YAW_LOWER_LIMIT = -60;$/;"	m	class:gim_control_pwm
+YAW_PWM_PIN	gim_control_pwm.h	/^        const int YAW_PWM_PIN = 6;$/;"	m	class:gim_control_pwm
+YAW_UPPER_LIMIT	gim_control_api.h	/^        const int YAW_UPPER_LIMIT = 45;$/;"	m	class:gim_control_api
+YAW_UPPER_LIMIT	gim_control_pwm.h	/^        const int YAW_UPPER_LIMIT = 60;$/;"	m	class:gim_control_pwm
+__SBGC_CMD_HELPERS__	include/SBGC_cmd_helpers.h	12;"	d
+__SBGC__	SBGC.h	37;"	d
+__SBGC_adj_vars__	include/SBGC_adj_vars.h	12;"	d
+__SBGC_command__	include/SBGC_command.h	13;"	d
+__SBGC_parser__	include/SBGC_parser.h	12;"	d
+__SBGC_rc__	include/SBGC_rc.h	11;"	d
+absoluteAngleControl	gim_control_api.cpp	/^void gim_control_api::absoluteAngleControl(vector<double> pitchYawAngles)$/;"	f	class:gim_control_api
+absoluteAngleControl	gim_control_pwm.cpp	/^void gim_control_pwm::absoluteAngleControl(vector<double> pitchYawAngles)$/;"	f	class:gim_control_pwm
+acc_data	include/SBGC_cmd_helpers.h	/^		int16_t acc_data;$/;"	m	struct:__anon10::__anon11
+adjustable_var_cfg_t	include/SBGC_adj_vars.h	/^} adjustable_var_cfg_t;$/;"	t	typeref:struct:__anon13
+angle	include/SBGC_cmd_helpers.h	/^  	int16_t angle;$/;"	m	struct:__anon4::__anon5
+anglePITCH	include/SBGC_cmd_helpers.h	/^  int16_t anglePITCH;$/;"	m	struct:__anon3
+angleROLL	include/SBGC_cmd_helpers.h	/^  int16_t angleROLL;$/;"	m	struct:__anon3
+angleYAW	include/SBGC_cmd_helpers.h	/^  int16_t angleYAW;$/;"	m	struct:__anon3
+area	im_proc.h	/^    float area;$/;"	m	struct:laserInfo
+areaFound	im_proc.cpp	/^double areaFound;$/;"	v
+areaOfLaser	cvproj.cpp	/^int numCandPass, areaOfLaser, greenOfLaser;$/;"	v
+b	gim_control_api.h	/^        SerialCommand b;$/;"	m	class:gim_control_api
+balance_error	include/SBGC_cmd_helpers.h	/^	int16_t balance_error[3]; \/\/ error in balance. Ranges from -512 to 512,  0 means perfect balance.$/;"	m	struct:__anon10
+battery_voltage	include/SBGC_cmd_helpers.h	/^	uint16_t battery_voltage; \/\/ units 0.01 V$/;"	m	struct:__anon10
+c	gim_control_api.h	/^        SBGC_cmd_control_t c = { 0, 0, 0, 0, 0, 0, 0 };$/;"	m	class:gim_control_api
+calcMasterPosition	im_proc.cpp	/^tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserContainerPointer){$/;"	f	class:im_proc
+calcObjectScores	im_proc.cpp	/^void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN_GREEN_REQUIRED)$/;"	f	class:im_proc
+calcRelativePosition	gim_control_api.cpp	/^vector<double> gim_control_api::calcRelativePosition(tuple<bool, double, double> Pos)$/;"	f	class:gim_control_api
+calcRelativePosition	gim_control_pwm.cpp	/^vector<double> gim_control_pwm::calcRelativePosition(tuple<bool, double, double> Pos)$/;"	f	class:gim_control_pwm
+camID	cvproj.cpp	/^int camID = 0; $/;"	v
+cap	im_proc.h	/^        cv::VideoCapture cap;$/;"	m	class:im_proc
+centerGimbal	gim_control_api.cpp	/^void gim_control_api::centerGimbal()$/;"	f	class:gim_control_api
+centerGimbal	gim_control_pwm.cpp	/^void gim_control_pwm::centerGimbal()$/;"	f	class:gim_control_pwm
+checkConnection	gim_control_api.cpp	/^bool gim_control_api::checkConnection()$/;"	f	class:gim_control_api
+checkLimit	include/SBGC_parser.h	/^	inline uint8_t checkLimit() {$/;"	f	class:SerialCommand
+checkObjectColor	im_proc.cpp	/^void im_proc::checkObjectColor(int CHECK_SQUARE_SIZE,$/;"	f	class:im_proc
+check_candidates	im_proc.cpp	/^void im_proc::check_candidates(vector<laserInfo>* laserContainerPointer)$/;"	f	class:im_proc
+check_candidates_params	cvproj.cpp	/^vector<int> check_candidates_params = {10,40,75,20,255,30};$/;"	v
+checksum	include/SBGC_parser.h	/^	uint8_t checksum;$/;"	m	class:SBGC_Parser
+colorCount	im_proc.h	/^    int colorCount;$/;"	m	struct:laserInfo
+com_obj	include/SBGC_parser.h	/^	SBGC_ComObj *com_obj;$/;"	m	class:SBGC_Parser
+create_trackbars	gui_draw.cpp	/^void gui_draw::create_trackbars(vector<int> *params)$/;"	f	class:gui_draw
+cur_imu	include/SBGC_cmd_helpers.h	/^	uint8_t cur_imu; \/\/ actually selecteted IMU for monitoring. 1: main IMU, 2: frame IMU$/;"	m	struct:__anon10
+cur_profile	include/SBGC_cmd_helpers.h	/^	uint8_t cur_profile; \/\/ active profile number starting from 0$/;"	m	struct:__anon10
+current	include/SBGC_cmd_helpers.h	/^	uint16_t current; \/\/ Current that gimbal takes, in mA.$/;"	m	struct:__anon10
+cycle_time_us	include/SBGC_cmd_helpers.h	/^	uint16_t cycle_time_us; \/\/ cycle time in us. Normally should be 800us$/;"	m	struct:__anon10
+data	include/SBGC_cmd_helpers.h	/^	int16_t data[SBGC_API_VIRT_NUM_CHANNELS];$/;"	m	struct:__anon6
+data	include/SBGC_cmd_helpers.h	/^  } data[3];$/;"	m	struct:__anon4	typeref:struct:__anon4::__anon5
+data	include/SBGC_parser.h	/^	uint8_t data[SBGC_CMD_DATA_SIZE];$/;"	m	class:SerialCommand
 display_image	gui_draw.cpp	/^void gui_draw::display_image(const char* wtitle, Mat frame)$/;"	f	class:gui_draw
 draw_interface	gui_draw.cpp	/^void gui_draw::draw_interface()$/;"	f	class:gui_draw
-g:this_obsession	Session.vim	/^let g:this_obsession = v:this_session$/;"	v
-g:this_obsession_status	Session.vim	/^let g:this_obsession_status = 2$/;"	v
-g:this_session	Session.vim	/^let g:this_session = v:this_session$/;"	v
-getprocessed_frame	im_proc.cpp	/^Mat im_proc::getprocessed_frame(const char* fname)$/;"	f	class:im_proc
-getrawframe	im_proc.cpp	/^Mat im_proc::getrawframe(const char* fname)$/;"	f	class:im_proc
+fd	serial_port.h	/^        int fd;$/;"	m	class:serial_port
+followPosition	gim_control_api.cpp	/^void gim_control_api::followPosition(tuple<bool, double, double> Pos)$/;"	f	class:gim_control_api
+followPosition	gim_control_pwm.cpp	/^void gim_control_pwm::followPosition(tuple<bool, double, double> Pos)$/;"	f	class:gim_control_pwm
+frame_imu_angle	include/SBGC_cmd_helpers.h	/^	int16_t frame_imu_angle[3]; \/\/ ROLL, PITCH, YAW Euler angles of a frame, if known$/;"	m	struct:__anon10
+frame_imu_temp_celcius	include/SBGC_cmd_helpers.h	/^	int8_t  frame_imu_temp_celcius;  \/\/ temperature measured by the frame IMU sensor, in Celsius$/;"	m	struct:__anon10
+frame_overlay	cvproj.cpp	/^Mat frame_overlay, frame_thresholded;$/;"	v
+frame_proc	im_proc.h	/^        cv::Mat frame_proc;$/;"	m	class:im_proc
+frame_thresholded	cvproj.cpp	/^Mat frame_overlay, frame_thresholded;$/;"	v
+getBytesAvailable	include/SBGC_parser.h	/^	inline uint16_t getBytesAvailable() {$/;"	f	class:SerialCommand
+getBytesAvailable	serial_port.cpp	/^uint16_t serial_port::getBytesAvailable()$/;"	f	class:serial_port
+getOutEmptySpace	serial_port.h	/^        uint16_t getOutEmptySpace(){$/;"	f	class:serial_port
+get_frame_overlay	im_proc.cpp	/^Mat im_proc::get_frame_overlay()$/;"	f	class:im_proc
+get_frame_thresholded	im_proc.cpp	/^Mat im_proc::get_frame_thresholded()$/;"	f	class:im_proc
+get_out_empty_space	include/SBGC_parser.h	/^	inline uint16_t get_out_empty_space() {$/;"	f	class:SBGC_Parser
+get_parse_error_count	include/SBGC_parser.h	/^	inline uint16_t get_parse_error_count() { return parser_error_count; }$/;"	f	class:SBGC_Parser
+gim_control_api	gim_control_api.cpp	/^gim_control_api::gim_control_api()$/;"	f	class:gim_control_api
+gim_control_api	gim_control_api.h	/^class gim_control_api $/;"	c
+gim_control_pwm	gim_control_pwm.cpp	/^gim_control_pwm::gim_control_pwm()$/;"	f	class:gim_control_pwm
+gim_control_pwm	gim_control_pwm.h	/^class gim_control_pwm$/;"	c
+greenOfLaser	cvproj.cpp	/^int numCandPass, areaOfLaser, greenOfLaser;$/;"	v
 gui_draw	gui_draw.cpp	/^gui_draw::gui_draw()$/;"	f	class:gui_draw
 gui_draw	gui_draw.h	/^class gui_draw$/;"	c
-im_proc	im_proc.cpp	/^im_proc::im_proc()$/;"	f	class:im_proc
+gyro_data	include/SBGC_cmd_helpers.h	/^		int16_t gyro_data;$/;"	m	struct:__anon10::__anon11
+i2c_error_count	include/SBGC_cmd_helpers.h	/^	uint16_t i2c_error_count; \/\/ I2C errors counter$/;"	m	struct:__anon10
+id	include/SBGC_adj_vars.h	/^	uint8_t id;$/;"	m	struct:__anon13
+id	include/SBGC_cmd_helpers.h	/^	uint8_t id;$/;"	m	struct:__anon9
+id	include/SBGC_parser.h	/^	uint8_t id;$/;"	m	class:SerialCommand
+imParams	cvproj.cpp	/^vector<int> imParams = {0, 256, 2, 4, 0, 2}; $/;"	v
+im_proc	im_proc.cpp	/^im_proc::im_proc(){$/;"	f	class:im_proc
 im_proc	im_proc.h	/^class im_proc$/;"	c
-loadframefile	im_proc.cpp	/^Mat im_proc::loadframefile(const char* fname)$/;"	f	class:im_proc
+imu_angle	include/SBGC_cmd_helpers.h	/^	int16_t imu_angle[3]; \/\/ ROLL, PITCH, YAW Euler angles of a camera, 16384\/360 degrees$/;"	m	struct:__anon10
+imu_temp_celcius	include/SBGC_cmd_helpers.h	/^	int8_t  imu_temp_celcius;  \/\/ temperature measured by the main IMU sensor, in Celsius$/;"	m	struct:__anon10
+in_cmd	include/SBGC_parser.h	/^    SerialCommand in_cmd; \/\/ received command is stored here$/;"	m	class:SBGC_Parser
+init	include/SBGC_parser.h	/^	inline void init(SBGC_ComObj *_com_obj) {$/;"	f	class:SBGC_Parser
+init	include/SBGC_parser.h	/^	void init(uint8_t _id) {$/;"	f	class:SerialCommand
+init_checksum	include/SBGC_parser.h	/^	static inline void init_checksum(uint8_t &checksum) {$/;"	f	class:SerialCommand
+init_feed	im_proc.cpp	/^void im_proc::init_feed(int ID)$/;"	f	class:im_proc
+inspect_frame	im_proc.cpp	/^vector<laserInfo>* im_proc::inspect_frame(Mat *frame, vector<laserInfo>* laserContainerPointer)$/;"	f	class:im_proc
+inspect_image_params	cvproj.cpp	/^vector<int> inspect_image_params = {20, 50, 700};$/;"	v
+isMatch	im_proc.h	/^    bool isMatch;$/;"	m	struct:laserInfo
+laserInfo	im_proc.h	/^    laserInfo(){$/;"	f	struct:laserInfo
+laserInfo	im_proc.h	/^struct laserInfo$/;"	s
+last_debug_ms	cvproj.cpp	/^double  last_debug_ms = 0;$/;"	v
+last_loop_ms	cvproj.cpp	/^double  last_loop_ms = 0;$/;"	v
+last_mov_ms	gim_control_api.h	/^        double last_mov_ms = 0;$/;"	m	class:gim_control_api
+last_mov_ms	gim_control_pwm.h	/^        double last_mov_ms = 0;$/;"	m	class:gim_control_pwm
+lastcandidates	im_proc.cpp	/^vector<vector<double>> lastcandidates;$/;"	v
+len	include/SBGC_parser.h	/^	uint16_t len;$/;"	m	class:SBGC_Parser
+len	include/SBGC_parser.h	/^	uint8_t len;$/;"	m	class:SerialCommand
+loadframe	im_proc.cpp	/^void im_proc::loadframe(Mat *frame)$/;"	f	class:im_proc
+loopTime	cvproj.cpp	/^double loopTime;$/;"	v
+loopTimeHistory	cvproj.cpp	/^vector<long int> loopTimeHistory;$/;"	v
+loop_begin_ms	cvproj.cpp	/^double  loop_begin_ms = 0;$/;"	v
+lostFixCount	im_proc.cpp	/^int lostFixCount = 0;$/;"	v
+magnetometer_data	include/SBGC_cmd_helpers.h	/^	int16_t magnetometer_data[3]; \/\/ magnetometer sensor data (with calibration)$/;"	m	struct:__anon10
 main	cvproj.cpp	/^int main(int argc, char* argv[])$/;"	f
-morph_frame	im_proc.cpp	/^Mat im_proc::morph_frame(Mat frame)$/;"	f	class:im_proc
-s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 20) \/ 40)$/;"	v
-s:l	Session.vim	/^let s:l = 20 - ((19 * winheight(0) + 20) \/ 40)$/;"	v
-s:l	Session.vim	/^let s:l = 34 - ((33 * winheight(0) + 20) \/ 40)$/;"	v
-s:l	Session.vim	/^let s:l = 52 - ((0 * winheight(0) + 20) \/ 40)$/;"	v
-s:l	Session.vim	/^let s:l = 9 - ((8 * winheight(0) + 20) \/ 40)$/;"	v
-s:l	Session.vim	/^let s:l = 92 - ((26 * winheight(0) + 20) \/ 40)$/;"	v
-s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
-s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
-s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
-threshold_frame	im_proc.cpp	/^Mat im_proc::threshold_frame(Mat frame)$/;"	f	class:im_proc
-zt	Session.vim	/^normal! zt$/;"	m
+mainfeed	im_proc.h	/^        cv::Mat mainfeed;$/;"	m	class:im_proc
+matchScore	im_proc.h	/^    int matchScore;$/;"	m	struct:laserInfo
+max_val	include/SBGC_adj_vars.h	/^	int32_t	max_val;$/;"	m	struct:__anon13
+min_val	include/SBGC_adj_vars.h	/^	int32_t min_val;$/;"	m	struct:__anon13
+mode	include/SBGC_cmd_helpers.h	/^  uint8_t mode;$/;"	m	struct:__anon3
+mode	include/SBGC_cmd_helpers.h	/^  uint8_t mode[3];$/;"	m	struct:__anon4
+morph_frame	im_proc.cpp	/^void im_proc::morph_frame(Mat *frame, vector<int> *params)$/;"	f	class:im_proc
+motor_power	include/SBGC_cmd_helpers.h	/^	uint8_t motor_power[3]; \/\/ actual motor power for ROLL, PITCH, YAW axis, 0..255$/;"	m	struct:__anon10
+myclock	cvproj.cpp	/^static long myclock()$/;"	f	file:
+myclock	gim_control_api.cpp	/^long gim_control_api::myclock()$/;"	f	class:gim_control_api
+myclock	gim_control_pwm.cpp	/^long gim_control_pwm::myclock()$/;"	f	class:gim_control_pwm
+name	include/SBGC_adj_vars.h	/^	char *name;  \/\/ max. 10 characters$/;"	m	struct:__anon13
+now_ms	cvproj.cpp	/^double  now_ms = 0;$/;"	v
+now_ms	gim_control_api.h	/^        double now_ms = 0;$/;"	m	class:gim_control_api
+now_ms	gim_control_pwm.h	/^        double now_ms = 0;$/;"	m	class:gim_control_pwm
+numCandPass	cvproj.cpp	/^int numCandPass, areaOfLaser, greenOfLaser;$/;"	v
+oPort	gim_control_api.h	/^        serial_port oPort;$/;"	m	class:gim_control_api
+oSbgc_parser	gim_control_api.h	/^        SBGC_Parser oSbgc_parser;$/;"	m	class:gim_control_api
+onParseError	include/SBGC_parser.h	/^	inline void onParseError(uint8_t error = PARSER_ERROR_PROTOCOL) { $/;"	f	class:SBGC_Parser
+overlay_position	im_proc.cpp	/^void im_proc::overlay_position(cv::Mat *frame,$/;"	f	class:im_proc
+pairDist	im_proc.h	/^    float pairDist;    $/;"	m	struct:laserInfo
+pairID	im_proc.h	/^    int pairID;$/;"	m	struct:laserInfo
+parser_error_count	include/SBGC_parser.h	/^	uint16_t parser_error_count;$/;"	m	class:SBGC_Parser
+pin	include/SBGC_cmd_helpers.h	/^	uint8_t pin;$/;"	m	struct:__anon7
+pos	include/SBGC_parser.h	/^	uint8_t pos;$/;"	m	class:SerialCommand
+print_debug	cvproj.cpp	/^void print_debug()$/;"	f
+print_params	gui_draw.cpp	/^void gui_draw::print_params(vector<int> *params)$/;"	f	class:gui_draw
+processIncomingMessages	gim_control_api.cpp	/^void gim_control_api::processIncomingMessages()$/;"	f	class:gim_control_api
+process_char	include/SBGC_parser.h	/^	inline uint8_t process_char(uint8_t c) {$/;"	f	class:SBGC_Parser
+process_frame	im_proc.cpp	/^tuple<bool, float, float> im_proc::process_frame()$/;"	f	class:im_proc
+rc_raw_data	include/SBGC_cmd_helpers.h	/^	int16_t rc_raw_data[SBGC_RC_NUM_CHANNELS]; \/\/ RC signal in 1000..2000 range for ROLL, PITCH, YAW, CMD, EXT_ROLL, EXT_PITCH channels$/;"	m	struct:__anon10
+readBuf	include/SBGC_parser.h	/^    void readBuf(void* buf, uint8_t size) {$/;"	f	class:SBGC_IOStream
+readByte	include/SBGC_parser.h	/^	uint8_t readByte() {$/;"	f	class:SerialCommand
+readByte	serial_port.cpp	/^uint8_t serial_port::readByte()$/;"	f	class:serial_port
+readFloat	include/SBGC_parser.h	/^    float readFloat() {$/;"	f	class:SBGC_IOStream
+readLong	include/SBGC_parser.h	/^    int32_t readLong() {$/;"	f	class:SBGC_IOStream
+readWord	include/SBGC_parser.h	/^    int16_t readWord() {$/;"	f	class:SBGC_IOStream
+readWordArr	include/SBGC_parser.h	/^    inline void readWordArr(int16_t *arr, uint8_t size) {$/;"	f	class:SBGC_IOStream
+readWordArr	include/SBGC_parser.h	/^    void readWordArr(int16_t *arr, uint8_t size) {$/;"	f	class:SBGC_IOStream
+read_cmd	include/SBGC_parser.h	/^	inline int8_t read_cmd() {$/;"	f	class:SBGC_Parser
+relateiveAngleControl	gim_control_api.cpp	/^void gim_control_api::relateiveAngleControl(vector<double> pitchYawAngles)$/;"	f	class:gim_control_api
+relateiveAngleControl	gim_control_pwm.cpp	/^void gim_control_pwm::relateiveAngleControl(vector<double> pitchYawAngles)$/;"	f	class:gim_control_pwm
+reserved1	include/SBGC_cmd_helpers.h	/^	uint8_t reserved1[4];$/;"	m	struct:__anon10
+reserved2	include/SBGC_cmd_helpers.h	/^	uint8_t reserved2;$/;"	m	struct:__anon10
+reserved3	include/SBGC_cmd_helpers.h	/^	uint8_t reserved3;$/;"	m	struct:__anon10
+reserved4	include/SBGC_cmd_helpers.h	/^	uint8_t reserved4[38];$/;"	m	struct:__anon10
+reset	include/SBGC_parser.h	/^	inline void reset() { $/;"	f	class:SBGC_Parser
+reset	include/SBGC_parser.h	/^	inline void reset() {$/;"	f	class:SerialCommand
+rotor_angle	include/SBGC_cmd_helpers.h	/^	int16_t rotor_angle[3]; \/\/ relative angle of each motor, 16384\/360 degrees$/;"	m	struct:__anon10
+rt_data	gim_control_api.h	/^        SBGC_cmd_realtime_data_t rt_data;$/;"	m	class:gim_control_api
+send_cmd	include/SBGC_parser.h	/^	inline uint8_t send_cmd(SerialCommand &cmd, uint8_t wait = 1) {$/;"	f	class:SBGC_Parser
+send_command	include/SBGC_parser.h	/^	uint8_t send_command(uint8_t cmd_id, void *data, uint16_t size, uint8_t wait = 1) {$/;"	f	class:SBGC_Parser
+sensor_data	include/SBGC_cmd_helpers.h	/^	} sensor_data[3];  \/\/ ACC and Gyro sensor data (with calibration) for current IMU (see cur_imu field)$/;"	m	struct:__anon10	typeref:struct:__anon10::__anon11
+serial_error_cnt	include/SBGC_cmd_helpers.h	/^	int16_t serial_error_cnt; \/\/ counter for communication errors$/;"	m	struct:__anon10
+serial_port	serial_port.cpp	/^serial_port::serial_port(){$/;"	f	class:serial_port
+serial_port	serial_port.h	/^class serial_port: public SBGC_ComObj$/;"	c
+servo	include/SBGC_cmd_helpers.h	/^	int16_t servo[8];$/;"	m	struct:__anon8
+set_blocking	serial_port.cpp	/^void serial_port::set_blocking (int fd, int should_block)$/;"	f	class:serial_port
+set_interface_attribs	serial_port.cpp	/^int serial_port::set_interface_attribs (int fd, int speed, int parity)$/;"	f	class:serial_port
+skipBytes	include/SBGC_parser.h	/^    void skipBytes(uint8_t size) {$/;"	f	class:SBGC_IOStream
+speed	include/SBGC_cmd_helpers.h	/^  	int16_t speed;$/;"	m	struct:__anon4::__anon5
+speedPITCH	include/SBGC_cmd_helpers.h	/^  int16_t speedPITCH;$/;"	m	struct:__anon3
+speedROLL	include/SBGC_cmd_helpers.h	/^  int16_t speedROLL;$/;"	m	struct:__anon3
+speedYAW	include/SBGC_cmd_helpers.h	/^  int16_t speedYAW;$/;"	m	struct:__anon3
+state	include/SBGC_cmd_helpers.h	/^	int8_t state;$/;"	m	struct:__anon7
+state	include/SBGC_parser.h	/^	enum {STATE_WAIT, STATE_GOT_MARKER, STATE_GOT_ID, STATE_GOT_LEN, STATE_GOT_HEADER, STATE_GOT_DATA } state;$/;"	m	class:SBGC_Parser	typeref:enum:SBGC_Parser::__anon2
+state_flags1	include/SBGC_cmd_helpers.h	/^	uint8_t state_flags1; \/\/ bit0: motor ON\/OFF state;  bits1..7: reserved$/;"	m	struct:__anon10
+system_error	include/SBGC_cmd_helpers.h	/^	int16_t system_error; \/\/ system error flags, defined in SBGC_SYS_ERR_XX $/;"	m	struct:__anon10
+target_angle	include/SBGC_cmd_helpers.h	/^	int16_t target_angle[3]; \/\/ ROLL, PITCH, YAW target angle$/;"	m	struct:__anon10
+threshold_frame	im_proc.cpp	/^void im_proc::threshold_frame(Mat *frame, vector<int> *params)$/;"	f	class:im_proc
+tp	gim_control_api.h	/^        struct timeval tp;$/;"	m	class:gim_control_api	typeref:struct:gim_control_api::timeval
+tp	gim_control_pwm.h	/^        struct timeval tp;$/;"	m	class:gim_control_pwm	typeref:struct:gim_control_pwm::timeval
+update_checksum	include/SBGC_parser.h	/^	static inline void update_checksum(uint8_t &checksum, uint8_t byte) {$/;"	f	class:SerialCommand
+v	gim_control_api.h	/^        SBGC_cmd_api_virt_ch_control_t v;$/;"	m	class:gim_control_api
+val	include/SBGC_cmd_helpers.h	/^	int32_t val;$/;"	m	struct:__anon9
+writeBuf	include/SBGC_parser.h	/^    void writeBuf(const void* buf, uint8_t size) {$/;"	f	class:SBGC_IOStream
+writeByte	include/SBGC_parser.h	/^	void writeByte(uint8_t b)  {$/;"	f	class:SerialCommand
+writeByte	serial_port.cpp	/^void serial_port::writeByte(uint8_t b)$/;"	f	class:serial_port
+writeEmptyBuf	include/SBGC_parser.h	/^    void writeEmptyBuf(uint8_t size) {$/;"	f	class:SBGC_IOStream
+writeFloat	include/SBGC_parser.h	/^    void writeFloat(float f) {$/;"	f	class:SBGC_IOStream
+writeLong	include/SBGC_parser.h	/^    void writeLong(int32_t dw) {$/;"	f	class:SBGC_IOStream
+writeString	include/SBGC_parser.h	/^    void writeString(const char* str) {$/;"	f	class:SBGC_IOStream
+writeWord	include/SBGC_parser.h	/^    void writeWord(int16_t w) {$/;"	f	class:SBGC_IOStream
+writeWordArr	include/SBGC_parser.h	/^    inline void writeWordArr(int16_t *arr, uint8_t size) {$/;"	f	class:SBGC_IOStream
+writeWordArr	include/SBGC_parser.h	/^    void writeWordArr(int16_t *arr, uint8_t size) {$/;"	f	class:SBGC_IOStream
+x	im_proc.h	/^    float x;$/;"	m	struct:laserInfo
+xAngleHistory	gim_control_api.h	/^        int xAngleHistory = 0;$/;"	m	class:gim_control_api
+xAngleHistory	gim_control_pwm.h	/^        int xAngleHistory = 0;$/;"	m	class:gim_control_pwm
+xFound	im_proc.cpp	/^double xFound;$/;"	v
+y	im_proc.h	/^    float y;$/;"	m	struct:laserInfo
+yAngleHistory	gim_control_api.h	/^        int yAngleHistory = 0;$/;"	m	class:gim_control_api
+yAngleHistory	gim_control_pwm.h	/^        int yAngleHistory = 0;$/;"	m	class:gim_control_pwm
+yFound	im_proc.cpp	/^double yFound;$/;"	v
