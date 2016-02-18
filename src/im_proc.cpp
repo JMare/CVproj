@@ -421,7 +421,7 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
 tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserContainerPointer)
 {
     const int MIN_SCORE_NON_PAIR = 50;
-    const int MIN_SCORE_PAIR = 25;
+    const int MIN_SCORE_PAIR = 50;
     const int PAIR_SCORE_BOOST = 15;
     
     int bestPairID = -1;

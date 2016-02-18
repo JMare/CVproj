@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
 
         frame_thresholded = imFrame.get_frame_thresholded();
         
-        // oGim.followPosition(Pos);
+         oGim.followPosition(PosMain);
         
         if(GUI_ENABLE)
         {
