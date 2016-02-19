@@ -34,20 +34,6 @@ params gParams;
 
 Mat frame_overlay, frame_thresholded;
 
-//global variables for thresholding editable with sliders
-//{0    , 1    , 2    , 3    , 4    , 5} 
-//{Threshmin, thresmax, erodesize , dilatesize, erodeiter,dilateiter}
-vector<int> imParams = {0, 256, 2, 4, 0, 2}; 
-
-//global variables for inspec_image
-//{MAX_NUM_OBJECTS, MIN_OBJECT_AREA, MAX_OBJECT_AREA}
-vector<int> inspect_image_params = {20, 50, 700};
-
-//global variables for check_candiates
-//{CHECK_SQUARE_SIZE, H_MIN, H_MAX, S_MIN, S_MAX, MIN_GREEN_REQUIRED}
-vector<int> check_candidates_params = {10,40,75,20,255,30};
-
-
 //command line arguments
 int FRAME_SOURCE = 0; //0: webcam 1: video 2: image
 int camID = 0; 
@@ -174,8 +160,6 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    gui_obj.print_params(&imParams);
-
     cout << "Main processing loop started" << endl;
 
     while(1){
@@ -227,10 +211,6 @@ int main(int argc, char* argv[])
         int key;
         key = cvWaitKey(1);
        if (char(key) == 27){
-            if(TRACKBAR_ENABLE){
-                        cout << "Printing imParams" << endl;
-                        gui_obj.print_params(&imParams);
-            }
             break;      //If you hit ESC key loop will break.
         }
 

@@ -6,7 +6,7 @@ using namespace std;
 
 params::params()
 {
-    greyThreshMin = 0;  
+    greyThreshMin = 230;  
     greyThreshMax = 256; 
     greyErodePix = 2;  
     greyDilatePix = 4; 

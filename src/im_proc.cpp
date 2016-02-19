@@ -141,9 +141,6 @@ void im_proc::init_feed(int ID)
     //then after everything go down a bit more to make sure
     imParams.at(0) = imParams.at(0) - STEP_FINAL;
     */
-
-    //hardcoded hack
-    imParams.at(0) = 230;
 }
 
 tuple<bool, float, float> im_proc::process_frame()
@@ -504,7 +501,7 @@ void im_proc::overlay_position(cv::Mat *frame,
         //print score next to each candidate
         std::ostringstream str;
         str << laserToDraw->matchScore;;
-        putText(*frame,str.str(), Point(laserToDraw->x + 5,laserToDraw->y + 5), CV_FONT_HERSHEY_PLAIN, 1,Scalar(0,0,250));
+        putText(*frame,str.str(), Point(laserToDraw->x + 7,laserToDraw->y + 7), CV_FONT_HERSHEY_PLAIN, 1,Scalar(0,0,250));
 
         if(laserToDraw->pairID != -1)
         {

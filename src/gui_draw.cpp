@@ -27,89 +27,59 @@ gui_draw::gui_draw()
 
 void gui_draw::draw_interface()
 {
-
-
     if(TRACKBAR_ENABLE){
-        create_trackbars(&imParams);
+        create_trackbars();
 
         display_image("Thresholded Frame", frame_thresholded); 
     }
-    
 
     display_image("Camera Feed with overlay", frame_overlay);
-
 }
-
-void gui_draw::print_params(vector<int> *params)
-{
-        cout << "Final values: " << endl;
-        cout << "{";
-        for(int i=0; i<params->size(); i++){
-            cout << params->at(i);
-            if(i<params->size() -1) cout << ",";
-        }
-        cout << "}" << endl;
-
-        cout << "{";
-        for(int i=0; i<inspect_image_params.size(); i++){
-            cout << inspect_image_params.at(i);
-            if(i<inspect_image_params.size() -1) cout << ",";
-        }
-        cout << "}" << endl;
-
-        cout << "{";
-        for(int i=0; i<check_candidates_params.size(); i++){
-            cout << check_candidates_params.at(i);
-            if(i<check_candidates_params.size() -1) cout << ",";
-        }
-        cout << "}" << endl;
-}
-
 
 //-------PRIVATE FUNCTRIONS----------------
-void gui_draw::create_trackbars(vector<int> *params)
+void gui_draw::create_trackbars()
 {
-    const string windowTrackbars = "Trackbars";
+    const string windowTrackbars = "ThresholdParams";
     namedWindow(windowTrackbars, 1);
     //create memory to store trackbar name on window
     char TrackbarName[50];
 
-    sprintf( TrackbarName, "MIN"               , params->at(0));
-    sprintf( TrackbarName, "MAX"               , params->at(1));
-    sprintf( TrackbarName, "Erode Pixels"      , params->at(2));
-    sprintf( TrackbarName, "Dilate Pixels"     , params->at(3));
-    sprintf( TrackbarName, "Erode Iterations"  , params->at(4));
-    sprintf( TrackbarName, "Dilate Iterations" , params->at(5));
-    sprintf( TrackbarName, "MAX_NUM_OBJECTS"   , inspect_image_params.at(0));
-    sprintf( TrackbarName, "MIN_OBJECT_AREA"   , inspect_image_params.at(1));
-    sprintf( TrackbarName, "MAX_OBJECT_AREA"   , inspect_image_params.at(2));
-    sprintf( TrackbarName, "CHECK_SQUARE_SIZE" , check_candidates_params.at(0));
-    sprintf( TrackbarName, "H_MIN"             , check_candidates_params.at(1));
-    sprintf( TrackbarName, "H_MAX"             , check_candidates_params.at(2));
-    sprintf( TrackbarName, "S_MIN"             , check_candidates_params.at(3));
-    sprintf( TrackbarName, "S_MAX"             , check_candidates_params.at(4));
-    sprintf( TrackbarName, "MIN_GREEN_REQUIRED", check_candidates_params.at(5));
+    sprintf( TrackbarName, "MIN"               , gParams.greyThreshMin);
+    sprintf( TrackbarName, "MAX"               , gParams.greyThreshMax);
+    sprintf( TrackbarName, "Erode Pixels"      , gParams.greyErodePix);
+    sprintf( TrackbarName, "Dilate Pixels"     , gParams.greyDilatePix);
+    sprintf( TrackbarName, "Erode Iterations"  , gParams.greyErodeIterations);
+    sprintf( TrackbarName, "Dilate Iterations" , gParams.greyDilateIterations);
+    sprintf( TrackbarName, "MAX_NUM_OBJECTS"   , gParams.candMaxNumObjects);
+    sprintf( TrackbarName, "MIN_OBJECT_AREA"   , gParams.candMinObjectArea);
+    sprintf( TrackbarName, "MAX_OBJECT_AREA"   , gParams.candMaxObjectArea);
+    sprintf( TrackbarName, "CHECK_SQUARE_SIZE" , gParams.checkSquareSize);
+    sprintf( TrackbarName, "H_MIN"             , gParams.checkHMin);
+    sprintf( TrackbarName, "H_MAX"             , gParams.checkHMax);
+    sprintf( TrackbarName, "S_MIN"             , gParams.checkSMin);
+    sprintf( TrackbarName, "S_MAX"             , gParams.checkSMax);
+    sprintf( TrackbarName, "MIN_GREEN_REQUIRED", gParams.checkMinGreen);
 
     //create trackbars and insert them into window
     //3 parameters are: the address of the variable that is changing when the trackbar is moved(eg.H_LOW),
     //the max value the trackbar can move (eg. H_HIGH), 
     //and the function that is called whenever the trackbar is moved(eg. on_trackbar)
     //                                  ---->    ---->     ---->      
-    createTrackbar( "MIN"                , windowTrackbars, &params->at(0), 256);
-    createTrackbar( "MAX"                , windowTrackbars, &params->at(1), 256);
-    createTrackbar( "Erode Pixels"       , windowTrackbars, &params->at(2), 10);
-    createTrackbar( "Dilate Pixels"      , windowTrackbars, &params->at(3), 10);
-    createTrackbar( "Erode Iterations"   , windowTrackbars, &params->at(4), 10);
-    createTrackbar( "Dilate Iterations"  , windowTrackbars, &params->at(5), 10);
-    createTrackbar( "MAX_NUM_OBJECTS"    , windowTrackbars, &inspect_image_params.at(0), 100);
-    createTrackbar( "MIN_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(1), 400);
-    createTrackbar( "MAX_OBJECT_AREA"    , windowTrackbars, &inspect_image_params.at(2), 1000);
-    createTrackbar( "CHECK_SQUARE_SIZE"  , windowTrackbars, &check_candidates_params.at(0), 255);
-    createTrackbar( "H_MIN"              , windowTrackbars, &check_candidates_params.at(1), 255);
-    createTrackbar( "H_MAX"              , windowTrackbars, &check_candidates_params.at(2), 255);
-    createTrackbar( "S_MIN"              , windowTrackbars, &check_candidates_params.at(3), 255);
-    createTrackbar( "S_MAX"              , windowTrackbars, &check_candidates_params.at(4), 255);
-    createTrackbar( "MIN_GREEN_REQUIRED" , windowTrackbars, &check_candidates_params.at(5), 255);
+    createTrackbar( "MIN"                , windowTrackbars, &gParams.greyThreshMin        , 256);
+    createTrackbar( "MAX"                , windowTrackbars, &gParams.greyThreshMax        , 256);
+    createTrackbar( "Erode Pixels"       , windowTrackbars, &gParams.greyErodePix         , 10);
+    createTrackbar( "Dilate Pixels"      , windowTrackbars, &gParams.greyDilatePix        , 10);
+    createTrackbar( "Erode Iterations"   , windowTrackbars, &gParams.greyErodeIterations  , 10);
+    createTrackbar( "Dilate Iterations"  , windowTrackbars, &gParams.greyDilateIterations , 10);
+    createTrackbar( "MAX_NUM_OBJECTS"    , windowTrackbars, &gParams.candMaxNumObjects, 100);
+    createTrackbar( "MIN_OBJECT_AREA"    , windowTrackbars, &gParams.candMinObjectArea, 400);
+    createTrackbar( "MAX_OBJECT_AREA"    , windowTrackbars, &gParams.candMaxObjectArea, 1000);
+    createTrackbar( "CHECK_SQUARE_SIZE"  , windowTrackbars, &gParams.checkSquareSize, 255);
+    createTrackbar( "H_MIN"              , windowTrackbars, &gParams.checkHMin    , 255);
+    createTrackbar( "H_MAX"              , windowTrackbars, &gParams.checkHMax    , 255);
+    createTrackbar( "S_MIN"              , windowTrackbars, &gParams.checkSMin    , 255);
+    createTrackbar( "S_MAX"              , windowTrackbars, &gParams.checkSMax    , 255);
+    createTrackbar( "MIN_GREEN_REQUIRED" , windowTrackbars, &gParams.checkMinGreen, 255);
 
 }
 

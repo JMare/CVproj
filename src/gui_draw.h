@@ -14,10 +14,9 @@ class gui_draw
     public:
         gui_draw();
         void draw_interface();
-        void print_params(std::vector<int> *params);
 
     private:
-        void create_trackbars(std::vector<int> *params);
+        void create_trackbars();
         void display_image(const char* wtitle, cv::Mat frame);
 };
 
