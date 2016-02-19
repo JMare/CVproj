@@ -29,5 +29,4 @@ extern bool STREAM_POSITION;
 void print_debug();
 static long myclock();
 
-
 #endif

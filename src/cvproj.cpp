@@ -17,6 +17,7 @@
 #include "gim_control_pwm.h"
 #include "gim_control_api.h"
 #include "serial_port.h"
+#include "params.h"
 #include "cvproj.h"
 
 //----NAMESPACES----------------
@@ -28,6 +29,8 @@ using namespace std;
 #else
     gim_control_api oGim;
 #endif
+
+params gParams;
 
 Mat frame_overlay, frame_thresholded;
 
@@ -51,8 +54,7 @@ int camID = 0;
 char* FILENAME; //image or video file 
 bool TRACKBAR_ENABLE = false;
 bool GUI_ENABLE = false;
-bool DEBUG_FLAG = false;
-
+bool DEBUG_FLAG = false; 
 //these probably shoulnt be doubles, it seems wasteful
 double  now_ms = 0;
 double  last_loop_ms = 0;
@@ -124,6 +126,12 @@ int main(int argc, char* argv[])
     im_proc imFrame;
 
     gui_draw gui_obj; //create object for gui drawing
+
+    gParams.readParamsFile("params.txt");
+
+    cout << gParams.checkHMax << endl;
+    cout << gParams.checkHMin << endl;
+    cout << gParams.checkSMax << endl;
 
     try{
         imFrame.init_feed(camID); //try to open webcam/video
@@ -237,3 +245,4 @@ static long myclock()
     return elapsed.count();
     //returns in ms
 }
+
