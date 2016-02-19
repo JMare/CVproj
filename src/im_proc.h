@@ -46,8 +46,8 @@ class im_proc
 
     private:
         //FUNCTIONS
-        void threshold_frame(cv::Mat *frame, std::vector<int> *params);
-        void morph_frame(cv::Mat *frame, std::vector<int> *params);
+        void threshold_frame(cv::Mat *frame);
+        void morph_frame(cv::Mat *frame);
         void loadframe(cv::Mat *frame);
         void overlay_position(cv::Mat *frame,
                    std::vector<laserInfo>* laserContainerPointer,

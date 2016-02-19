@@ -78,8 +78,8 @@ void im_proc::init_feed(int ID)
         loadframe(&mainfeed);
         Mat frame_proc = mainfeed.clone();
 
-        threshold_frame(&frame_proc, &imParams);
-        morph_frame(&frame_proc, &imParams);
+        threshold_frame(&frame_proc);
+        morph_frame(&frame_proc);
         
         frame_info = inspect_frame(&frame_proc);
 
@@ -161,8 +161,8 @@ tuple<bool, float, float> im_proc::process_frame()
     //clone is nessasary, assignment does not copy
     frame_proc = mainfeed.clone();
 
-    threshold_frame(&frame_proc, &imParams);
-    morph_frame(&frame_proc, &imParams);
+    threshold_frame(&frame_proc);
+    morph_frame(&frame_proc);
 
     inspect_frame(&frame_proc, &laserContainer);
 
@@ -215,34 +215,32 @@ Mat im_proc::get_frame_thresholded()
 //-------PRIVATE FUNCTRIONS----------------
 
 
-void im_proc::threshold_frame(Mat *frame, vector<int> *params)
+void im_proc::threshold_frame(Mat *frame)
 {
-    vector<int> paramslocal = *params;
-
     cvtColor(*frame, *frame, CV_RGB2GRAY);
-    threshold(*frame, *frame, paramslocal.at(0), paramslocal.at(1), THRESH_BINARY);
+    threshold(*frame, *frame, gParams.greyThreshMin, gParams.greyThreshMax, THRESH_BINARY);
 }
 
 
-void im_proc::morph_frame(Mat *frame, vector<int> *params)
+void im_proc::morph_frame(Mat *frame)
 {
     //OpenCV will crash if it tries to erode or dilate with
     //a pixel size of zero, if statements stop this.
     
-    if(params->at(2) != 0){
-        Mat erodeElement = getStructuringElement( MORPH_RECT,Size(params->at(2),params->at(2)));
+    if(gParams.greyErodePix != 0){
+        Mat erodeElement = getStructuringElement( MORPH_RECT,Size(gParams.greyErodePix,gParams.greyErodePix));
         
         //for iterations erode
-        for(int i=params->at(4); i>0; i--){
+        for(int i = gParams.greyErodeIterations; i>0; i--){
             erode(*frame,*frame,erodeElement);
         }
     }
     
-    if(params->at(3) != 0){
-        Mat dilateElement = getStructuringElement( MORPH_RECT,Size(params->at(3),params->at(3)));
+    if(gParams.greyDilatePix != 0){
+        Mat dilateElement = getStructuringElement( MORPH_RECT,Size(gParams.greyDilatePix,gParams.greyDilatePix));
         
         //for iterations dilate
-        for(int i=params->at(5); i>0; i--){
+        for(int i = gParams.greyDilateIterations; i>0; i--){
             dilate(*frame,*frame,dilateElement);
         }
     }
@@ -308,12 +306,12 @@ vector<laserInfo>* im_proc::inspect_frame(Mat *frame, vector<laserInfo>* laserCo
             
 void im_proc::check_candidates(vector<laserInfo>* laserContainerPointer)
 {
-    int CHECK_SQUARE_SIZE     = check_candidates_params.at(0);
-    int H_MIN                 = check_candidates_params.at(1);
-    int H_MAX                 = check_candidates_params.at(2);
-    int S_MIN                 = check_candidates_params.at(3);
-    int S_MAX                 = check_candidates_params.at(4);
-    int MIN_GREEN_REQUIRED    = check_candidates_params.at(5);
+    int CHECK_SQUARE_SIZE     = gParams.checkSquareSize;
+    int H_MIN                 = gParams.checkHMin; 
+    int H_MAX                 = gParams.checkHMax; 
+    int S_MIN                 = gParams.checkSMin; 
+    int S_MAX                 = gParams.checkSMax; 
+    int MIN_GREEN_REQUIRED    = gParams.checkMinGreen; 
    
     //call colorcheck to count and apply greenness to objects
     checkObjectColor(CHECK_SQUARE_SIZE,
