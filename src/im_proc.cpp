@@ -59,7 +59,7 @@ void im_proc::init_feed(int ID)
     }
 
     cout << "Welcome to CVproj. " << endl;
-    /*
+    
     cout << "Please ensure the laser is not in the frame." << endl;
 
     cout << "Press enter to continue." << endl;
@@ -71,6 +71,7 @@ void im_proc::init_feed(int ID)
         loadframe(&mainfeed);
     }
 
+    vector<laserInfo> laserContainer;
     bool emptyframe = false;
 
     while (!emptyframe)
@@ -81,13 +82,17 @@ void im_proc::init_feed(int ID)
         threshold_frame(&frame_proc);
         morph_frame(&frame_proc);
         
-        frame_info = inspect_frame(&frame_proc);
+        inspect_frame(&frame_proc, &laserContainer);
+            
+        double areafound = 0;
 
-        double areafound = get<2>(frame_info);
+        for(int  i = 0; i < laserContainer.size(); i++){
+            areaFound = areaFound + (laserContainer.at(i)).area;
+        }
         
         if(areafound == 0) emptyframe = true;
 
-        imParams.at(0) = imParams.at(0) + STEP_UP;
+        gParams.greyThreshMin = gParams.greyThreshMin + STEP_UP;
 
     }
 
@@ -108,39 +113,38 @@ void im_proc::init_feed(int ID)
     bool laserfound = false;
 
     //start the loop lowering threshold while looking for laser
-    
-    while(!laserfound && imParams.at(0) > 0)
+
+    while(!laserfound && gParams.greyThreshMin > 0)
     {
+
         loadframe(&mainfeed);
-        Mat frame_proc = mainfeed.clone();
-        threshold_frame(&frame_proc, &imParams);
-        morph_frame(&frame_proc, &imParams);
-        frame_info = inspect_frame(&frame_proc);
+
+        //clone is nessasary, assignment does not copy
+        frame_proc = mainfeed.clone();
+
+        threshold_frame(&frame_proc);
+        morph_frame(&frame_proc);
+
+        inspect_frame(&frame_proc, &laserContainer);
+
+        check_candidates(&laserContainer);
+
+        tuple<bool, float, float> masterPosition = calcMasterPosition(&laserContainer);
         
-        tuple<bool, double, double>  matchFound = check_candidates(get<0>(frame_info));
-        
-        if(get<0>(matchFound) == true) 
+        if(get<0>(masterPosition) == true) 
         {
             laserfound = true;
-            //vector<vector<double>> candidatesFound = get<0>(frame_info);
-            //vector<double> matchFound = candidatesFound.at(matchID);
-            //areaFound = matchFound.at(0);
-            
-            //set min and max area thresholds based on 
-            //inspect_image_params.at(1) = areaFound - 250;
-            //inspect_image_params.at(2) = areaFound + 400;
-            //int areaFound = matchFound.at(0);
         }
         else 
         {
-            imParams.at(0) = imParams.at(0) - STEP_DOWN;
+            gParams.greyThreshMin = gParams.greyThreshMin - STEP_DOWN;
             cout << "lowered threshold" << endl;
         }
     }
 
     //then after everything go down a bit more to make sure
-    imParams.at(0) = imParams.at(0) - STEP_FINAL;
-    */
+    gParams.greyThreshMin = gParams.greyThreshMin - STEP_FINAL;
+    
 }
 
 tuple<bool, float, float> im_proc::process_frame()
