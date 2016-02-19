@@ -155,9 +155,9 @@ int main(int argc, char* argv[])
 
     gui_draw gui_obj; //create object for gui drawing
 
-    gParams.readParamsFile(PARAMS_IN_FILENAME);
-
-    gParams.writeParamsFile(PARAMS_OUT_FILENAME);
+    if(PARAMS_READ){
+        gParams.readParamsFile(PARAMS_IN_FILENAME);
+    }
 
     try{
         imFrame.init_feed(camID); //try to open webcam/video

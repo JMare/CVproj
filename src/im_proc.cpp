@@ -258,9 +258,9 @@ vector<laserInfo>* im_proc::inspect_frame(Mat *frame, vector<laserInfo>* laserCo
 
     findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
     
-    int MAX_NUM_OBJECTS = inspect_image_params.at(0); 
-    int MIN_OBJECT_AREA = inspect_image_params.at(1); 
-    int MAX_OBJECT_AREA = inspect_image_params.at(2); 
+    int MAX_NUM_OBJECTS = gParams.candMaxNumObjects; 
+    int MIN_OBJECT_AREA = gParams.candMinObjectArea;
+    int MAX_OBJECT_AREA = gParams.candMaxObjectArea; 
 
     int numObjects = hierarchy.size();
 

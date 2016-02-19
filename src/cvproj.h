@@ -8,6 +8,9 @@
 
 #include <string>
 #include <vector>
+#include "params.h"
+
+extern params gParams;
 
 //paramater arrays
 extern std::vector<int> imParams;
