@@ -55,14 +55,22 @@ char* FILENAME; //image or video file
 bool TRACKBAR_ENABLE = false;
 bool GUI_ENABLE = false;
 bool DEBUG_FLAG = false; 
+bool PARAMS_READ = false;
+bool PARAMS_WRITE = false;
+string PARAMS_IN_FILENAME;
+string PARAMS_OUT_FILENAME;
+
 //these probably shoulnt be doubles, it seems wasteful
 double  now_ms = 0;
 double  last_loop_ms = 0;
 double  last_debug_ms = 0;
 double  loop_begin_ms = 0;
+double  last_write_ms = 0;
 const int LOOP_HISTORY_LENGTH = 20;
 double loopTime;
 const int DEBUG_INTERVAL = 2000;
+const int PARAM_WRITE_INTERVAL = 10000;
+
 
 vector<long int> loopTimeHistory;
 tuple<bool, double, double> Pos;
@@ -110,6 +118,26 @@ int main(int argc, char* argv[])
                 return 1;
             }  
         }
+        if (string(argv[i]) == "--param-in") {
+            if (i + 1 < argc) { // Make sure we aren't at the end of argv!
+                PARAMS_READ = true;
+                i++; //increment so we dont get the number next round
+                PARAMS_IN_FILENAME = argv[i]; 
+            } else { // Uh-oh, there was no argument to the destination option.
+                  cerr << "--param-in option requires one argument." << endl;
+                return 1;
+            }  
+        }
+        if (string(argv[i]) == "--param-out") {
+            if (i + 1 < argc) { // Make sure we aren't at the end of argv!
+                PARAMS_WRITE = true;
+                i++; //increment so we dont get the number next round
+                PARAMS_OUT_FILENAME = argv[i]; 
+            } else { // Uh-oh, there was no argument to the destination option.
+                  cerr << "--param-out option requires one argument." << endl;
+                return 1;
+            }  
+        }
         if (string(argv[i]) == "--trackbar") {
                 TRACKBAR_ENABLE = true;
         }
@@ -127,11 +155,9 @@ int main(int argc, char* argv[])
 
     gui_draw gui_obj; //create object for gui drawing
 
-    gParams.readParamsFile("params.txt");
+    gParams.readParamsFile(PARAMS_IN_FILENAME);
 
-    cout << gParams.checkHMax << endl;
-    cout << gParams.checkHMin << endl;
-    cout << gParams.checkSMax << endl;
+    gParams.writeParamsFile(PARAMS_OUT_FILENAME);
 
     try{
         imFrame.init_feed(camID); //try to open webcam/video
@@ -181,6 +207,13 @@ int main(int argc, char* argv[])
         }
 
         now_ms = myclock();
+
+        if(PARAMS_WRITE){
+            if(now_ms - last_write_ms > PARAM_WRITE_INTERVAL){
+                gParams.writeParamsFile(PARAMS_OUT_FILENAME);
+                last_write_ms = now_ms;
+            }
+        }
 
         if(DEBUG_FLAG)
         {

@@ -93,6 +93,54 @@ void params::readParamsFile(string paramFileName)
 
 void params::writeParamsFile(string paramFileName)
 {
+    ofstream myfile;
+    myfile.open (paramFileName);
+    
+    myfile << "greyThreshMin" << endl;
+    myfile << greyThreshMin << endl;
 
+    myfile << "greyThreshMax" << endl;
+    myfile << greyThreshMax << endl;
+
+    myfile << "greyErodePix" << endl;
+    myfile << greyErodePix << endl;
+
+    myfile << "greyDilatePix" << endl;
+    myfile << greyDilatePix << endl;
+
+    myfile << "greyErodeIterations" << endl;
+    myfile << greyErodeIterations << endl;
+
+    myfile << "greyDilateIterations" << endl;
+    myfile << greyDilateIterations << endl;
+
+    myfile << "candMaxNumObjects" << endl;
+    myfile << candMaxNumObjects << endl;
+
+    myfile << "candMinObjectArea" << endl;
+    myfile << candMinObjectArea << endl;
+
+    myfile << "candMaxObjectArea" << endl;
+    myfile << candMaxObjectArea << endl;
+
+    myfile << "checkSquareSize" << endl;
+    myfile << checkSquareSize << endl;
+
+    myfile << "checkHMin" << endl;
+    myfile << checkHMin << endl;
+
+    myfile << "checkHMax" << endl;
+    myfile << checkHMax << endl;
+
+    myfile << "checkSMin" << endl;
+    myfile << checkSMin << endl;
+
+    myfile << "checkSMax" << endl;
+    myfile << checkSMax << endl;
+
+    myfile << "checkMinGreen" << endl;
+    myfile << checkMinGreen << endl;
+
+    myfile.close();
 
 }
