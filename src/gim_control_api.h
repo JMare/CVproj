@@ -11,6 +11,7 @@
 #include <tuple>
 #include <chrono>
 #include <cstdlib>
+#include "im_proc.h"
 
 class gim_control_api 
 {
@@ -18,14 +19,14 @@ class gim_control_api
         //constructor
         gim_control_api();
 
-        void followPosition(std::tuple<bool, double, double> Pos);
+        void followPosition(laserInfo Pos);
         void absoluteAngleControl(std::vector<double> pitchYawAngles); 
         void centerGimbal();
         void parseIncomingMessages();
 
     private:
         //FUNCTIONS
-        std::vector<double> calcRelativePosition(std::tuple<bool,double,double> Pos);
+        std::vector<double> calcRelativePosition(laserInfo Pos);
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
         bool checkConnection();
         void processIncomingMessages();

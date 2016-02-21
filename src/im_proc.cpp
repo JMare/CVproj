@@ -129,9 +129,9 @@ void im_proc::init_feed(int ID)
 
         check_candidates(&laserContainer);
 
-        tuple<bool, float, float> masterPosition = calcMasterPosition(&laserContainer);
+        laserInfo masterPosition = calcMasterPosition(&laserContainer);
         
-        if(get<0>(masterPosition) == true) 
+        if(masterPosition.isMatch == true) 
         {
             laserfound = true;
         }
@@ -147,7 +147,7 @@ void im_proc::init_feed(int ID)
     
 }
 
-tuple<bool, float, float> im_proc::process_frame()
+laserInfo im_proc::process_frame()
 {
    
     vector<laserInfo> laserContainer;
@@ -169,12 +169,11 @@ tuple<bool, float, float> im_proc::process_frame()
 
     check_candidates(&laserContainer);
 
-    tuple<bool, float, float> masterPosition = calcMasterPosition(&laserContainer);
-    tuple<bool, float, float> Posmaster; 
+    laserInfo masterPosition = calcMasterPosition(&laserContainer);
 
     overlay_position(&mainfeed, &laserContainer, masterPosition);
 
-    
+   /* 
     //update last positions
     PosHistory.push_back(masterPosition); 
     if(PosHistory.size() > HISTORY_LENGTH)
@@ -182,7 +181,7 @@ tuple<bool, float, float> im_proc::process_frame()
         PosHistory.erase(PosHistory.begin());
     }
 
-    if(get<0>(masterPosition))
+    if(masterPosition))
     {
         vector<float> xHistory, yHistory;
         for(int i = 0; i < PosHistory.size(); i++){
@@ -200,8 +199,8 @@ tuple<bool, float, float> im_proc::process_frame()
 
         Posmaster = make_tuple(true, xSmooth, ySmooth);
     } else Posmaster = make_tuple(false, -1, -1);
-
-    return Posmaster;
+*/
+    return masterPosition;
 }
 
 Mat im_proc::get_frame_overlay()
@@ -406,7 +405,7 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
 }
 
 
-tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserContainerPointer)
+laserInfo im_proc::calcMasterPosition(vector<laserInfo>* laserContainerPointer)
 {
     const int MIN_SCORE_NON_PAIR = 50;
     const int MIN_SCORE_PAIR = 50;
@@ -441,15 +440,24 @@ tuple<bool, float, float> im_proc::calcMasterPosition(vector<laserInfo>* laserCo
         }
     }
 
-    if(bestPairID == -1 && bestSingleID == -1) return make_tuple(false, -1, -1);
+    if(bestPairID == -1 && bestSingleID == -1){
+        laserInfo blankreturn;
+        return blankreturn;
+    }
     else if(bestPairID == -1 && bestSingleID != -1){
-        return make_tuple(true, (laserContainerPointer->at(bestSingleID)).x, (laserContainerPointer->at(bestSingleID)).y);
+        (laserContainerPointer->at(bestSingleID)).isMatch = true;
+        return laserContainerPointer->at(bestSingleID); 
     } else if(bestPairID != -1 && bestSingleID == -1){
-        return make_tuple(true, (laserContainerPointer->at(bestPairID)).x, (laserContainerPointer->at(bestPairID)).y);
+        (laserContainerPointer->at(bestPairID)).isMatch = true;
+        return laserContainerPointer->at(bestPairID); 
     } else {
         if((laserContainerPointer->at(bestSingleID)).matchScore > pairScore){
-                return make_tuple(true, (laserContainerPointer->at(bestSingleID)).x, (laserContainerPointer->at(bestSingleID)).y);
-        } else  return make_tuple(true, (laserContainerPointer->at(bestPairID)).x, (laserContainerPointer->at(bestPairID).y));
+            (laserContainerPointer->at(bestSingleID)).isMatch = true;
+            return laserContainerPointer->at(bestSingleID);
+        } else {
+            (laserContainerPointer->at(bestPairID)).isMatch = true;
+            return laserContainerPointer->at(bestPairID);
+        }
     }
     
 } //calcMasterPosition
@@ -494,7 +502,7 @@ void im_proc::checkObjectColor(int CHECK_SQUARE_SIZE,
 
 void im_proc::overlay_position(cv::Mat *frame,
            std::vector<laserInfo>* laserContainerPointer,
-           std::tuple<bool, float, float> masterPosition)
+           laserInfo masterPosition)
 {
     for(int i = 0; i < laserContainerPointer->size(); i++){
         laserInfo* laserToDraw = &laserContainerPointer->at(i);
@@ -517,9 +525,9 @@ void im_proc::overlay_position(cv::Mat *frame,
     } //end for
 
     //If master position calculated put a circle around it
-    if(get<0>(masterPosition) == true)
+    if(masterPosition.isMatch == true)
     {
-        circle(*frame,Point(get<1>(masterPosition),get<2>(masterPosition)),5,Scalar(0,255,0),3);
+        circle(*frame,Point(masterPosition.x,masterPosition.y),5,Scalar(0,255,0),3);
     }
 }
 

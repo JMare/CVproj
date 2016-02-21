@@ -177,13 +177,13 @@ int main(int argc, char* argv[])
             loopTimeHistory.erase(loopTimeHistory.begin());
         }
         
-        tuple<bool, float, float> PosMain = imFrame.process_frame();
+        laserInfo PosMain = imFrame.process_frame();
         
         frame_overlay = imFrame.get_frame_overlay();
 
         frame_thresholded = imFrame.get_frame_thresholded();
         
-         oGim.followPosition(PosMain);
+        oGim.followPosition(PosMain);
         
         if(GUI_ENABLE)
         {

@@ -10,14 +10,14 @@ gim_control_pwm::gim_control_pwm()
     absoluteAngleControl({0,0});
 }
 
-void gim_control_pwm::followPosition(tuple<bool, double, double> Pos)
+void gim_control_pwm::followPosition(laserInfo Pos)
 {
     now_ms = myclock();
 
     if(now_ms - last_mov_ms >  MOVEMENT_INT){  
         last_mov_ms = myclock();
 
-        if(get<0>(Pos))
+        if(Pos.isMatch)
         {
             vector<double> relPos = calcRelativePosition(Pos);
             relateiveAngleControl(relPos);
@@ -30,10 +30,10 @@ void gim_control_pwm::followPosition(tuple<bool, double, double> Pos)
     }
 }
 
-vector<double> gim_control_pwm::calcRelativePosition(tuple<bool, double, double> Pos)
+vector<double> gim_control_pwm::calcRelativePosition(laserInfo Pos)
 {
-    double x = get<1>(Pos);
-    double y = get<2>(Pos);
+    double x = Pos.x;
+    double y = Pos.y;
 
     //These scale the angle change linearly.
     const double GAIN_X = 0.03;

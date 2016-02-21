@@ -28,7 +28,7 @@ gim_control_api::gim_control_api()
             }
 }
 
-void gim_control_api::followPosition(tuple<bool, double, double> Pos)
+void gim_control_api::followPosition(laserInfo Pos)
 {
 
     now_ms = myclock();
@@ -36,7 +36,7 @@ void gim_control_api::followPosition(tuple<bool, double, double> Pos)
     if(now_ms - last_mov_ms >  MOVEMENT_INT){  
         last_mov_ms = myclock();
 
-        if(get<0>(Pos))
+        if(Pos.isMatch)
         {
             vector<double> relPos = calcRelativePosition(Pos);
             relateiveAngleControl(relPos);
@@ -49,10 +49,10 @@ void gim_control_api::followPosition(tuple<bool, double, double> Pos)
     }
 }
 
-vector<double> gim_control_api::calcRelativePosition(tuple<bool, double, double> Pos)
+vector<double> gim_control_api::calcRelativePosition(laserInfo Pos)
 {
-    double x = get<1>(Pos);
-    double y = get<2>(Pos);
+    double x = Pos.x;
+    double y = Pos.y;
 
     //These scale the angle change linearly.
     const double GAIN_X = 0.06;

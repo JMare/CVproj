@@ -9,6 +9,7 @@
 #include <tuple>
 #include <chrono>
 #include <cstdlib>
+#include "im_proc.h"
 
 class gim_control_pwm
 {
@@ -16,13 +17,13 @@ class gim_control_pwm
         //constructor
         gim_control_pwm();
 
-        void followPosition(std::tuple<bool, double, double> Pos);
+        void followPosition(laserInfo Pos);
         void absoluteAngleControl(std::vector<double> pitchYawAngles); 
         void centerGimbal();
 
     private:
         //FUNCTIONS
-        std::vector<double> calcRelativePosition(std::tuple<bool,double,double> Pos);
+        std::vector<double> calcRelativePosition(laserInfo Pos);
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
         long myclock();
 

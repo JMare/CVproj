@@ -39,7 +39,7 @@ class im_proc
         im_proc();
            
         void init_feed(int ID);
-        std::tuple<bool, float, float>  process_frame(); 
+        laserInfo process_frame(); 
 
         cv::Mat get_frame_overlay();
         cv::Mat get_frame_thresholded();
@@ -51,7 +51,7 @@ class im_proc
         void loadframe(cv::Mat *frame);
         void overlay_position(cv::Mat *frame,
                    std::vector<laserInfo>* laserContainerPointer,
-                   std::tuple<bool, float, float> masterPosition);
+                   laserInfo masterPosition);
         
         void check_candidates(std::vector<laserInfo>* laserContainerPointer);
 
@@ -64,7 +64,7 @@ class im_proc
 
         void calcObjectScores(std::vector<laserInfo>* laserContainerPointer, int MIN_GREEN_REQUIRED);
 
-        std::tuple<bool, float, float> calcMasterPosition(std::vector<laserInfo>* laserContainerPointer);
+        laserInfo calcMasterPosition(std::vector<laserInfo>* laserContainerPointer);
         std::vector<laserInfo>* inspect_frame(cv::Mat *frame, std::vector<laserInfo>* laserContainerPointer);
 
         
