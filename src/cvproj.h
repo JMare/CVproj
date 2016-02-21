@@ -24,7 +24,7 @@ extern bool TRACKBAR_ENABLE;
 extern bool STREAM_POSITION;
 
 //Misc Functions
-void print_debug();
+void print_debug(laserInfo* laser);
 static long myclock();
 
 #endif

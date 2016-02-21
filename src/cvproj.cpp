@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
         {
             if(now_ms - last_debug_ms > DEBUG_INTERVAL)
             {
-                print_debug();
+                print_debug(&PosMain);
                 last_debug_ms = now_ms;
             }
         }
@@ -222,7 +222,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void print_debug()
+void print_debug(laserInfo* laser)
 {
 
 cout << "------------------------" << endl;
@@ -232,17 +232,17 @@ int loopTimePrint = (accumulate(loopTimeHistory.begin(),loopTimeHistory.end(),0)
 int loopTimeFPS = 1000 / loopTimePrint;
 
 cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
-/*
+
 cout << "Laser candidates: " << numCandPass << endl;
-cout << "Position found: " << get<0>(Pos) << endl;
-cout << "Coordinates - x: " << get<1>(Pos) << " y: " << get<2>(Pos) << endl;
+cout << "Position found: " << laser->isMatch << endl;
 
-
-if(get<0>(Pos)){
-    cout << "Laser Area: " << areaOfLaser << endl;
-    cout << "Laser green count: " <<  greenOfLaser << endl;
+if(laser->isMatch){
+    cout << "Coordinates - x: " << laser->x << " y: " << laser->y << endl;
+    cout << "Laser Area: " << laser->area << endl;
+    cout << "Laser green count: " <<  laser->colorCount << endl;
+    cout << "Laser total score: " << laser->matchScore << endl;
 }
-*/
+
     cout << "------------------------" << endl;
 
 }
