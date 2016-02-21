@@ -23,6 +23,16 @@ params::params()
     checkSMin = 20;
     checkSMax = 255; 
     checkMinGreen = 30; 
+
+
+    calcScorePercentColor = 10;
+    calcScorePercentColorExtra = 30;
+    calcScorePercentSize = 30;
+    calcScorePercentCircle = 30;
+    calcAreaExpected = 120;
+    calcAreaMaxDiff = 200;
+    calcMinPairDist = 20;
+    calcMaxPairDist = 70;
 }
 
 void params::readParamsFile(string paramFileName)
@@ -89,6 +99,30 @@ void params::readParamsFile(string paramFileName)
     if(!(paramMap.find("checkMinGreen") == paramMap.end())){
         checkMinGreen = paramMap["checkMinGreen"];
     }
+    if(!(paramMap.find("calcScorePercentColor") == paramMap.end())){
+        calcScorePercentColor = paramMap["calcScorePercentColor"];
+    }
+    if(!(paramMap.find("calcScorePercentColorExtra") == paramMap.end())){
+        calcScorePercentColorExtra = paramMap["calcScorePercentColorExtra"];
+    }
+    if(!(paramMap.find("calcScorePercentSize") == paramMap.end())){
+        calcScorePercentSize = paramMap["calcScorePercentSize"];
+    }
+    if(!(paramMap.find("calcScorePercentCircle") == paramMap.end())){
+        calcScorePercentCircle = paramMap["calcScorePercentCircle"];
+    }
+    if(!(paramMap.find("calcAreaExpected") == paramMap.end())){
+        calcAreaExpected = paramMap["calcAreaExpected"];
+    }
+    if(!(paramMap.find("calcAreaMaxDiff") == paramMap.end())){
+        calcAreaMaxDiff = paramMap["calcAreaMaxDiff"];
+    }
+    if(!(paramMap.find("calcMinPairDist") == paramMap.end())){
+        calcMinPairDist = paramMap["calcMinPairDist"];
+    }
+    if(!(paramMap.find("calcMaxPairDist") == paramMap.end())){
+        calcMaxPairDist = paramMap["calcMaxPairDist"];
+    }
 }
 
 void params::writeParamsFile(string paramFileName)
@@ -141,6 +175,43 @@ void params::writeParamsFile(string paramFileName)
     myfile << "checkMinGreen" << endl;
     myfile << checkMinGreen << endl;
 
-    myfile.close();
+    myfile << "calcScorePercentColor" << endl;
+    myfile << calcScorePercentColor << endl;
 
+    myfile << "calcScorePercentColorExtra" << endl;
+    myfile << calcScorePercentColorExtra << endl;
+
+    myfile << "calcScorePercentSize" << endl;
+    myfile << calcScorePercentSize << endl;
+
+    myfile << "calcScorePercentSize" << endl;
+    myfile << calcScorePercentSize << endl;
+
+    myfile << "calcAreaExpected" << endl;
+    myfile << calcAreaExpected << endl;
+
+    myfile << "calcAreaMaxDiff" << endl;
+    myfile << calcAreaMaxDiff << endl;
+
+    myfile << "calcMinPairDist" << endl;
+    myfile << calcMinPairDist << endl;
+
+    myfile << "calcMaxPairDist" << endl;
+    myfile << calcMaxPairDist << endl;
+
+    myfile.close();
 }
+
+void params::writeCalibFile(string paramFileName)
+{
+    ofstream myfile;
+    myfile.open (paramFileName);
+    
+    myfile << "greyThreshMin" << endl;
+    myfile << greyThreshMin << endl;
+
+    myfile << "calcAreaExpected" << endl;
+    myfile << calcAreaExpected << endl;
+
+    myfile.close();
+} 

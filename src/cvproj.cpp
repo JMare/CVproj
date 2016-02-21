@@ -43,6 +43,8 @@ bool GUI_ENABLE = false;
 bool DEBUG_FLAG = false; 
 bool PARAMS_READ = false;
 bool PARAMS_WRITE = false;
+bool DO_CALIBRATION = false;
+bool LOAD_CALIBRATION = false;
 string PARAMS_IN_FILENAME;
 string PARAMS_OUT_FILENAME;
 
@@ -57,12 +59,7 @@ double loopTime;
 const int DEBUG_INTERVAL = 2000;
 const int PARAM_WRITE_INTERVAL = 10000;
 
-
 vector<long int> loopTimeHistory;
-tuple<bool, double, double> Pos;
-std::tuple<bool, double, double> Posmaster = make_tuple(false, 0, 0); 
-
-int numCandPass, areaOfLaser, greenOfLaser;
 
 int main(int argc, char* argv[])
 {
@@ -127,6 +124,12 @@ int main(int argc, char* argv[])
         if (string(argv[i]) == "--trackbar") {
                 TRACKBAR_ENABLE = true;
         }
+        if (string(argv[i]) == "--readcal") {
+                LOAD_CALIBRATION  = true;
+        }
+        if (string(argv[i]) == "--docal") {
+                DO_CALIBRATION  = true;
+        }
         else if(string(argv[i]) == "--gui") {
             GUI_ENABLE  = true; 
             }
@@ -158,6 +161,13 @@ int main(int argc, char* argv[])
         }
         cout << "ERROR CODE: " << x << endl;
         return 0;
+    }
+
+    if(DO_CALIBRATION){
+        imFrame.calibrateImage();
+        gParams.writeCalibFile("lastcalib.txt");
+    } else if(LOAD_CALIBRATION){
+        gParams.readParamsFile("lastcalib.txt");
     }
 
     cout << "Main processing loop started" << endl;
@@ -233,7 +243,6 @@ int loopTimeFPS = 1000 / loopTimePrint;
 
 cout << "Loop time: " << loopTimePrint << " ms. FPS: " << loopTimeFPS <<  endl;
 
-cout << "Laser candidates: " << numCandPass << endl;
 cout << "Position found: " << laser->isMatch << endl;
 
 if(laser->isMatch){

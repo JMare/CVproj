@@ -39,6 +39,7 @@ class im_proc
         im_proc();
            
         void init_feed(int ID);
+        void calibrateImage();
         laserInfo process_frame(); 
 
         cv::Mat get_frame_overlay();

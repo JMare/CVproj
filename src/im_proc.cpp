@@ -25,6 +25,7 @@ const int STEP_DOWN = 2;
 const int STEP_FINAL = 4;
 const int HISTORY_LENGTH = 5;
 const int LOST_FIX_FRAME = 5;
+
 vector<vector<double>> lastcandidates;
 vector<tuple<bool, double, double>> PosHistory;
 
@@ -59,7 +60,10 @@ void im_proc::init_feed(int ID)
     }
 
     cout << "Welcome to CVproj. " << endl;
-    
+}   
+
+void im_proc::calibrateImage()
+{
     cout << "Please ensure the laser is not in the frame." << endl;
 
     cout << "Press enter to continue." << endl;
@@ -134,6 +138,7 @@ void im_proc::init_feed(int ID)
         if(masterPosition.isMatch == true) 
         {
             laserfound = true;
+            gParams.calcAreaExpected = masterPosition.area;
         }
         else 
         {
@@ -326,19 +331,20 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
 {
 
     //Score weighting variables
-    const int scorePercentColor = 10;
-    const int scorePercentColorExtra = 30;
-    const int scorePercentSize = 30;
-    const int scorePercentCircle = 30;
+    const int scorePercentColor = gParams.calcScorePercentColor;
+    const int scorePercentColorExtra = gParams.calcScorePercentColorExtra;
+    const int scorePercentSize = gParams.calcScorePercentSize;
+    const int scorePercentCircle = gParams.calcScorePercentCircle;
 
-    const int AREA_EXPECTED = 120;
-    const int AREA_MAX_DIFF = 200;
+    const int AREA_EXPECTED = gParams.calcAreaExpected;
+    const int AREA_MAX_DIFF = gParams.calcAreaMaxDiff;
 
-    const int MIN_PAIR_DIST = 20;
-    const int MAX_PAIR_DIST = 70;
+    const int MIN_PAIR_DIST = gParams.calcMinPairDist;
+    const int MAX_PAIR_DIST = gParams.calcMaxPairDist;
 
     //how much green will result in all the extra points
     int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 10;
+
     float extraGreenPercent;
 
     //iterate through all the things

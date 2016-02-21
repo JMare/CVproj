@@ -9,6 +9,7 @@ class params{
 
         void readParamsFile(std::string paramFileName);
         void writeParamsFile(std::string paramFileName);
+        void writeCalibFile(std::string paramFileName);
 
         int greyThreshMin;
         int greyThreshMax;
@@ -27,6 +28,16 @@ class params{
         int checkSMin;
         int checkSMax;
         int checkMinGreen;
+
+        int calcScorePercentColor;
+        int calcScorePercentColorExtra;
+        int calcScorePercentSize;
+        int calcScorePercentCircle;
+        int calcAreaExpected;
+        int calcAreaMaxDiff;
+        int calcMinPairDist;
+        int calcMaxPairDist;
+
 
     private:
         std::map<std::string,int> paramMap;
