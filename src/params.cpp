@@ -33,6 +33,11 @@ params::params()
     calcAreaMaxDiff = 200;
     calcMinPairDist = 20;
     calcMaxPairDist = 70;
+
+    masterMinScoreNonPair = 50;
+    masterMinScorePair = 50;
+    masterPairScoreBoost = 20;
+
 }
 
 void params::readParamsFile(string paramFileName)
@@ -123,6 +128,15 @@ void params::readParamsFile(string paramFileName)
     if(!(paramMap.find("calcMaxPairDist") == paramMap.end())){
         calcMaxPairDist = paramMap["calcMaxPairDist"];
     }
+    if(!(paramMap.find("masterMinScoreNonPair") == paramMap.end())){
+        masterMinScoreNonPair = paramMap["masterMinScoreNonPair"];
+    }
+    if(!(paramMap.find("masterMinScorePair") == paramMap.end())){
+        masterMinScorePair = paramMap["masterMinScorePair"];
+    }
+    if(!(paramMap.find("masterPairScoreBoost") == paramMap.end())){
+        masterPairScoreBoost = paramMap["masterPairScoreBoost"];
+    }
 }
 
 void params::writeParamsFile(string paramFileName)
@@ -198,6 +212,15 @@ void params::writeParamsFile(string paramFileName)
 
     myfile << "calcMaxPairDist" << endl;
     myfile << calcMaxPairDist << endl;
+
+    myfile << "masterMinScoreNonPair" << endl;
+    myfile << masterMinScoreNonPair << endl;
+
+    myfile << "masterMinScorePair" << endl;
+    myfile << masterMinScorePair << endl;
+
+    myfile << "masterPairScoreBoost" << endl;
+    myfile << masterPairScoreBoost << endl;
 
     myfile.close();
 }

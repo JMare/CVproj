@@ -219,7 +219,12 @@ int main(int argc, char* argv[])
         }
 
         int key;
-        key = cvWaitKey(1);
+        if(FRAME_SOURCE == 0){
+            key = cvWaitKey(1);
+        }
+        else if(FRAME_SOURCE == 1){
+            key = cvWaitKey(30);
+        }
        if (char(key) == 27){
             break;      //If you hit ESC key loop will break.
         }

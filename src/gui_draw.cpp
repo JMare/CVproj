@@ -81,6 +81,35 @@ void gui_draw::create_trackbars()
     createTrackbar( "S_MAX"              , windowTrackbars, &gParams.checkSMax    , 255);
     createTrackbar( "MIN_GREEN_REQUIRED" , windowTrackbars, &gParams.checkMinGreen, 255);
 
+    const string windowTrackbars2 = "Scoring Params";
+    namedWindow(windowTrackbars2, 1);
+    //create memory to store trackbar name on window
+    char TrackbarName2[50];
+
+    sprintf( TrackbarName, "calcScorePercentColor     ", gParams.calcScorePercentColor);
+    sprintf( TrackbarName, "calcScorePercentColorExtra", gParams.calcScorePercentColorExtra);
+    sprintf( TrackbarName, "calcScorePercentSize      ", gParams.calcScorePercentSize);
+    sprintf( TrackbarName, "calcScorePercentCircle    ", gParams.calcScorePercentCircle);
+    sprintf( TrackbarName, "calcAreaExpected          ", gParams.calcAreaExpected);
+    sprintf( TrackbarName, "calcAreaMaxDiff           ", gParams.calcAreaMaxDiff);
+    sprintf( TrackbarName, "calcMinPairDist           ", gParams.calcMinPairDist);
+    sprintf( TrackbarName, "calcMaxPairDist           ", gParams.calcMaxPairDist);
+    sprintf( TrackbarName, "masterMinScoreNonPair     ", gParams.masterMinScoreNonPair);
+    sprintf( TrackbarName, "masterMinScorePair        ", gParams.masterMinScorePair);
+    sprintf( TrackbarName, "masterPairScoreBoost      ", gParams.masterPairScoreBoost);
+
+    createTrackbar( "calcScorePercentColor     ",windowTrackbars2, &gParams.calcScorePercentColor, 100);
+    createTrackbar( "calcScorePercentColorExtra",windowTrackbars2, &gParams.calcScorePercentColorExtra, 100);
+    createTrackbar( "calcScorePercentSize      ",windowTrackbars2, &gParams.calcScorePercentSize, 100);
+    createTrackbar( "calcScorePercentCircle    ",windowTrackbars2, &gParams.calcScorePercentCircle, 100);
+    createTrackbar( "calcAreaExpected          ",windowTrackbars2, &gParams.calcAreaExpected, 1000);
+    createTrackbar( "calcAreaMaxDiff           ",windowTrackbars2, &gParams.calcAreaMaxDiff, 500);
+    createTrackbar( "calcMinPairDist           ",windowTrackbars2, &gParams.calcMinPairDist, 100);
+    createTrackbar( "calcMaxPairDist           ",windowTrackbars2, &gParams.calcMaxPairDist, 200);
+    createTrackbar( "masterMinScoreNonPair     ",windowTrackbars2, &gParams.masterMinScoreNonPair, 100);
+    createTrackbar( "masterMinScorePair        ",windowTrackbars2, &gParams.masterMinScorePair, 100);
+    createTrackbar( "masterPairScoreBoost      ",windowTrackbars2, &gParams.masterPairScoreBoost, 100);
+
 }
 
 void gui_draw::display_image(const char* wtitle, Mat frame)

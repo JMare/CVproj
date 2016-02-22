@@ -38,6 +38,10 @@ class params{
         int calcMinPairDist;
         int calcMaxPairDist;
 
+        int masterMinScoreNonPair;
+        int masterMinScorePair;
+        int masterPairScoreBoost;
+
 
     private:
         std::map<std::string,int> paramMap;
