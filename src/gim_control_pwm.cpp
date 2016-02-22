@@ -14,7 +14,7 @@ void gim_control_pwm::followPosition(laserInfo Pos)
 {
     now_ms = myclock();
 
-    if(now_ms - last_mov_ms >  MOVEMENT_INT){  
+    if(now_ms - last_mov_ms >  gParams.gimMovementInt){  
         last_mov_ms = myclock();
 
         if(Pos.isMatch)
@@ -36,8 +36,8 @@ vector<double> gim_control_pwm::calcRelativePosition(laserInfo Pos)
     double y = Pos.y;
 
     //These scale the angle change linearly.
-    const double GAIN_X = 0.03;
-    const double GAIN_Y = 0.03;
+    double GAIN_X = float(gParams.gimGainX) / 1000;
+    double GAIN_Y = float(gParams.gimGainY) /1000; 
 
     //These calculate a score between -100 and 100 for x and y
     double xCorrected = ((x - (FRAME_COLS / 2)) / (FRAME_COLS / 2)) * 100;
@@ -76,6 +76,8 @@ void gim_control_pwm::absoluteAngleControl(vector<double> pitchYawAngles)
 {
     //turn angle into pwm % given known limits
     int pitchPwm = ((pitchYawAngles.at(0) - PITCH_LOWER_LIMIT) / (PITCH_UPPER_LIMIT - PITCH_LOWER_LIMIT)) * 100; 
+
+    //echo it to the servoblaster character device
     string pitchPwmCmd = "echo ";
     pitchPwmCmd += to_string(PITCH_PWM_PIN);
     pitchPwmCmd += "=";

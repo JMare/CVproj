@@ -12,6 +12,8 @@
 #include <chrono>
 #include <cstdlib>
 #include "im_proc.h"
+#include "params.h"
+#include "cvproj.h"
 
 class gim_control_api 
 {
@@ -58,10 +60,6 @@ class gim_control_api
         const int YAW_LOWER_LIMIT = 45;
 
         const int SPEED_SCALE_FACTOR = 20;
-
-        //Interval for movement commands
-        //Lower is more jerky, higher can lead to sync loss
-        const double MOVEMENT_INT = 100; //unit is ms 
 
         struct timeval tp;
 };

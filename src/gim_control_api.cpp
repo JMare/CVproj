@@ -33,7 +33,7 @@ void gim_control_api::followPosition(laserInfo Pos)
 
     now_ms = myclock();
 
-    if(now_ms - last_mov_ms >  MOVEMENT_INT){  
+    if(now_ms - last_mov_ms >  gParams.gimMovementInt){  
         last_mov_ms = myclock();
 
         if(Pos.isMatch)
@@ -55,8 +55,8 @@ vector<double> gim_control_api::calcRelativePosition(laserInfo Pos)
     double y = Pos.y;
 
     //These scale the angle change linearly.
-    const double GAIN_X = 0.06;
-    const double GAIN_Y = 0.03;
+    const double GAIN_X = float(gParams.gimGainX) / 1000;
+    const double GAIN_Y = float(gParams.gimGainY) / 1000;
 
     //These calculate a score between -100 and 100 for x and y
     double xCorrected = ((x - (FRAME_COLS / 2)) / (FRAME_COLS / 2)) * 100;

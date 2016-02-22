@@ -178,6 +178,9 @@ laserInfo im_proc::process_frame()
 
     overlay_position(&mainfeed, &laserContainer, masterPosition);
 
+    //The below commented section is for position smoothing. 
+    //the program seems to run better without it, given the low frame
+    //rate on the embeddded
    /* 
     //update last positions
     PosHistory.push_back(masterPosition); 

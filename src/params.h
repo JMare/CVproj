@@ -42,6 +42,10 @@ class params{
         int masterMinScorePair;
         int masterPairScoreBoost;
 
+        int gimGainX;
+        int gimGainY;
+        int gimMovementInt;
+
 
     private:
         std::map<std::string,int> paramMap;

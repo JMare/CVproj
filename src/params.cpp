@@ -38,6 +38,10 @@ params::params()
     masterMinScorePair = 50;
     masterPairScoreBoost = 20;
 
+    gimGainX = 30;
+    gimGainY = 30;
+    gimMovementInt = 100;
+
 }
 
 void params::readParamsFile(string paramFileName)
@@ -137,6 +141,15 @@ void params::readParamsFile(string paramFileName)
     if(!(paramMap.find("masterPairScoreBoost") == paramMap.end())){
         masterPairScoreBoost = paramMap["masterPairScoreBoost"];
     }
+    if(!(paramMap.find("gimGainX") == paramMap.end())){
+        gimGainX = paramMap["gimGainX"];
+    }
+    if(!(paramMap.find("gimGainY") == paramMap.end())){
+        gimGainY = paramMap["gimGainY"];
+    }
+    if(!(paramMap.find("gimMovementInt") == paramMap.end())){
+        gimMovementInt = paramMap["gimMovementInt"];
+    }
 }
 
 void params::writeParamsFile(string paramFileName)
@@ -221,6 +234,15 @@ void params::writeParamsFile(string paramFileName)
 
     myfile << "masterPairScoreBoost" << endl;
     myfile << masterPairScoreBoost << endl;
+
+    myfile << "gimGainX" << endl;
+    myfile << gimGainX << endl;
+
+    myfile << "gimGainY" << endl;
+    myfile << gimGainY << endl;
+
+    myfile << "gimMovementInt" << endl;
+    myfile << gimMovementInt << endl;
 
     myfile.close();
 }

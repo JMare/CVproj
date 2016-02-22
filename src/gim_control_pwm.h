@@ -10,6 +10,8 @@
 #include <chrono>
 #include <cstdlib>
 #include "im_proc.h"
+#include "params.h"
+#include "cvproj.h"
 
 class gim_control_pwm
 {
@@ -48,11 +50,6 @@ class gim_control_pwm
         const int PITCH_LOWER_LIMIT = -25;
         const int YAW_UPPER_LIMIT = 60;
         const int YAW_LOWER_LIMIT = -60;
-
-
-        //Interval for movement commands
-        //Lower is more jerky, higher can lead to sync loss
-        const double MOVEMENT_INT = 100; //unit is ms 
 
         struct timeval tp;
 };

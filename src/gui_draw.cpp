@@ -97,6 +97,9 @@ void gui_draw::create_trackbars()
     sprintf( TrackbarName, "masterMinScoreNonPair     ", gParams.masterMinScoreNonPair);
     sprintf( TrackbarName, "masterMinScorePair        ", gParams.masterMinScorePair);
     sprintf( TrackbarName, "masterPairScoreBoost      ", gParams.masterPairScoreBoost);
+    sprintf( TrackbarName, "gimGainX     ", gParams.gimGainX);
+    sprintf( TrackbarName, "gimGainY        ", gParams.gimGainY);
+    sprintf( TrackbarName, "gimMovementInt      ", gParams.gimMovementInt);
 
     createTrackbar( "calcScorePercentColor     ",windowTrackbars2, &gParams.calcScorePercentColor, 100);
     createTrackbar( "calcScorePercentColorExtra",windowTrackbars2, &gParams.calcScorePercentColorExtra, 100);
@@ -109,6 +112,9 @@ void gui_draw::create_trackbars()
     createTrackbar( "masterMinScoreNonPair     ",windowTrackbars2, &gParams.masterMinScoreNonPair, 100);
     createTrackbar( "masterMinScorePair        ",windowTrackbars2, &gParams.masterMinScorePair, 100);
     createTrackbar( "masterPairScoreBoost      ",windowTrackbars2, &gParams.masterPairScoreBoost, 100);
+    createTrackbar( "gimGainX      ",windowTrackbars2, &gParams.gimGainX, 100);
+    createTrackbar( "gimGainY      ",windowTrackbars2, &gParams.gimGainY, 100);
+    createTrackbar( "gimMovementInt      ",windowTrackbars2, &gParams.gimMovementInt, 300);
 
 }
 
