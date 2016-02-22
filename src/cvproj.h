@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include "params.h"
-
+#include "im_proc.h"
 extern params gParams;
 
 //Mats for displaying
