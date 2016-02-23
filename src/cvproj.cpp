@@ -223,7 +223,7 @@ int main(int argc, char* argv[])
             key = cvWaitKey(1);
         }
         else if(FRAME_SOURCE == 1){
-            key = cvWaitKey(30);
+            key = cvWaitKey(50);
         }
        if (char(key) == 27){
             break;      //If you hit ESC key loop will break.

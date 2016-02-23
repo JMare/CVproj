@@ -346,7 +346,7 @@ void im_proc::calcObjectScores(vector<laserInfo>* laserContainerPointer, int MIN
     const int MAX_PAIR_DIST = gParams.calcMaxPairDist;
 
     //how much green will result in all the extra points
-    int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 10;
+    int MAX_GREEN_EXTRA = MIN_GREEN_REQUIRED * 3;
 
     float extraGreenPercent;
 
