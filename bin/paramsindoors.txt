@@ -17,7 +17,7 @@ candMinObjectArea
 candMaxObjectArea
 700
 checkSquareSize
-10
+7
 checkHMin
 40
 checkHMax
