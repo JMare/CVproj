@@ -54,10 +54,24 @@ Note that since --param-in and --param-out specify the same file, any changes
 you make to the variables as the program runs will overwrite the variables you
 loaded.
 
-## Notes 
+## Parameter format
 
-If you instantiate a cv::Mat and then return it without assigning it to
-anything you will get a segfault
+The parameter reading and writing system is extremely simple. Parameter files
+must be text only. Even lines of parameter files are variable names and odd
+lines are the integer values for those variables. A parameter file may have as
+many or few parameters set as you like, and the order is not important.
+
+The main reason for this system is to allow the parameters to be tuned on
+a laptop and then moved to the embedded system, as the Pi does not have the
+grunt to run X11 while proccessing images at an acceptable rate. (Trying to do
+this will result in around 1 FPS with a big delay)
+
+The mechanism to store last calibation values uses the same parameter format
+and saves to lastcal.txt in the directory of the executable. To update just the
+calibration values you can manually edit these values and use --readcal.
+
+This parameter format is not robust and would be better replaced with something
+like json.
 
 ## Program Description
 
