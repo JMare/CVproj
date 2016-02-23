@@ -54,20 +54,50 @@ Note that since --param-in and --param-out specify the same file, any changes
 you make to the variables as the program runs will overwrite the variables you
 loaded.
 
- ## Notes 
+## Notes 
 
 If you instantiate a cv::Mat and then return it without assigning it to
 anything you will get a segfault
 
 ## Program Description
 
-The objective is to follow a laser pointer. The current approach is to take
-a frame, make two copies of it, apply thresholding, morphalogical operations
-and object detection to both, Then use the positions to decide whether we have
-found the laser pointer.
+Following a laser pointer is fairly challanging. There many visual
+charactaristics that can be used to identify the laser. Color is the most
+prominent to the human eye, and indoors color can very accuratly detect the
+dot, but a color only approach requires very accurate tuning of the
+thresholding values for each different lighting situation, as the way the
+camera picks up the color changes drastically with the enviroment.
 
-For example, currently thread 1 looks for the green ring around the laser dot,
-and thread 2 looks for the bright spot in the middle. If these two streams
-return very similar positions, we can be fairly confident we have found our
-mark.
+The image proccessing approach of this program is described below:
 
+- The image is converted to greyscale and thresholded, it becomes a binary
+  image, with all the very bright spots becoming white, and everything below
+  the threshold becoming black.
+
+- This image is dilated to reduce the number of objects that will be found.
+
+- Each object that is bright and is within certain area thresholds becomes
+  a 'candidate' and a structure of type "laserInfo" (defined in im_proc.h) is
+  instantiated to hold information about it.
+
+- Each candidate gets checked for color (amount of green pixels near it), size
+  (how close is it to "areaExpected"), circularity (how much its area differs
+  from the area of the smallest circle that can enclose the object).
+
+- The candidate is assigned a score based on these charactaristics. The
+  weighting of each charactaristic is set with variables and can be edited with
+  trackbars.
+
+- If two candidates are within certain distance limits of each other, they are
+  identified as a 'pair'.
+
+- If there are candidates over the minimum score threshold, the highest scoring
+  candidate is chosen. Candidates identified as pairs get a score boost which
+  is adjustable. This means that a pair of candidates will be chosen over
+  a single candidate of the same score, but a low scoring pair (very common due
+  to noise) will be ignored in favor of a high scoring single.
+
+This approach is fairly successfull in coping with minor changes in lighting
+and distance. Parameters that will work indoors will not be succcessfull
+outdoors, but small changes in lighting and distance will be accomodated fairly
+well, unlike the pure thresholding approach.
