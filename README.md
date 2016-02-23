@@ -47,8 +47,12 @@ values, it will use those)
 
 Example usage on the embedded computer (command line only):
 
-> ./cvproj --webcam 0 --param-in indoorparams.txt --param-out indoorparams.txt
-> --debug --docal
+> ./cvproj --webcam 0 --param-in indoorparams.txt --debug --docal
+
+Example usage on a laptop to tune parameters
+
+> ./cvproj --webcam 1 --param-in indoorparams.txt --debug --param-out
+> indoorparams.txt --gui --trackbar
 
 Note that since --param-in and --param-out specify the same file, any changes
 you make to the variables as the program runs will overwrite the variables you
