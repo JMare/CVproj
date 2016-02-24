@@ -11,8 +11,12 @@ CVproj can be run with multiple sources. Choose between webcam or video file
 
 Additional options are given below:
 
-Enable Trackbars to adjust parameters. This option will also display the
-thresholded image.
+Enable Trackbars to adjust parameters. Two windows of trackbars will be
+created, one contains paramaters to do with the thresholding and processing of
+the image, the other contains score weightings and thresholds as well as gimbal
+controller gain values. This option will also display the thresholded image.
+(Only works if --gui is also selected)
+
 > --trackbar
 
 Enable real time display of image with overlayed info.
