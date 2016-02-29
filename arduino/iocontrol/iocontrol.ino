@@ -4,7 +4,7 @@ volatile int pwm_value_2 = 0;
 volatile int prev_time_2 = 0;
 
 const byte PWM_PIN_3 = 4;
-const byte ROLL_PIN = 11;
+const byte YAW_PIN = 11;
 const byte PITCH_PIN = 10;
  
 volatile int pwm_value_3;
@@ -16,7 +16,7 @@ void falling_2();
 
 #include <Servo.h>
 
-Servo Roll;
+Servo Yaw;
 Servo Pitch;
 
 void setup() {
@@ -26,21 +26,21 @@ void setup() {
     Serial.println("starting up");
     pinMode(PWM_PIN_3, INPUT);
 
-    Roll.attach(ROLL_PIN);
+    Yaw.attach(YAW_PIN);
     Pitch.attach(PITCH_PIN);
 }
  
 void loop() {
-//    pwm_value_3 = pulseIn(PWM_PIN_3, HIGH);
-    Serial.print("1: ");
+    pwm_value_3 = pulseIn(PWM_PIN_3, HIGH);
+    Serial.print("Pitch: ");
     Serial.print(pwm_value_1);
-    Serial.print(" 2: ");
+    Serial.print(" Yaw: ");
     Serial.print(pwm_value_2);
-    Serial.print(" 3: ");
+    Serial.print(" Enable: ");
     Serial.print(pwm_value_3);
-    Serial.print("\n");
+    Serial.print("\n\r");
 
-    Roll.write(map(pwm_value_2,1000,2000,0,180));
+    Yaw.write(map(pwm_value_2,1000,2000,0,180));
     Pitch.write(map(pwm_value_1,1000,2000,0,180));
 
   }
