@@ -32,16 +32,31 @@ void setup() {
  
 void loop() {
     pwm_value_3 = pulseIn(PWM_PIN_3, HIGH);
+
+    int YawOut, PitchOut;
+
+    if(pwm_value_3 > 1500){
+        YawOut = map(pwm_value_2,1000,2000,0,180);
+        PitchOut = map(pwm_value_1,1000,2000,0,180);
+    } else {
+        YawOut = map(1500,1000,2000,0,180);
+        PitchOut = map(1500,1000,2000,0,180);
+    }
+
+    Yaw.write(YawOut);
+    Pitch.write(PitchOut);
+
     Serial.print("Pitch: ");
     Serial.print(pwm_value_1);
     Serial.print(" Yaw: ");
     Serial.print(pwm_value_2);
     Serial.print(" Enable: ");
     Serial.print(pwm_value_3);
+    Serial.print(" PitchOut: ");
+    Serial.print(PitchOut);
+    Serial.print(" YawOut: ");
+    Serial.print(YawOut);
     Serial.print("\n\r");
-
-    Yaw.write(map(pwm_value_2,1000,2000,0,180));
-    Pitch.write(map(pwm_value_1,1000,2000,0,180));
 
   }
  
