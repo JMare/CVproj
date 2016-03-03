@@ -13,7 +13,7 @@ greyDilateIterations
 candMaxNumObjects
 20
 candMinObjectArea
-50
+22
 candMaxObjectArea
 700
 checkSquareSize
@@ -37,7 +37,7 @@ calcScorePercentSize
 calcScorePercentSize
 30
 calcAreaExpected
-149
+97
 calcAreaMaxDiff
 200
 calcMinPairDist
