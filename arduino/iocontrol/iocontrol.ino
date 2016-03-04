@@ -4,8 +4,8 @@ volatile int pwm_value_2 = 0;
 volatile int prev_time_2 = 0;
 
 const byte PWM_PIN_3 = 4;
-const byte YAW_PIN = 7;
-const byte PITCH_PIN = 8;
+const byte YAW_PIN = 10;
+const byte PITCH_PIN = 11;
  
 volatile int pwm_value_3;
 
@@ -21,7 +21,7 @@ void piSerialWrite();
 Servo Yaw;
 Servo Pitch;
 
-    int YawOut, PitchOut;
+int YawOut, PitchOut;
 
 void setup() {
     Serial.begin(115200);
@@ -46,7 +46,7 @@ void loop() {
 //        YawOut = map(1500,1000,2000,0,180);
 //        PitchOut = map(1500,1000,2000,0,180);
 //    }
-    delay(300);
+    delay(50);
     piSerialRead();
 
     Yaw.write(YawOut);
