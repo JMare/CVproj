@@ -1,16 +1,16 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
-#include "gim_control_pwm.h"
+#include "gim_control_mc.h"
 
 using namespace std;
 
-gim_control_pwm::gim_control_pwm()
+gim_control_mc::gim_control_mc()
 {
     absoluteAngleControl({0,0});
 }
 
-void gim_control_pwm::followPosition(laserInfo Pos)
+void gim_control_mc::followPosition(laserInfo Pos)
 {
     now_ms = myclock();
 
@@ -28,9 +28,11 @@ void gim_control_pwm::followPosition(laserInfo Pos)
             yAngleHistory = 0;
         }*/
     }
+
+    readRCSignals();    
 }
 
-vector<double> gim_control_pwm::calcRelativePosition(laserInfo Pos)
+vector<double> gim_control_mc::calcRelativePosition(laserInfo Pos)
 {
     double x = Pos.x;
     double y = Pos.y;
@@ -56,7 +58,7 @@ vector<double> gim_control_pwm::calcRelativePosition(laserInfo Pos)
     return {yRelativeAngle, xRelativeAngle};
 }
 
-void gim_control_pwm::relateiveAngleControl(vector<double> pitchYawAngles)
+void gim_control_mc::relateiveAngleControl(vector<double> pitchYawAngles)
 {
    double xAngleCmd = pitchYawAngles.at(1) + xAngleHistory;
    double yAngleCmd = pitchYawAngles.at(0) + yAngleHistory;
@@ -72,37 +74,60 @@ void gim_control_pwm::relateiveAngleControl(vector<double> pitchYawAngles)
    yAngleHistory = yAngleCmd;
 }
 
-void gim_control_pwm::absoluteAngleControl(vector<double> pitchYawAngles)
+void gim_control_mc::absoluteAngleControl(vector<double> pitchYawAngles)
 {
     //turn angle into pwm % given known limits
     int pitchPwm = ((pitchYawAngles.at(0) - PITCH_LOWER_LIMIT) / (PITCH_UPPER_LIMIT - PITCH_LOWER_LIMIT)) * 100; 
 
-    //echo it to the servoblaster character device
-    string pitchPwmCmd = "echo ";
-    pitchPwmCmd += to_string(PITCH_PWM_PIN);
-    pitchPwmCmd += "=";
-    pitchPwmCmd += to_string(pitchPwm);
-    pitchPwmCmd += "%";
-    pitchPwmCmd += " > /dev/servoblaster";
-    system(pitchPwmCmd.c_str());
 
-    int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
-    string yawPwmCmd = "echo ";
-    yawPwmCmd += to_string(YAW_PWM_PIN);
-    yawPwmCmd += "=";
-    yawPwmCmd += to_string(yawPwm);
-    yawPwmCmd += "%";
-    yawPwmCmd += " > /dev/servoblaster";
-    system(yawPwmCmd.c_str());
+}
+
+void gim_control_mc::readRCSignals(){
+    char buffer[10];
+    char c;
+    bool endfound = false;
+
+    while(mcSerial.getBytesAvailable() > 0 && !endfound){
+        c = mcSerial.readByte();
+        if( c == '<'){
+            for(int n = 0; n < 7; n++){
+                c = mcSerial.readByte();
+                buffer[n] = c;
+            }
+            endfound = true;
+        }
+    }
+
+    if(endfound == true){
+        if(buffer[6] == '>'){ //then we got a complete command
+            if(buffer[0] == '1'){
+                char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
+                int i;
+                PitchPwm = atoi(numberext);
+            }
+            else if(buffer[0] == '2'){
+                char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
+                int i;
+                YawPwm = atoi(numberext);
+                cout << YawPwm << endl;
+            }
+            else if(buffer[0] == '3'){
+                char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
+                int i;
+                EnPwm = atoi(numberext);
+                cout << EnPwm << endl;
+            }
+        }
+    }
 }
 
 
-void gim_control_pwm::centerGimbal()
+void gim_control_mc::centerGimbal()
 {
     absoluteAngleControl({0,0});
 }
 
-long gim_control_pwm::myclock()
+long gim_control_mc::myclock()
 {
     typedef std::chrono::high_resolution_clock clock;
     typedef std::chrono::duration<float, std::milli> duration;

@@ -14,7 +14,7 @@ serial_port::serial_port(){
         return;
     }
 
-    set_interface_attribs (fd, B57600, 0);  // set speed to 115,200 bps, 8n1 (no parity)
+    set_interface_attribs (fd, B115200, 0);  // set speed to 115,200 bps, 8n1 (no parity)
     set_blocking (fd, 0);                // set no blocking
 }
 

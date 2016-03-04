@@ -1,8 +1,8 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
-#ifndef GIM_CONTROL_PWM_H
-#define GIM_CONTROL_PWM_H
+#ifndef GIM_CONTROL_MC_H
+#define GIM_CONTROL_MC_H
 
 #include <iostream>
 #include <vector>
@@ -12,12 +12,13 @@
 #include "im_proc.h"
 #include "params.h"
 #include "cvproj.h"
+#include "serial_port.h"
 
-class gim_control_pwm
+class gim_control_mc
 {
     public:
         //constructor
-        gim_control_pwm();
+        gim_control_mc();
 
         void followPosition(laserInfo Pos);
         void absoluteAngleControl(std::vector<double> pitchYawAngles); 
@@ -27,6 +28,7 @@ class gim_control_pwm
         //FUNCTIONS
         std::vector<double> calcRelativePosition(laserInfo Pos);
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
+        void readRCSignals();
         long myclock();
 
         //VARIABLES
@@ -34,6 +36,8 @@ class gim_control_pwm
         double last_mov_ms = 0;
         int xAngleHistory = 0;
         int yAngleHistory = 0;
+
+        int YawPwm, PitchPwm, EnPwm;
 
         //CONSTANTS
         
@@ -52,6 +56,10 @@ class gim_control_pwm
         const int YAW_LOWER_LIMIT = -60;
 
         struct timeval tp;
+
+        serial_port mcSerial;
+
+        
 };
 
 #endif 
