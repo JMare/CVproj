@@ -79,6 +79,9 @@ void gim_control_mc::absoluteAngleControl(vector<double> pitchYawAngles)
     //turn angle into pwm % given known limits
     int pitchPwm = ((pitchYawAngles.at(0) - PITCH_LOWER_LIMIT) / (PITCH_UPPER_LIMIT - PITCH_LOWER_LIMIT)) * 100; 
 
+    int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
+
+    writeRCSignals(pitchPwm, yawPwm);
 
 }
 
