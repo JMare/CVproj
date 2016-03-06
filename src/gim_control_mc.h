@@ -13,6 +13,7 @@
 #include "params.h"
 #include "cvproj.h"
 #include "serialstream.h"
+#include "SimpleSerial.h"
 
 class gim_control_mc
 {
@@ -58,7 +59,6 @@ class gim_control_mc
 
         struct timeval tp;
 
-        SerialOptions options;
 };
 
 #endif 

@@ -4,8 +4,10 @@
 #include "gim_control_mc.h"
 
 using namespace std;
-using namespace boost::posix_time;
+using namespace boost;
 
+string port = "/dev/ttyUSB0";
+SimpleSerial serial(port,57600);
 
 gim_control_mc::gim_control_mc()
 {
@@ -94,18 +96,13 @@ void gim_control_mc::writeRCSignals(int pitchPwm, int yawPwm)
     pitchCmd += ">";
     const char * pitchchar = pitchCmd.c_str();
     string yawCmd;
-    yawCmd += "<1:";
+    yawCmd += "<2:";
     yawCmd += to_string(yawPwm);
-    yawCmd += ">";
+    yawCmd += ">\n";
     const char * yawchar = yawCmd.c_str();
 
-
-    //this is really bad but the only way I could hack it together in time
-    SerialStream serial(options);
-    serial.exceptions(ios::badbit | ios::failbit); //Important!
-
     cout << pitchCmd << yawCmd;
-    serial << pitchCmd << endl;
+    serial.writeString(pitchCmd);
 }
 
 
