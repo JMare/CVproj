@@ -12,9 +12,6 @@
 #include "im_proc.h"
 #include "params.h"
 #include "cvproj.h"
-#include "serialstream.h"
-#include "SimpleSerial.h"
-#include "TimeoutSerial.h"
 #include "BufferedAsyncSerial.h"
 
 class gim_control_mc

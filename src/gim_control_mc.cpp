@@ -141,7 +141,6 @@ void gim_control_mc::readRCSignals(){
             else if(buffer.at(1) == '3'){
                 char numberext[5] = {buffer.at(3), buffer.at(4), buffer.at(5), buffer.at(6), '\0'};
                 EnPwm = atoi(numberext);
-                cout << EnPwm << endl;
             }
         }
     }
