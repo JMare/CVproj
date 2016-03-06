@@ -12,7 +12,7 @@
 #include "im_proc.h"
 #include "params.h"
 #include "cvproj.h"
-#include "serial_port.h"
+#include "serialstream.h"
 
 class gim_control_mc
 {
@@ -28,6 +28,7 @@ class gim_control_mc
         //FUNCTIONS
         std::vector<double> calcRelativePosition(laserInfo Pos);
         void relateiveAngleControl(std::vector<double> pitchYawAngles);
+        void writeRCSignals(int pitchPwm, int yawPwm);
         void readRCSignals();
         long myclock();
 
@@ -57,9 +58,7 @@ class gim_control_mc
 
         struct timeval tp;
 
-        serial_port mcSerial;
-
-        
+        SerialOptions options;
 };
 
 #endif 

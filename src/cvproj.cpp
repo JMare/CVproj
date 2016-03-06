@@ -14,9 +14,7 @@
 //----PROJECT HEADERS-----------
 #include "im_proc.h"
 #include "gui_draw.h"
-#include "gim_control_pwm.h"
-#include "gim_control_api.h"
-#include "serial_port.h"
+#include "gim_control_mc.h"
 #include "params.h"
 #include "cvproj.h"
 
@@ -24,11 +22,6 @@
 using namespace cv;
 using namespace std;
 
-#ifdef __arm__
-    gim_control_pwm oGim; 
-#else
-    gim_control_api oGim;
-#endif
 
 params gParams;
 
@@ -143,6 +136,8 @@ int main(int argc, char* argv[])
     im_proc imFrame;
 
     gui_draw gui_obj; //create object for gui drawing
+
+    gim_control_mc oGim;
 
     if(PARAMS_READ){
         gParams.readParamsFile(PARAMS_IN_FILENAME);

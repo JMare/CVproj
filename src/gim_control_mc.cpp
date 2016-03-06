@@ -4,10 +4,11 @@
 #include "gim_control_mc.h"
 
 using namespace std;
+using namespace boost::posix_time;
+
 
 gim_control_mc::gim_control_mc()
 {
-    absoluteAngleControl({0,0});
 }
 
 void gim_control_mc::followPosition(laserInfo Pos)
@@ -28,8 +29,6 @@ void gim_control_mc::followPosition(laserInfo Pos)
             yAngleHistory = 0;
         }*/
     }
-
-    readRCSignals();    
 }
 
 vector<double> gim_control_mc::calcRelativePosition(laserInfo Pos)
@@ -78,18 +77,44 @@ void gim_control_mc::absoluteAngleControl(vector<double> pitchYawAngles)
 {
     //turn angle into pwm % given known limits
     int pitchPwm = ((pitchYawAngles.at(0) - PITCH_LOWER_LIMIT) / (PITCH_UPPER_LIMIT - PITCH_LOWER_LIMIT)) * 100; 
+    pitchPwm = 1000 + pitchPwm*10;
 
     int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
+    yawPwm = 1000 + yawPwm*10;
 
     writeRCSignals(pitchPwm, yawPwm);
 
 }
+
+void gim_control_mc::writeRCSignals(int pitchPwm, int yawPwm)
+{
+    string pitchCmd;
+    pitchCmd += "<1:";
+    pitchCmd += to_string(pitchPwm);
+    pitchCmd += ">";
+    const char * pitchchar = pitchCmd.c_str();
+    string yawCmd;
+    yawCmd += "<1:";
+    yawCmd += to_string(yawPwm);
+    yawCmd += ">";
+    const char * yawchar = yawCmd.c_str();
+
+
+    //this is really bad but the only way I could hack it together in time
+    SerialStream serial(options);
+    serial.exceptions(ios::badbit | ios::failbit); //Important!
+
+    cout << pitchCmd << yawCmd;
+    serial << pitchCmd << endl;
+}
+
 
 void gim_control_mc::readRCSignals(){
     char buffer[10];
     char c;
     bool endfound = false;
 
+    /*
     while(mcSerial.getBytesAvailable() > 0 && !endfound){
         c = mcSerial.readByte();
         if( c == '<'){
@@ -122,6 +147,7 @@ void gim_control_mc::readRCSignals(){
             }
         }
     }
+    */
 }
 
 
