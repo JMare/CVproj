@@ -13,7 +13,7 @@ all: $(BIN)
 
 #$(BIN) is dependent on objects
 $(BIN): $(OBJ)
-	g++ -std=c++11 -ggdb $(CFLAGS) $(OBJ) -o $(BIN) $(LDFLAGS) -lpthread -lboost_system 
+	g++ -std=c++11 -ggdb $(CFLAGS) $(OBJ) -o $(BIN) $(LDFLAGS) -lpthread -lboost_thread -lboost_system 
 
 #each object file is dependent on its source file, and whenever make needs to create
 # an object file, to follow this rule:

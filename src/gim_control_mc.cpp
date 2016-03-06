@@ -7,7 +7,7 @@ using namespace std;
 using namespace boost;
 
 string port = "/dev/ttyUSB0";
-SimpleSerial serial(port,57600);
+BufferedAsyncSerial serial(port,57600);
 
 gim_control_mc::gim_control_mc()
 {
@@ -15,11 +15,11 @@ gim_control_mc::gim_control_mc()
 
 void gim_control_mc::followPosition(laserInfo Pos)
 {
-    now_ms = myclock();
+now_ms = myclock();
 
-    readRCSignals();
-    readRCSignals();
-    readRCSignals();
+        readRCSignals();
+        readRCSignals();
+        readRCSignals();
 
     if(now_ms - last_mov_ms >  gParams.gimMovementInt){  
         last_mov_ms = myclock();
@@ -124,7 +124,7 @@ void gim_control_mc::readRCSignals(){
     char c;
     bool endfound = false;
 
-    buffer = serial.readLine();
+    buffer = serial.readStringUntil("\r\n");
 
 
     if(buffer.size() == 8)

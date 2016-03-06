@@ -14,6 +14,8 @@
 #include "cvproj.h"
 #include "serialstream.h"
 #include "SimpleSerial.h"
+#include "TimeoutSerial.h"
+#include "BufferedAsyncSerial.h"
 
 class gim_control_mc
 {
