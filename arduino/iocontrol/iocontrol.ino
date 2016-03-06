@@ -44,12 +44,12 @@ void loop() {
 
 
     piSerialRead();
-    if(pwm_value_3 < 1500){
-        YawOut = map(1500,1000,2000,0,180);
-        PitchOut = map(1500,1000,2000,0,180);
-    }
-
     piSerialRead();
+
+    if(pwm_value_3 < 1500){
+        YawOut = map(pwm_value_2,1000,2000,0,180);
+        PitchOut = map(pwm_value_1,1000,2000,0,180);
+    }
 
     Yaw.write(YawOut);
     Pitch.write(PitchOut);

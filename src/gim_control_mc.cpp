@@ -24,16 +24,24 @@ now_ms = myclock();
     if(now_ms - last_mov_ms >  gParams.gimMovementInt){  
         last_mov_ms = myclock();
 
-        if(Pos.isMatch)
-        {
-            vector<double> relPos = calcRelativePosition(Pos);
-            relateiveAngleControl(relPos);
-        } /*else 
-        { 
-            centerGimbal();
-            xAngleHistory = 0;
-            yAngleHistory = 0;
-        }*/
+        cout << "enpwm is " << EnPwm << endl;
+        if(EnPwm > 1500){
+            if(Pos.isMatch)
+            {
+                vector<double> relPos = calcRelativePosition(Pos);
+                relateiveAngleControl(relPos);
+            } /*else 
+            { 
+                centerGimbal();
+                xAngleHistory = 0;
+                yAngleHistory = 0;
+            }*/
+        } else{
+           xAngleHistory = 0; 
+           yAngleHistory = 0; 
+
+           writeRCSignals(1500, 1500);
+        }
     }
 }
 
