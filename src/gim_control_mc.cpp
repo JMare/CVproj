@@ -17,6 +17,10 @@ void gim_control_mc::followPosition(laserInfo Pos)
 {
     now_ms = myclock();
 
+    readRCSignals();
+    readRCSignals();
+    readRCSignals();
+
     if(now_ms - last_mov_ms >  gParams.gimMovementInt){  
         last_mov_ms = myclock();
 
@@ -84,7 +88,9 @@ void gim_control_mc::absoluteAngleControl(vector<double> pitchYawAngles)
     int yawPwm = ((pitchYawAngles.at(1) - YAW_LOWER_LIMIT) / (YAW_UPPER_LIMIT - YAW_LOWER_LIMIT)) * 100; 
     yawPwm = 1000 + yawPwm*10;
 
+
     writeRCSignals(pitchPwm, yawPwm);
+
 
 }
 
@@ -94,60 +100,51 @@ void gim_control_mc::writeRCSignals(int pitchPwm, int yawPwm)
     pitchCmd += "<1:";
     pitchCmd += to_string(pitchPwm);
     pitchCmd += ">";
-    const char * pitchchar = pitchCmd.c_str();
+
     string yawCmd;
     yawCmd += "<2:";
     yawCmd += to_string(yawPwm);
     yawCmd += ">";
-    const char * yawchar = yawCmd.c_str();
 
     cout << pitchCmd << yawCmd;
-    serial.writeString(pitchCmd);
-    serial.writeString("\n\r");
-    serial.writeString(yawCmd);
-    serial.writeString("\n\r");
+    try {
+        serial.writeString(pitchCmd);
+        serial.writeString("\n\r");
+        serial.writeString(yawCmd);
+        serial.writeString("\n\r");
+    } catch(boost::system::system_error& e)
+    {
+        cout<<"Error: "<<e.what()<<endl;
+    }
 }
 
 
 void gim_control_mc::readRCSignals(){
-    char buffer[10];
+    string buffer;
     char c;
     bool endfound = false;
 
-    /*
-    while(mcSerial.getBytesAvailable() > 0 && !endfound){
-        c = mcSerial.readByte();
-        if( c == '<'){
-            for(int n = 0; n < 7; n++){
-                c = mcSerial.readByte();
-                buffer[n] = c;
-            }
-            endfound = true;
-        }
-    }
+    buffer = serial.readLine();
 
-    if(endfound == true){
-        if(buffer[6] == '>'){ //then we got a complete command
-            if(buffer[0] == '1'){
-                char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
-                int i;
+
+    if(buffer.size() == 8)
+    {
+        if(buffer.at(0) == '<' && buffer.at(7) == '>'){ //then we got a complete command
+            if(buffer.at(1) == '1'){
+                char numberext[5] = {buffer.at(3), buffer.at(4), buffer.at(5), buffer.at(6), '\0'};
                 PitchPwm = atoi(numberext);
             }
-            else if(buffer[0] == '2'){
-                char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
-                int i;
+            else if(buffer.at(1) == '2'){
+                char numberext[5] = {buffer.at(3), buffer.at(4), buffer.at(5), buffer.at(6), '\0'};
                 YawPwm = atoi(numberext);
-                cout << YawPwm << endl;
             }
-            else if(buffer[0] == '3'){
-                char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
-                int i;
+            else if(buffer.at(1) == '3'){
+                char numberext[5] = {buffer.at(3), buffer.at(4), buffer.at(5), buffer.at(6), '\0'};
                 EnPwm = atoi(numberext);
                 cout << EnPwm << endl;
             }
         }
     }
-    */
 }
 
 

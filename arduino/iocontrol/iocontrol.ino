@@ -20,6 +20,10 @@ void piSerialWrite();
 
 Servo Yaw;
 Servo Pitch;
+unsigned long previousMillis = 0;        // will store last time LED was updated
+
+// constants won't change :
+const long interval = 100;    
 
 int YawOut, PitchOut;
 
@@ -62,8 +66,11 @@ void loop() {
     Serial.print(YawOut);
     Serial.print("\n\r");
     */
-
-    piSerialWrite();
+    if (currentMillis - previousMillis >= interval) {
+        // save the last time you blinked the LED
+        previousMillis = currentMillis;
+        piSerialWrite();
+    }
 
   }
 
