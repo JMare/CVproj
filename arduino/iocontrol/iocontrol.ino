@@ -24,7 +24,7 @@ Servo Pitch;
 int YawOut, PitchOut;
 
 void setup() {
-    Serial.begin(115200);
+    Serial.begin(57600);
 
     attachInterrupt(0, rising_1, RISING);
     attachInterrupt(1, rising_2, RISING);
@@ -39,14 +39,12 @@ void loop() {
     pwm_value_3 = pulseIn(PWM_PIN_3, HIGH);
 
 
-//    if(pwm_value_3 > 1500){
-//        YawOut = map(pwm_value_2,1000,2000,0,180);
-//        PitchOut = map(pwm_value_1,1000,2000,0,180);
-//    } else {
-//        YawOut = map(1500,1000,2000,0,180);
-//        PitchOut = map(1500,1000,2000,0,180);
-//    }
-    delay(50);
+    piSerialRead();
+    if(pwm_value_3 < 1500){
+        YawOut = map(1500,1000,2000,0,180);
+        PitchOut = map(1500,1000,2000,0,180);
+    }
+
     piSerialRead();
 
     Yaw.write(YawOut);
@@ -107,15 +105,11 @@ void piSerialRead()
             char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
             int i;
             PitchOut = map(atoi(numberext),1000,2000,0,180);
-            Serial.print("pitch is");
-            Serial.println(PitchOut);
         }
         else if(buffer[0] == '2'){
             char numberext[5] = {buffer[2], buffer[3], buffer[4], buffer[5], '\0'};
             int i;
             YawOut = map(atoi(numberext),1000,2000,0,180);
-            Serial.print("yaw is");
-            Serial.println(YawOut);
         }
     }
 }

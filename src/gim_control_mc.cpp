@@ -98,11 +98,14 @@ void gim_control_mc::writeRCSignals(int pitchPwm, int yawPwm)
     string yawCmd;
     yawCmd += "<2:";
     yawCmd += to_string(yawPwm);
-    yawCmd += ">\n";
+    yawCmd += ">";
     const char * yawchar = yawCmd.c_str();
 
     cout << pitchCmd << yawCmd;
     serial.writeString(pitchCmd);
+    serial.writeString("\n\r");
+    serial.writeString(yawCmd);
+    serial.writeString("\n\r");
 }
 
 
