@@ -22,6 +22,7 @@ extern char* FILENAME;
 extern int camID;
 extern bool TRACKBAR_ENABLE;
 extern bool STREAM_POSITION;
+extern bool GIMBAL_ENABLE;
 
 //Misc Functions
 void print_debug(laserInfo* laser);

@@ -38,6 +38,7 @@ bool PARAMS_READ = false;
 bool PARAMS_WRITE = false;
 bool DO_CALIBRATION = false;
 bool LOAD_CALIBRATION = false;
+bool GIMBAL_ENABLE = true;
 string PARAMS_IN_FILENAME;
 string PARAMS_OUT_FILENAME;
 
@@ -129,6 +130,9 @@ int main(int argc, char* argv[])
         else if(string(argv[i]) == "--debug") {
             DEBUG_FLAG = true; 
             }
+        else if(string(argv[i]) == "--nogim") {
+            GIMBAL_ENABLE = false;
+            }
     } 
 
     //Instantiate classes
@@ -138,6 +142,7 @@ int main(int argc, char* argv[])
     gui_draw gui_obj; //create object for gui drawing
 
     gim_control_mc oGim;
+    
 
     if(PARAMS_READ){
         gParams.readParamsFile(PARAMS_IN_FILENAME);

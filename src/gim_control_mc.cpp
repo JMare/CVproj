@@ -24,7 +24,6 @@ now_ms = myclock();
     if(now_ms - last_mov_ms >  gParams.gimMovementInt){  
         last_mov_ms = myclock();
 
-        cout << "enpwm is " << EnPwm << endl;
         if(EnPwm > 1500){
             if(Pos.isMatch)
             {
@@ -114,7 +113,6 @@ void gim_control_mc::writeRCSignals(int pitchPwm, int yawPwm)
     yawCmd += to_string(yawPwm);
     yawCmd += ">";
 
-    cout << pitchCmd << yawCmd;
     try {
         serial.writeString(pitchCmd);
         serial.writeString("\n\r");
