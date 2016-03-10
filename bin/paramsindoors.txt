@@ -1,5 +1,5 @@
 greyThreshMin
-230
+224
 greyThreshMax
 256
 greyErodePix
@@ -13,7 +13,7 @@ greyDilateIterations
 candMaxNumObjects
 20
 candMinObjectArea
-22
+24
 candMaxObjectArea
 700
 checkSquareSize
@@ -27,17 +27,17 @@ checkSMin
 checkSMax
 255
 checkMinGreen
-30
+37
 calcScorePercentColor
 15
 calcScorePercentColorExtra
-25
+30
 calcScorePercentSize
 30
 calcScorePercentSize
 30
 calcAreaExpected
-97
+103
 calcAreaMaxDiff
 200
 calcMinPairDist
@@ -45,7 +45,7 @@ calcMinPairDist
 calcMaxPairDist
 70
 masterMinScoreNonPair
-50
+63
 masterMinScorePair
 50
 masterPairScoreBoost

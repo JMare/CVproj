@@ -46,9 +46,10 @@ void im_proc::init_feed(int ID)
     //only needed for video and webcam sources
     if(FRAME_SOURCE == 0){
         cap = VideoCapture(ID); // open the default camera
-        //cap.set(CV_CAP_PROP_FRAME_WIDTH,1920);
+        cap.set(CV_CAP_PROP_FRAME_WIDTH,1280);
         //
-        //cap.set(CV_CAP_PROP_FRAME_HEIGHT,1080);
+        cap.set(CV_CAP_PROP_FRAME_HEIGHT,720);
+        cap.set(CV_CAP_PROP_SATURATION, 5);
         if(!cap.isOpened())  // check if we succeeded
         {
             throw 1;
