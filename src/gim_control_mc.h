@@ -47,8 +47,8 @@ class gim_control_mc
         const int YAW_PWM_PIN = 6;
 
         //this should be passed in from im_proc
-        const int FRAME_ROWS = 480;
-        const int FRAME_COLS = 680;
+        const int FRAME_ROWS = 720; 
+        const int FRAME_COLS = 1280;
 
         //limits in degrees
         const int PITCH_UPPER_LIMIT = 25;
