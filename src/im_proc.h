@@ -40,10 +40,13 @@ class im_proc
            
         void init_feed(int ID);
         void calibrateImage();
+
         laserInfo process_frame(); 
 
         cv::Mat get_frame_overlay();
         cv::Mat get_frame_thresholded();
+
+        void set_exposure(int value);
 
     private:
         //FUNCTIONS

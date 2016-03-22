@@ -155,6 +155,11 @@ void im_proc::calibrateImage()
     
 }
 
+void im_proc::set_exposure(int value)
+{
+    //update this with system calls to v4l2 
+}
+
 laserInfo im_proc::process_frame()
 {
    
