@@ -4,12 +4,14 @@
 #include <iostream>
 #include <list>
 #include <set>
+#include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <string>
 #include "socket.h"
+#include <pthread.h>
 
 using boost::asio::ip::tcp;
 
@@ -92,6 +94,15 @@ socket_handler::socket_handler()
   //constructor for socket class
     boost::asio::io_service io_service;
     tcp_server server(io_service);
-    io_service.run();
+
+    boost::thread t(boost::bind(&boost::asio::io_service::run, &io_service));
+   // io_service.run();
+// 4
+std::cout << "Press enter to terminate whenever you want!" << std::endl;
+std::string request;
+std::getline(std::cin, request);
+ 
+// 5
+io_service.stop();
 }
 
