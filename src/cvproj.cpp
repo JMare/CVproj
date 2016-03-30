@@ -17,6 +17,7 @@
 #include "gim_control_mc.h"
 #include "params.h"
 #include "cvproj.h"
+#include "socket.h"
 
 //----NAMESPACES----------------
 using namespace cv;
@@ -142,7 +143,8 @@ int main(int argc, char* argv[])
     gui_draw gui_obj; //create object for gui drawing
 
     gim_control_mc oGim;
-    
+
+    socket_handler tabletLink;
 
     if(PARAMS_READ){
         gParams.readParamsFile(PARAMS_IN_FILENAME);
