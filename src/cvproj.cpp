@@ -237,8 +237,9 @@ int main(int argc, char* argv[])
 
     } //End main proccesing loop
 
+    //This causes a memory error, so currently stack is not properly unwound
+    //delete tabletLink; 
     
-   // delete &tabletLink;
     cout << "Main run to completion - Aborting" << endl;
     return 0;
 }
