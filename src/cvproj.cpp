@@ -146,6 +146,8 @@ int main(int argc, char* argv[])
 
     socket_handler tabletLink;
 
+    tabletLink.socket_init();
+
     if(PARAMS_READ){
         gParams.readParamsFile(PARAMS_IN_FILENAME);
     }
@@ -235,6 +237,8 @@ int main(int argc, char* argv[])
 
     } //End main proccesing loop
 
+    
+   // delete &tabletLink;
     cout << "Main run to completion - Aborting" << endl;
     return 0;
 }
