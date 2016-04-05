@@ -33,15 +33,14 @@ public:
     return socket_;
   }
 
-  void start(int testint)
+  void start()
   {
-    
-    message_ = "this is a test string " + std::to_string(testint);
 
-    boost::asio::async_write(socket_, boost::asio::buffer(message_),
-        boost::bind(&tcp_connection::handle_write, shared_from_this(),
-          boost::asio::placeholders::error,
-          boost::asio::placeholders::bytes_transferred));
+    //start the async read
+    boost::asio::async_read_until(socket_, response_,"ETX",
+        boost::bind(&tcp_connection::handle_read, shared_from_this(),
+        boost::asio::placeholders::error,
+        boost::asio::placeholders::bytes_transferred));
   }
 
 private:
@@ -55,8 +54,33 @@ private:
   {
   }
 
+  void handle_read(const boost::system::error_code& /*error*/,
+      size_t /*bytes_transferred*/)
+  {
+    //convert buff to a string
+    std::istream is(&response_);
+    std::string line;
+    std::getline(is, line);
+    //print message
+    std::cout << line << std::endl;
+
+    //write back
+    message_ = "A response to the client";
+    boost::asio::async_write(socket_, boost::asio::buffer(message_),
+        boost::bind(&tcp_connection::handle_write, shared_from_this(),
+          boost::asio::placeholders::error,
+          boost::asio::placeholders::bytes_transferred));
+
+    //start reading again
+    boost::asio::async_read_until(socket_, response_,"ETX",
+        boost::bind(&tcp_connection::handle_read, shared_from_this(),
+        boost::asio::placeholders::error,
+        boost::asio::placeholders::bytes_transferred));
+  }
+
   tcp::socket socket_;
   std::string message_;
+  boost::asio::streambuf response_;
 };
 
 class tcp_server
@@ -85,8 +109,7 @@ private:
   {
     if (!error)
     {
-      new_connection->start(testint);
-      testint++;
+      new_connection->start();
       start_accept();
     }
   }
