@@ -37,8 +37,8 @@ public:
   {
 
     //start the async read
-    boost::asio::async_read_until(socket_, response_,"ETX",
-        boost::bind(&tcp_connection::handle_read, shared_from_this(),
+    boost::asio::async_read_until(socket_, response_,'EHX',
+        boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
         boost::asio::placeholders::error,
         boost::asio::placeholders::bytes_transferred));
   }
@@ -54,28 +54,68 @@ private:
   {
   }
 
-  void handle_read(const boost::system::error_code& /*error*/,
-      size_t /*bytes_transferred*/)
+  void handle_read_header(const boost::system::error_code& error,
+      size_t bytes_transferred)
   {
-    //convert buff to a string
-    std::istream is(&response_);
-    std::string line;
-    std::getline(is, line);
-    //print message
-    std::cout << line << std::endl;
+    if ((boost::asio::error::eof == error) ||
+        (boost::asio::error::connection_reset == error))
+    {
+        // handle the disconnect.
+        std::cout << "Disconnect handled" << std::endl;
+    }
+    else
+    {
+        //Handle the data
+        //convert buff to a string
+        std::istream is(&response_);
+        std::string line;
+        std::getline(is, line);
+        //print message
+        std::cout << "Header contents:" << std::endl;
+        std::cout << line << std::endl;
 
-    //write back
-    message_ = "A response to the client";
-    boost::asio::async_write(socket_, boost::asio::buffer(message_),
-        boost::bind(&tcp_connection::handle_write, shared_from_this(),
-          boost::asio::placeholders::error,
-          boost::asio::placeholders::bytes_transferred));
+        //write back
+        message_ = "SHX000ACKEHX";
+        boost::asio::async_write(socket_, boost::asio::buffer(message_),
+            boost::bind(&tcp_connection::handle_write, this,
+              boost::asio::placeholders::error,
+              boost::asio::placeholders::bytes_transferred));
 
-    //start reading again
-    boost::asio::async_read_until(socket_, response_,"ETX",
-        boost::bind(&tcp_connection::handle_read, shared_from_this(),
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+        //start reading body 
+        boost::asio::async_read_until(socket_, response_,'EMX',
+            boost::bind(&tcp_connection::handle_read_body, shared_from_this(),
+            boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred));
+    }
+  }
+
+  void handle_read_body(const boost::system::error_code& error,
+      size_t bytes_transferred)
+  {
+    if ((boost::asio::error::eof == error) ||
+        (boost::asio::error::connection_reset == error))
+    {
+        // handle the disconnect.
+        std::cout << "Disconnect handled" << std::endl;
+    }
+    else
+    {
+        //Handle the data
+        
+        //convert buff to a string
+        std::istream is(&response_);
+        std::string line;
+        std::getline(is, line);
+        //print message
+        std::cout << "Body contents:" << std::endl;
+        std::cout << line << std::endl;
+
+        //start reading header 
+        boost::asio::async_read_until(socket_, response_,'EHX',
+            boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
+            boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred));
+    }
   }
 
   tcp::socket socket_;
