@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+#include "laserlink.h"
+
+int parse_header(std::string inHeader, laserEnum* messageEnum)
+{
+    //parse the header string, check its length
+    //return -1 if string invalid, otherwise return body length
+    //return by refference the enum of what the message is
+    
+    if(inHeader.size() != 12) return -1;
+    if(inHeader.at(0) != 'S' || 
+            inHeader.at(1) != 'H' ||
+            inHeader.at(2) != 'X' ||
+            inHeader.at(9) != 'E' ||
+            inHeader.at(10) != 'H' || 
+            inHeader.at(11) != 'X')
+    {
+        return -1;
+    }
+
+    //get the body length
+    std::string lengthString = inHeader.substr(3,3);
+    int body_length = std::stoi(lengthString);
+
+    std::string enumString = inHeader.substr(6,3);
+
+    if(enumString == "PAR") *messageEnum = PAR;
+    else if(enumString == "HBT") *messageEnum = HBT;
+    else if(enumString == "DOC") *messageEnum = DOC;
+    else return -1;
+
+    return body_length;
+}
+
+ll_do::ll_do(std::string inMessage, int bodylen)
+{
+    isValid = true;
+    if(inMessage.size() != bodylen + 6) isValid = false;
+    if(inMessage.at(0) != 'S' || 
+            inMessage.at(1) != 'M' ||
+            inMessage.at(2) != 'X' ||
+            inMessage.at(9) != 'E' ||
+            inMessage.at(10) != 'M' || 
+            inMessage.at(11) != 'X')
+    {
+        isValid = false;
+    }
+
+    //get the parameter 
+    std::string lengthString = inMessage.substr(6,3);
+    param1 = std::stoi(lengthString);
+
+    std::string enumString = inMessage.substr(3,3);
+
+    if(enumString == "TOG") command = TOG;
+    else isValid = false;
+}
+
+void ll_do::execute_command(void)
+{
+    if(command == TOG){
+        if(param1 == 0){
+            std::cout << "Turning the tracking off" << std::endl;
+        } else if(param1 == 1){
+            std::cout << "Turning the tracking on" << std::endl;
+        }
+    }
+}
