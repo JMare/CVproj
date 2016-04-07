@@ -13,6 +13,7 @@
 #include "socket.h"
 #include <pthread.h>
 #include <thread>
+#include "laserlink.h"
 
 
 using boost::asio::ip::tcp;
@@ -70,27 +71,32 @@ private:
         std::istream is(&response_);
         std::string line;
         std::getline(is, line);
-        //print message
-        std::cout << "Header contents:" << std::endl;
-        std::cout << line << std::endl;
 
-        //write back
-        message_ = "SHX000ACKEHX";
-        boost::asio::async_write(socket_, boost::asio::buffer(message_),
-            boost::bind(&tcp_connection::handle_write, this,
-              boost::asio::placeholders::error,
-              boost::asio::placeholders::bytes_transferred));
-
+        laserEnum messageEnum;
+        int bodylen = parse_header(line, &messageEnum);
+        
+        if(bodylen > 0){
         //start reading body 
         boost::asio::async_read_until(socket_, response_,'EMX',
             boost::bind(&tcp_connection::handle_read_body, shared_from_this(),
             boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred,
+            messageEnum,
+            bodylen));
+        } else{
+            //look for next header
+        boost::asio::async_read_until(socket_, response_,'EHX',
+            boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
+            boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred));
+        }
     }
   }
 
   void handle_read_body(const boost::system::error_code& error,
-      size_t bytes_transferred)
+      size_t bytes_transferred,
+      laserEnum type,
+      int len)
   {
     if ((boost::asio::error::eof == error) ||
         (boost::asio::error::connection_reset == error))
@@ -101,14 +107,24 @@ private:
     else
     {
         //Handle the data
-        
         //convert buff to a string
         std::istream is(&response_);
         std::string line;
         std::getline(is, line);
         //print message
-        std::cout << "Body contents:" << std::endl;
-        std::cout << line << std::endl;
+        
+        if(type = DOC){
+            ll_do commandIn(line, len);
+            commandIn.execute_command(); 
+        }
+            
+
+        //write back
+        message_ = "SHX000ACKEHX";
+        boost::asio::async_write(socket_, boost::asio::buffer(message_),
+            boost::bind(&tcp_connection::handle_write, this,
+              boost::asio::placeholders::error,
+              boost::asio::placeholders::bytes_transferred));
 
         //start reading header 
         boost::asio::async_read_until(socket_, response_,'EHX',
