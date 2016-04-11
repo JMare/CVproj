@@ -38,9 +38,10 @@ public:
   {
     //Socket opened
 
+    std::cout << "Socket Opened" << endl;
     //start the async header read
     //callback to handle_read_header
-    boost::asio::async_read_until(socket_, response_,'EHX',
+    boost::asio::async_read_until(socket_, response_,"EHX",
         boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
         boost::asio::placeholders::error,
         boost::asio::placeholders::bytes_transferred));
@@ -80,7 +81,7 @@ private:
         if(bodylen > 0){
             //Message has body, start async read until end of message
             //callback to handle_read_body 
-            boost::asio::async_read_until(socket_, response_,'EMX',
+            boost::asio::async_read_until(socket_, response_,"EMX",
                 boost::bind(&tcp_connection::handle_read_body, shared_from_this(),
                 boost::asio::placeholders::error,
                 boost::asio::placeholders::bytes_transferred,
@@ -89,7 +90,7 @@ private:
         } else{
             //Message has no body, start async read  
             //callback to handle_read_body 
-            boost::asio::async_read_until(socket_, response_,'EHX',
+            boost::asio::async_read_until(socket_, response_,"EHX",
                 boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
                 boost::asio::placeholders::error,
                 boost::asio::placeholders::bytes_transferred));
@@ -117,9 +118,12 @@ private:
         std::getline(is, line);
         //print message
         
-        if(type = DOC){
-            ll_do commandIn(line, len);
-            commandIn.execute_command(); 
+        //switch on enum
+        switch(type){
+            DOC:
+                ll_do commandIn(line, len);
+                commandIn.execute_command(); 
+                break;
         }
             
 
@@ -131,7 +135,7 @@ private:
               boost::asio::placeholders::bytes_transferred));
 
         //start reading header 
-        boost::asio::async_read_until(socket_, response_,'EHX',
+        boost::asio::async_read_until(socket_, response_,"EHX",
             boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
             boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred));
