@@ -36,8 +36,10 @@ public:
 
   void start()
   {
+    //Socket opened
 
-    //start the async read
+    //start the async header read
+    //callback to handle_read_header
     boost::asio::async_read_until(socket_, response_,'EHX',
         boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
         boost::asio::placeholders::error,
@@ -76,19 +78,21 @@ private:
         int bodylen = parse_header(line, &messageEnum);
         
         if(bodylen > 0){
-        //start reading body 
-        boost::asio::async_read_until(socket_, response_,'EMX',
-            boost::bind(&tcp_connection::handle_read_body, shared_from_this(),
-            boost::asio::placeholders::error,
-            boost::asio::placeholders::bytes_transferred,
-            messageEnum,
-            bodylen));
+            //Message has body, start async read until end of message
+            //callback to handle_read_body 
+            boost::asio::async_read_until(socket_, response_,'EMX',
+                boost::bind(&tcp_connection::handle_read_body, shared_from_this(),
+                boost::asio::placeholders::error,
+                boost::asio::placeholders::bytes_transferred,
+                messageEnum, //what type of body is it
+                bodylen)); //how long is the body (not including markers
         } else{
-            //look for next header
-        boost::asio::async_read_until(socket_, response_,'EHX',
-            boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
-            boost::asio::placeholders::error,
-            boost::asio::placeholders::bytes_transferred));
+            //Message has no body, start async read  
+            //callback to handle_read_body 
+            boost::asio::async_read_until(socket_, response_,'EHX',
+                boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
+                boost::asio::placeholders::error,
+                boost::asio::placeholders::bytes_transferred));
         }
     }
   }
