@@ -15,6 +15,7 @@
 #include <thread>
 #include "laserlink.h"
 
+int count = 0;
 
 using boost::asio::ip::tcp;
 
@@ -23,6 +24,8 @@ class tcp_connection
 {
 public:
   typedef boost::shared_ptr<tcp_connection> pointer;
+
+  int id;
 
   static pointer create(boost::asio::io_service& io_service)
   {
@@ -37,8 +40,10 @@ public:
   void start()
   {
     //Socket opened
-
-    std::cout << "Socket Opened" << endl;
+    
+    id = count;
+    count++;
+    std::cout << "Socket Opened # "<< id << std::endl;
     //start the async header read
     //callback to handle_read_header
     boost::asio::async_read_until(socket_, response_,"EHX",
@@ -65,7 +70,7 @@ private:
         (boost::asio::error::connection_reset == error))
     {
         // handle the disconnect.
-        std::cout << "Disconnect handled" << std::endl;
+        std::cout << "Disconnect handled # " << id << std::endl;
     }
     else
     {
@@ -74,6 +79,8 @@ private:
         std::istream is(&response_);
         std::string line;
         std::getline(is, line);
+
+        std::cout << "Header received: " << line << std::endl;
 
         laserEnum messageEnum;
         int bodylen = parse_header(line, &messageEnum);
@@ -107,7 +114,7 @@ private:
         (boost::asio::error::connection_reset == error))
     {
         // handle the disconnect.
-        std::cout << "Disconnect handled" << std::endl;
+        std::cout << "Disconnect handled # " << id << std::endl;
     }
     else
     {
@@ -117,10 +124,11 @@ private:
         std::string line;
         std::getline(is, line);
         //print message
+        std::cout << "Body received: " << line << std::endl;
         
         //switch on enum
         switch(type){
-            DOC:
+           case DOC:
                 ll_do commandIn(line, len);
                 commandIn.execute_command(); 
                 break;
