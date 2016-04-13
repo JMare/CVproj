@@ -54,6 +54,10 @@ double loopTime;
 const int DEBUG_INTERVAL = 2000;
 const int PARAM_WRITE_INTERVAL = 10000;
 
+
+//This is a hack
+bool isTracking = false;
+
 vector<long int> loopTimeHistory;
 
 int main(int argc, char* argv[])
@@ -197,7 +201,9 @@ int main(int argc, char* argv[])
 
         frame_thresholded = imFrame.get_frame_thresholded();
         
+        if(isTracking){
         oGim.followPosition(PosMain);
+        }
         
         if(GUI_ENABLE)
         {

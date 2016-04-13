@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "laserlink.h"
+#include "cvproj.h"
 
 int parse_header(std::string inHeader, laserEnum* messageEnum)
 {
@@ -62,8 +63,10 @@ void ll_do::execute_command(void)
     if(command == TOG){
         if(param1 == 0){
             std::cout << "Turning the tracking off" << std::endl;
+            isTracking = false;
         } else if(param1 == 1){
             std::cout << "Turning the tracking on" << std::endl;
+            isTracking = true;
         }
     }
 }

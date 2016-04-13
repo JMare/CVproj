@@ -12,6 +12,8 @@
 #include "im_proc.h"
 extern params gParams;
 
+extern bool isTracking;
+
 //Mats for displaying
 extern cv::Mat frame_overlay, frame_thresholded;
 
