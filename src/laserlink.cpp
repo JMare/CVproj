@@ -55,6 +55,7 @@ ll_do::ll_do(std::string inMessage, int bodylen)
     std::string enumString = inMessage.substr(3,3);
 
     if(enumString == "TOG") command = TOG;
+    else if(enumString == "MOD") command = MOD;
     else isValid = false;
 }
 
@@ -68,5 +69,14 @@ void ll_do::execute_command(void)
             std::cout << "Turning the tracking on" << std::endl;
             isTracking = true;
         }
+    } else if(command == MOD){
+        if(param1 == 0){
+            //RC Control
+        } else if(param1 == 1){
+            //Touch Control
+        } else if (param1 == 2){
+            //Vision Control
+        }
     }
 }
+

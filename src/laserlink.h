@@ -7,6 +7,7 @@ enum laserEnum {
     DOC}; //Do command
 
 enum do_what {
+    MOD,
     TOG};
 
 int parse_header(std::string inHeader, laserEnum* messageEnum);
