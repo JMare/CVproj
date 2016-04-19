@@ -26,9 +26,12 @@ int parse_header(std::string inHeader, laserEnum* messageEnum)
 
     std::string enumString = inHeader.substr(6,3);
 
+    //Check that the string for message type matches,
+    //then set the type enumeration by refference
     if(enumString == "PAR") *messageEnum = PAR;
     else if(enumString == "HBT") *messageEnum = HBT;
     else if(enumString == "DOC") *messageEnum = DOC;
+    else if(enumString == "PRQ") *messageEnum = PRQ;
     else return -1;
 
     return body_length;

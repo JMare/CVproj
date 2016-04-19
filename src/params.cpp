@@ -1,7 +1,9 @@
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 #include <fstream>
-#include "params.h"
 #include <string>
+#include "params.h"
 using namespace std;
 
 params::params()
@@ -43,6 +45,50 @@ params::params()
     gimMovementInt = 100;
 
 }
+
+string params::ToString(int value,int digitsCount)
+{
+    ostringstream os;
+    os<<setfill('0')<<setw(digitsCount)<<value;
+    return os.str();
+}
+
+string params::packForTelemetry(void){
+    //This function packs the current telemetry values into a string to send in the order given above
+    //can be improved
+    
+    //sends 27 parameters, all in 3 digits
+    string out = ToString(greyThreshMin,3) +
+        ToString(greyThreshMax,3) +
+        ToString(greyErodePix,3) +
+        ToString(greyDilatePix,3) +
+        ToString(greyErodeIterations,3) +
+        ToString(greyDilateIterations,3) +
+        ToString(candMaxNumObjects,3) +
+        ToString(candMinObjectArea,3) +
+        ToString(candMaxObjectArea,3) +
+        ToString(checkSquareSize,3) +
+        ToString(checkHMin,3) +
+        ToString(checkHMax,3) +
+        ToString(checkSMin,3) +
+        ToString(checkSMax,3) +
+        ToString(calcScorePercentColor,3) +
+        ToString(calcScorePercentColorExtra,3) +
+        ToString(calcScorePercentSize,3) +
+        ToString(calcScorePercentCircle,3) +
+        ToString(calcAreaExpected,3) +
+        ToString(calcAreaMaxDiff,3) +
+        ToString(calcMinPairDist,3) +
+        ToString(calcMaxPairDist,3) +
+        ToString(masterMinScoreNonPair,3) +
+        ToString(masterMinScorePair,3) +
+        ToString(masterPairScoreBoost,3) +
+        ToString(gimGainX,3) +
+        ToString(gimGainY,3) +
+        ToString(gimMovementInt,3);
+    return out;
+}
+
 
 void params::readParamsFile(string paramFileName)
 {

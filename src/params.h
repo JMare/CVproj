@@ -1,6 +1,7 @@
 #ifndef PARAMS_H
 #define PARAMS_H
-
+#include <iomanip>
+#include <sstream>
 #include <string>
 #include <map>
 class params{
@@ -10,6 +11,8 @@ class params{
         void readParamsFile(std::string paramFileName);
         void writeParamsFile(std::string paramFileName);
         void writeCalibFile(std::string paramFileName);
+        std::string packForTelemetry(void);
+        std::string ToString(int value, int digitscount);
 
         int greyThreshMin;
         int greyThreshMax;

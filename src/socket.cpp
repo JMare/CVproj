@@ -14,6 +14,8 @@
 #include <pthread.h>
 #include <thread>
 #include "laserlink.h"
+#include "params.h"
+#include "cvproj.h"
 
 int count = 0;
 
@@ -84,6 +86,21 @@ private:
 
         laserEnum messageEnum;
         int bodylen = parse_header(line, &messageEnum);
+
+        switch(messageEnum){
+           case PRQ: //Parameter request
+               std::cout << "Parameter request received" << std::endl;
+               std::string MessageBody = gParams.packForTelemetry();
+               std::string messHead = "SHX087PRPEHX"; //Parameter reply
+               std::string bodyBeg = "SMX";
+               std::string bodyEnd = "EMX";
+               std::string messTot = messHead + bodyBeg + MessageBody + bodyEnd;
+                boost::asio::async_write(socket_, boost::asio::buffer(messTot),
+                    boost::bind(&tcp_connection::handle_write, this,
+                      boost::asio::placeholders::error,
+                      boost::asio::placeholders::bytes_transferred));
+                break;
+        }
         
         if(bodylen > 0){
             //Message has body, start async read until end of message
