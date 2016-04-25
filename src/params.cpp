@@ -57,7 +57,7 @@ string params::packForTelemetry(void){
     //This function packs the current telemetry values into a string to send in the order given above
     //can be improved
     
-    //sends 27 parameters, all in 3 digits
+    //sends 28 parameters, all in 3 digits
     string out = ToString(greyThreshMin,3) +
         ToString(greyThreshMax,3) +
         ToString(greyErodePix,3) +
@@ -72,6 +72,7 @@ string params::packForTelemetry(void){
         ToString(checkHMax,3) +
         ToString(checkSMin,3) +
         ToString(checkSMax,3) +
+        ToString(checkMinGreen,3) +
         ToString(calcScorePercentColor,3) +
         ToString(calcScorePercentColorExtra,3) +
         ToString(calcScorePercentSize,3) +

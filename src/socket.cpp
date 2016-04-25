@@ -87,6 +87,8 @@ private:
         laserEnum messageEnum;
         int bodylen = parse_header(line, &messageEnum);
 
+        std::cout << "body length: " << bodylen << std::endl;
+
         switch(messageEnum){
            case PRQ: //Parameter request
                std::cout << "Parameter request received" << std::endl;
@@ -151,13 +153,6 @@ private:
                 break;
         }
             
-
-        //write back
-        message_ = "SHX000ACKEHX";
-        boost::asio::async_write(socket_, boost::asio::buffer(message_),
-            boost::bind(&tcp_connection::handle_write, this,
-              boost::asio::placeholders::error,
-              boost::asio::placeholders::bytes_transferred));
 
         //start reading header 
         boost::asio::async_read_until(socket_, response_,"EHX",

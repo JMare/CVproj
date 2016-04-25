@@ -32,6 +32,7 @@ int parse_header(std::string inHeader, laserEnum* messageEnum)
     else if(enumString == "HBT") *messageEnum = HBT;
     else if(enumString == "DOC") *messageEnum = DOC;
     else if(enumString == "PRQ") *messageEnum = PRQ;
+    else if(enumString == "PSE") *messageEnum = PSE;
     else return -1;
 
     return body_length;

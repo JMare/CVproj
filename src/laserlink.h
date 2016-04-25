@@ -5,6 +5,7 @@ enum laserEnum {
     PAR, //Parameter change request
     HBT, //Heartbeat
     PRQ, //Request parameters
+    PSE, //send parameters
     DOC}; //Do command
 
 enum do_what {
