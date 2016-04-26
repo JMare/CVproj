@@ -148,9 +148,17 @@ private:
         //switch on enum
         switch(type){
            case DOC:
+               {
                 ll_do commandIn(line, len);
                 commandIn.execute_command(); 
                 break;
+               }
+            case MOV:
+               {
+                ll_mov commandIn(line,len);
+                commandIn.execute_command();
+                break;
+               }
         }
             
 

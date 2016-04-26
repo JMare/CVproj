@@ -33,6 +33,7 @@ int parse_header(std::string inHeader, laserEnum* messageEnum)
     else if(enumString == "DOC") *messageEnum = DOC;
     else if(enumString == "PRQ") *messageEnum = PRQ;
     else if(enumString == "PSE") *messageEnum = PSE;
+    else if(enumString == "MOV") *messageEnum = MOV;
     else return -1;
 
     return body_length;
@@ -82,5 +83,44 @@ void ll_do::execute_command(void)
             //Vision Control
         }
     }
+}
+
+ll_mov::ll_mov(std::string inMessage, int bodylen)
+{
+    isValid = true;
+    if(inMessage.size() != bodylen + 6) isValid = false;
+    if(inMessage.at(0) != 'S' || 
+            inMessage.at(1) != 'M' ||
+            inMessage.at(2) != 'X' ||
+            inMessage.at(9) != 'E' ||
+            inMessage.at(10) != 'M' || 
+            inMessage.at(11) != 'X')
+    {
+        isValid = false;
+    }
+
+    unsigned int xSign, ySign;
+    //get x
+    std::string xString = inMessage.substr(4,2);
+    xSign = std::stoi(inMessage.substr(3,1));
+    if(xSign == 0){
+        xMov = std::stoi(xString);
+    } else {
+        xMov = - std::stoi(xString);
+    }
+    //get y
+    std::string yString = inMessage.substr(7,2);
+    ySign = std::stoi(inMessage.substr(6,1));
+    if(ySign == 0){
+        yMov = std::stoi(yString);
+    } else {
+        yMov = - std::stoi(yString);
+    }
+}
+
+void ll_mov::execute_command(void)
+{
+    //do stuff
+    std::cout << "executing movment command: " << xMov << yMov << std:: endl;
 }
 

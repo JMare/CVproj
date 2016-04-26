@@ -6,6 +6,7 @@ enum laserEnum {
     HBT, //Heartbeat
     PRQ, //Request parameters
     PSE, //send parameters
+    MOV, //move the gimbal manually in x, y
     DOC}; //Do command
 
 enum do_what {
@@ -44,6 +45,17 @@ class ll_do: public laserlink
         ll_do(std::string inMessage, int bodylen);
         do_what command;
         int param1;
+
+        void execute_command(void);
+    private:
+};
+
+class ll_mov: public laserlink
+{
+    public:
+        ll_mov(std::string inMessage, int bodylen);
+        int xMov;
+        int yMov;
 
         void execute_command(void);
     private:
