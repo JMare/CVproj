@@ -11,7 +11,6 @@
 #include <cstdlib>
 #include "im_proc.h"
 #include "params.h"
-#include "cvproj.h"
 #include "BufferedAsyncSerial.h"
 
 class gim_control_mc
@@ -22,12 +21,12 @@ class gim_control_mc
 
         void followPosition(laserInfo Pos);
         void absoluteAngleControl(std::vector<double> pitchYawAngles); 
+        void relateiveAngleControl(std::vector<double> pitchYawAngles);
         void centerGimbal();
 
     private:
         //FUNCTIONS
         std::vector<double> calcRelativePosition(laserInfo Pos);
-        void relateiveAngleControl(std::vector<double> pitchYawAngles);
         void writeRCSignals(int pitchPwm, int yawPwm);
         void readRCSignals();
         long myclock();

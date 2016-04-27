@@ -10,12 +10,12 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <string>
+#include "cvproj.h"
 #include "socket.h"
 #include <pthread.h>
 #include <thread>
 #include "laserlink.h"
 #include "params.h"
-#include "cvproj.h"
 
 int count = 0;
 

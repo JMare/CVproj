@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include "laserlink.h"
+#include "gim_control_mc.h"
 #include "cvproj.h"
+#include <vector>
 
 int parse_header(std::string inHeader, laserEnum* messageEnum)
 {
@@ -77,10 +79,17 @@ void ll_do::execute_command(void)
     } else if(command == MOD){
         if(param1 == 0){
             //RC Control
+
+            trackingMode = RC;
+            std::cout << "Control Mode: RC" << std::endl;
         } else if(param1 == 1){
             //Touch Control
+            trackingMode = TOU;
+            std::cout << "Control Mode: TOU" << std::endl;
         } else if (param1 == 2){
             //Vision Control
+            trackingMode = VIS;
+            std::cout << "Control Mode: VIS" << std::endl;
         }
     }
 }
@@ -120,7 +129,10 @@ ll_mov::ll_mov(std::string inMessage, int bodylen)
 
 void ll_mov::execute_command(void)
 {
-    //do stuff
+    //do stugf
     std::cout << "executing movment command: " << xMov << yMov << std:: endl;
+
+    std::vector<double> movCommandVector = {yMov,xMov};
+    oGimPoint->relateiveAngleControl(movCommandVector);
 }
 
