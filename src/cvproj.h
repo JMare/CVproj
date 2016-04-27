@@ -9,11 +9,24 @@
 #include <string>
 #include <vector>
 #include "params.h"
+#include "gim_control_mc.h"
 #include "im_proc.h"
 extern params gParams;
 
+extern bool isTracking;
+
 //Mats for displaying
 extern cv::Mat frame_overlay, frame_thresholded;
+
+//tracking modes enum
+enum trackingModeEnum {
+    VIS,
+    RC,
+    TOU};
+
+extern trackingModeEnum trackingMode;
+
+extern gim_control_mc *oGimPoint;
 
 //Command line variables
 extern int FRAME_SOURCE;

@@ -23,8 +23,10 @@
 using namespace cv;
 using namespace std;
 
-
 params gParams;
+
+gim_control_mc oGim;
+gim_control_mc* oGimPoint = &oGim;
 
 Mat frame_overlay, frame_thresholded;
 
@@ -53,6 +55,11 @@ const int LOOP_HISTORY_LENGTH = 20;
 double loopTime;
 const int DEBUG_INTERVAL = 2000;
 const int PARAM_WRITE_INTERVAL = 10000;
+
+
+//This is a hack
+bool isTracking = true;
+trackingModeEnum trackingMode = TOU;
 
 vector<long int> loopTimeHistory;
 
@@ -142,8 +149,6 @@ int main(int argc, char* argv[])
 
     gui_draw gui_obj; //create object for gui drawing
 
-    gim_control_mc oGim;
-
     socket_handler tabletLink;
 
     tabletLink.socket_init();
@@ -197,7 +202,9 @@ int main(int argc, char* argv[])
 
         frame_thresholded = imFrame.get_frame_thresholded();
         
+        if(isTracking && trackingMode == VIS){
         oGim.followPosition(PosMain);
+        }
         
         if(GUI_ENABLE)
         {

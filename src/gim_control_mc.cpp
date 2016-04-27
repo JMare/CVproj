@@ -1,6 +1,7 @@
 //Written by James Mare
 //Handles serial control of the alexmos gimbal
 
+#include "cvproj.h"
 #include "gim_control_mc.h"
 
 using namespace std;

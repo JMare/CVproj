@@ -10,11 +10,14 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <string>
+#include "cvproj.h"
 #include "socket.h"
 #include <pthread.h>
 #include <thread>
 #include "laserlink.h"
+#include "params.h"
 
+int count = 0;
 
 using boost::asio::ip::tcp;
 
@@ -23,6 +26,8 @@ class tcp_connection
 {
 public:
   typedef boost::shared_ptr<tcp_connection> pointer;
+
+  int id;
 
   static pointer create(boost::asio::io_service& io_service)
   {
@@ -36,9 +41,14 @@ public:
 
   void start()
   {
-
-    //start the async read
-    boost::asio::async_read_until(socket_, response_,'EHX',
+    //Socket opened
+    
+    id = count;
+    count++;
+    std::cout << "Socket Opened # "<< id << std::endl;
+    //start the async header read
+    //callback to handle_read_header
+    boost::asio::async_read_until(socket_, response_,"EHX",
         boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
         boost::asio::placeholders::error,
         boost::asio::placeholders::bytes_transferred));
@@ -62,7 +72,7 @@ private:
         (boost::asio::error::connection_reset == error))
     {
         // handle the disconnect.
-        std::cout << "Disconnect handled" << std::endl;
+        std::cout << "Disconnect handled # " << id << std::endl;
     }
     else
     {
@@ -72,23 +82,44 @@ private:
         std::string line;
         std::getline(is, line);
 
+        std::cout << "Header received: " << line << std::endl;
+
         laserEnum messageEnum;
         int bodylen = parse_header(line, &messageEnum);
+
+        std::cout << "body length: " << bodylen << std::endl;
+
+        switch(messageEnum){
+           case PRQ: //Parameter request
+               std::cout << "Parameter request received" << std::endl;
+               std::string MessageBody = gParams.packForTelemetry();
+               std::string messHead = "SHX087PRPEHX"; //Parameter reply
+               std::string bodyBeg = "SMX";
+               std::string bodyEnd = "EMX";
+               std::string messTot = messHead + bodyBeg + MessageBody + bodyEnd;
+                boost::asio::async_write(socket_, boost::asio::buffer(messTot),
+                    boost::bind(&tcp_connection::handle_write, this,
+                      boost::asio::placeholders::error,
+                      boost::asio::placeholders::bytes_transferred));
+                break;
+        }
         
         if(bodylen > 0){
-        //start reading body 
-        boost::asio::async_read_until(socket_, response_,'EMX',
-            boost::bind(&tcp_connection::handle_read_body, shared_from_this(),
-            boost::asio::placeholders::error,
-            boost::asio::placeholders::bytes_transferred,
-            messageEnum,
-            bodylen));
+            //Message has body, start async read until end of message
+            //callback to handle_read_body 
+            boost::asio::async_read_until(socket_, response_,"EMX",
+                boost::bind(&tcp_connection::handle_read_body, shared_from_this(),
+                boost::asio::placeholders::error,
+                boost::asio::placeholders::bytes_transferred,
+                messageEnum, //what type of body is it
+                bodylen)); //how long is the body (not including markers
         } else{
-            //look for next header
-        boost::asio::async_read_until(socket_, response_,'EHX',
-            boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
-            boost::asio::placeholders::error,
-            boost::asio::placeholders::bytes_transferred));
+            //Message has no body, start async read  
+            //callback to handle_read_body 
+            boost::asio::async_read_until(socket_, response_,"EHX",
+                boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
+                boost::asio::placeholders::error,
+                boost::asio::placeholders::bytes_transferred));
         }
     }
   }
@@ -102,7 +133,7 @@ private:
         (boost::asio::error::connection_reset == error))
     {
         // handle the disconnect.
-        std::cout << "Disconnect handled" << std::endl;
+        std::cout << "Disconnect handled # " << id << std::endl;
     }
     else
     {
@@ -112,22 +143,27 @@ private:
         std::string line;
         std::getline(is, line);
         //print message
+        std::cout << "Body received: " << line << std::endl;
         
-        if(type = DOC){
-            ll_do commandIn(line, len);
-            commandIn.execute_command(); 
+        //switch on enum
+        switch(type){
+           case DOC:
+               {
+                ll_do commandIn(line, len);
+                commandIn.execute_command(); 
+                break;
+               }
+            case MOV:
+               {
+                ll_mov commandIn(line,len);
+                commandIn.execute_command();
+                break;
+               }
         }
             
 
-        //write back
-        message_ = "SHX000ACKEHX";
-        boost::asio::async_write(socket_, boost::asio::buffer(message_),
-            boost::bind(&tcp_connection::handle_write, this,
-              boost::asio::placeholders::error,
-              boost::asio::placeholders::bytes_transferred));
-
         //start reading header 
-        boost::asio::async_read_until(socket_, response_,'EHX',
+        boost::asio::async_read_until(socket_, response_,"EHX",
             boost::bind(&tcp_connection::handle_read_header, shared_from_this(),
             boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred));
